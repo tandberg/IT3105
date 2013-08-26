@@ -16,7 +16,7 @@ public class Brick {
 	
 	public String toString() {
 		if(size == null && color == null && shape == null && hole == null) {
-			return " ";
+			return "X";
 		}
 		String h = this.hole == Hole.HAS_HOLE ? "*" : "";
 		String c = "";
@@ -27,5 +27,21 @@ public class Brick {
 		}
 		return this.shape == Shape.ROUND ? "("+c+h+")" : c+h;
 		
+	}
+
+	public Size getSize() {
+		return size;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public Hole getHole() {
+		return hole;
+	}
+
+	public Shape getShape() {
+		return shape;
 	}
 }
