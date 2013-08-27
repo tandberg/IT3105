@@ -53,9 +53,13 @@ public class Quarto {
 		return out;
 	}
 	
-	public void setPiece(int i, int j, int brickIndex) {
+	public boolean setPiece(int i, int j, int brickIndex) {
+		if(board[i][j] != null) 
+			return false;
+		
 		Brick b = bricks.remove(brickIndex);
 		board[i][j] = b;
+		return true;
 	}
 	
 	public boolean isComplete() {
