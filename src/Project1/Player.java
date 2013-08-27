@@ -8,5 +8,5 @@ public abstract class Player {
 	}
 
 	public abstract void placeBrick(int brickIndex);
-	public abstract int placeOponentsBrick();
+	public abstract int pickOpponentsBrick();
 }

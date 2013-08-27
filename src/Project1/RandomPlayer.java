@@ -17,7 +17,7 @@ public class RandomPlayer extends Player {
 	}
 
 	@Override
-	public int placeOponentsBrick() {
+	public int pickOpponentsBrick() {
 		return random.nextInt(game.getBricks().size());
 		
 	}
