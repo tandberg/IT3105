@@ -30,10 +30,6 @@ public class Quarto {
 	
 	public Quarto() {
 		board = new Brick[BOARD_SIZE][BOARD_SIZE];
-		this.setPiece(0, 0, 0);
-		this.setPiece(0, 1, 0);
-		this.setPiece(0, 2, 0);
-		this.setPiece(0, 3, 0);
 	}
 	
 	public List<Brick> getBricks() {

@@ -13,9 +13,7 @@ public class RandomPlayer extends Player {
 
 	@Override
 	public void placeBrick(int brickIndex) {
-		while(!game.setPiece(random.nextInt(Quarto.BOARD_SIZE), random.nextInt(Quarto.BOARD_SIZE), brickIndex)) {
-			
-		}
+		while(!game.setPiece(random.nextInt(Quarto.BOARD_SIZE), random.nextInt(Quarto.BOARD_SIZE), brickIndex));
 	}
 
 	@Override
