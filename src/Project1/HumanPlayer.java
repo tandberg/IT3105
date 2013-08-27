@@ -20,7 +20,7 @@ public class HumanPlayer extends Player {
         System.out.println("Select column:");
         int column = scanner.nextInt();
 
-        if (!game.setPiece(row, column, index))                 {
+        if (!game.setPiece(row, column, index)) {
             System.out.println("You can't place a brick there..");
             placeBrick(index);
         }
