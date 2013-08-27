@@ -1,8 +1,12 @@
 package Project1;
 
-public interface Player {
+public abstract class Player {
+	protected Quarto game;
+	
+	public Player(Quarto game) {
+		this.game = game;
+	}
 
-	public void placeBrick();
-
-    public int pickBrickForOpponent();
+	public abstract void placeBrick(int brickIndex);
+	public abstract int placeOponentsBrick();
 }

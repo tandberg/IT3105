@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Quarto {
 
-	private static final int BOARD_SIZE = 4;
+	public static final int BOARD_SIZE = 4;
 	private Brick[][] board;
-	private Brick[] BRICKS_PROTOTYPE =  {
+	private static Brick[] BRICKS_PROTOTYPE =  {
 			new Brick(Size.LARGE, Color.BLUE, Hole.HAS_HOLE, Shape.ROUND),
 			new Brick(Size.LARGE, Color.BLUE, Hole.HAS_HOLE, Shape.SQUARE),
 			new Brick(Size.LARGE, Color.BLUE, Hole.NO_HOLE, Shape.ROUND),
@@ -34,6 +34,10 @@ public class Quarto {
 		this.setPiece(0, 1, 0);
 		this.setPiece(0, 2, 0);
 		this.setPiece(0, 3, 0);
+	}
+	
+	public List<Brick> getBricks() {
+		return bricks;
 	}
 	
 	public String toString() {

@@ -1,15 +1,26 @@
 package Project1;
 
-public class RandomPlayer implements Player {
+import java.util.Random;
 
-	private Quarto game;
+public class RandomPlayer extends Player {
+
+	private Random random;
 	
 	public RandomPlayer(Quarto game) {
-		this.game = game;
+		super(game);
+		this.random = new Random();
 	}
 
 	@Override
-	public void move() {
+	public void placeBrick(int brickIndex) {
+		while(!game.setPiece(random.nextInt(Quarto.BOARD_SIZE), random.nextInt(Quarto.BOARD_SIZE), brickIndex)) {
+			
+		}
+	}
+
+	@Override
+	public int placeOponentsBrick() {
+		return random.nextInt(game.getBricks().size());
 		
 	}
 }
