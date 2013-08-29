@@ -2,6 +2,7 @@ package Project1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Quarto {
@@ -30,6 +31,40 @@ public class Quarto {
 	
 	public Quarto() {
 		board = new Brick[BOARD_SIZE][BOARD_SIZE];
+	}
+	
+	public Quarto copy() {
+		Quarto copy = new Quarto();
+		
+		Brick[][] tempBoard = new Brick[BOARD_SIZE][BOARD_SIZE];
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
+				tempBoard[i][j] = this.board[i][j];
+			}
+		}
+		copy.setBoard(tempBoard);
+		
+		
+		List<Brick> tempBricks = new ArrayList<Brick>();
+		for (Brick brick : this.getBricks()) {
+			tempBricks.add(brick);
+		}
+		
+		copy.setBricks(tempBricks);
+		
+		return copy;
+	}
+	
+	private void setBoard(Brick[][] board) {
+		this.board = board;
+	}
+	
+	private void setBricks(List<Brick> bricks) {
+		this.bricks = bricks;
+	}
+
+	private Brick[][] getBoard() {
+		return board;
 	}
 	
 	public List<Brick> getBricks() {
@@ -124,9 +159,4 @@ public class Quarto {
 		return (sameSize || sameHole || sameShape || sameColor);
 	}
 	
-    public static void main(String[] args) {
-        Quarto game = new Quarto();
-        System.out.println(game);
-        
-    }
 }

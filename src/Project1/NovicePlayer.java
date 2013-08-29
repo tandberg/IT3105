@@ -8,8 +8,8 @@ public class NovicePlayer extends Player {
 
 	@Override
 	public void placeBrick(int brickIndex) {
-		// TODO Auto-generated method stub
-
+		Quarto tempGame = game.copy();
+		
 	}
 
 	@Override
