@@ -19,6 +19,10 @@ public class RandomPlayer extends Player {
 	@Override
 	public int pickOpponentsBrick() {
 		return random.nextInt(game.getBricks().size());
-		
 	}
+	
+	public String stringify() {
+		return "RandomPlayer";
+	}
+	
 }

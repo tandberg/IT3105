@@ -8,6 +8,10 @@ import java.util.List;
 public class Quarto {
 
 	public static final int BOARD_SIZE = 4;
+	public static final int WINNER = 1;
+	public static final int DRAW = 2;
+	public static final int NOT_FINISHED = 0;
+	
 	private Brick[][] board;
 	private static Brick[] BRICKS_PROTOTYPE =  {
 			new Brick(Size.LARGE, Color.BLUE, Hole.HAS_HOLE, Shape.ROUND),
@@ -97,8 +101,22 @@ public class Quarto {
 		return true;
 	}
 	
-	public boolean isComplete() {
-		return (hasCompleteColumn() || hasCompleteRow() || hasCompleteDiagonal());
+	public int isComplete() {
+		if (isDraw())
+			return DRAW;
+		if (hasCompleteColumn() || hasCompleteRow() || hasCompleteDiagonal())
+			return WINNER;
+		return NOT_FINISHED;
+	}
+	
+	private boolean isDraw() {
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
+				if (board[i][j] == null)
+					return false;
+			}
+		}
+		return true;
 	}
 	
 	private boolean hasCompleteRow() {
@@ -157,6 +175,14 @@ public class Quarto {
 				sameColor = false;
 		}
 		return (sameSize || sameHole || sameShape || sameColor);
+	}
+
+	public void removePiece(int i, int j, int brickIndex) {
+		// TODO Auto-generated method stub
+		Brick brickToRemove = board[i][j];
+		this.bricks.add(brickIndex, brickToRemove);
+		board[i][j] = null;
+		
 	}
 	
 }

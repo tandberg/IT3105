@@ -32,4 +32,8 @@ public class HumanPlayer extends Player {
         System.out.println("Select brick for opponent:");
         return scanner.nextInt();
     }
+    
+    public String stringify() {
+    	return "HumanPlayer";
+    }
 }
