@@ -33,6 +33,20 @@ public class NovicePlayer extends Player {
 
 	@Override
 	public int pickOpponentsBrick() {
+		Quarto tempGame = game.copy();
+		for (int brickIndex = 0; brickIndex < tempGame.getBricks().size(); brickIndex++) {
+			for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
+				for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
+					if(tempGame.setPiece(i, j, brickIndex)) {
+						if(tempGame.isComplete() == Quarto.NOT_FINISHED) {
+							game.setPiece(i, j, brickIndex);
+							return brickIndex;
+						}
+					}
+					tempGame.removePiece(i, j, brickIndex);
+				}
+			}
+		}
 		return 0;
 	}
 	
