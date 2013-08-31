@@ -31,6 +31,7 @@ public class Statistics {
 			}
 		}
 		
-		return player1 + ": " + player1wins + ", "+player2+": " + player2wins + ", Draws: " + draw;
+		return "\nAfter " + games.size() + " games: \n" +
+				player1 + ": " + player1wins + ", "+player2+": " + player2wins + ", Draws: " + draw;
 	}
 }

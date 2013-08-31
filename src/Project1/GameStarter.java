@@ -12,7 +12,7 @@ public class GameStarter {
 		for (int i = 0; i < NUMBER_OF_GAMES; i++) {
 			Game g = new Game();
 			statistics.addGame(g);
-			System.out.println("--------------------------------" + i);
+			System.out.println("Game num: #" + i);
 		}
 		
 		System.out.println(statistics);

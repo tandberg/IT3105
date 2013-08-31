@@ -23,42 +23,37 @@ public class Game {
 	private void startGame() throws Exception {
 		int brickIndex = -1;
 		while(true) {
-			//Thread.sleep(1000);
-			System.out.println("Player1's turn");
-			brickIndex = player1.pickOpponentsBrick();
-			player2.placeBrick(brickIndex);
-			//System.out.println(quarto);
+			brickIndex = player1.pickOpponentsBrick(); // PLAYER 1 PICK BRICK
 			
 			int complete = quarto.isComplete();
-			
 			if(complete == Quarto.WINNER) {
-				this.winner = player2;
-				System.out.println("Player2 wins");
-				break;
-			}
-			else if (complete == Quarto.DRAW) {
-				this.winner = null;
-				System.out.println("It's a draw!");
-				break;
-			}
-			
-			System.out.println("Player2's turn");
-			//Thread.sleep(1000);
-			brickIndex = player2.pickOpponentsBrick();
-			player1.placeBrick(brickIndex);
-			//System.out.println(quarto);
-			complete = quarto.isComplete();
-			if(complete == Quarto.WINNER) {
-				System.out.println("Player1 wins");
 				this.winner = player1;
+				//System.out.println("Player1 wins");
 				break;
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				System.out.println("It's a draw!");
+				//System.out.println("It's a draw!");
+				break;
+			}
+
+			player2.placeBrick(brickIndex); // PLAYER 2 PLACE BRICK
+			
+			brickIndex = player2.pickOpponentsBrick(); // PLAYER 2 PICK BRICK
+			complete = quarto.isComplete();
+			
+			if(complete == Quarto.WINNER) {
+				//System.out.println("Player2 wins");
+				this.winner = player2;
+				break;
+			}
+			else if (complete == Quarto.DRAW) {
+				this.winner = null;
+				//System.out.println("It's a draw!");
 				break;
 			}
 			
+			player1.placeBrick(brickIndex); // PLAYER 1 PLACE BRICK
 		}
 	}
 	
@@ -66,7 +61,7 @@ public class Game {
 		return winner;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Game game = new Game();
-	}
+	}*/
 }
