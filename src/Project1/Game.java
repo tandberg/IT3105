@@ -1,7 +1,5 @@
 package Project1;
 
-import java.util.Collections;
-
 public class Game {
 	
 	private Quarto quarto;

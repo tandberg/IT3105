@@ -2,7 +2,6 @@ package Project1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Quarto {
@@ -65,10 +64,6 @@ public class Quarto {
 	
 	private void setBricks(List<Brick> bricks) {
 		this.bricks = bricks;
-	}
-
-	private Brick[][] getBoard() {
-		return board;
 	}
 	
 	public List<Brick> getBricks() {
@@ -178,7 +173,6 @@ public class Quarto {
 	}
 
 	public void removePiece(int i, int j, int brickIndex) {
-		// TODO Auto-generated method stub
 		Brick brickToRemove = board[i][j];
 		this.bricks.add(brickIndex, brickToRemove);
 		board[i][j] = null;

@@ -1,7 +1,7 @@
 package Project1;
 
 public class GameStarter {
-	private final static int NUMBER_OF_GAMES = 100;
+	private final static int NUMBER_OF_GAMES = 10000;
 	private Statistics statistics;
 	
 	public GameStarter() {
