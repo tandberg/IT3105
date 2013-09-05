@@ -7,7 +7,7 @@ public class GameStarter {
 	public GameStarter() {
 		//System in to select players. Send into Game class constructor
 		
-		statistics = new Statistics("NovicePlayer", "RandomPlayer");
+		statistics = new Statistics("Minimax 3", "RandomPlayer");
 		
 		for (int i = 0; i < NUMBER_OF_GAMES; i++) {
 			Game g = new Game();

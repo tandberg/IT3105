@@ -178,5 +178,9 @@ public class Quarto {
 		board[i][j] = null;
 		
 	}
+
+    public Brick[][] getBoard() {
+        return board;
+    }
 	
 }

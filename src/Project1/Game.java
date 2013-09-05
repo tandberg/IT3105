@@ -8,7 +8,7 @@ public class Game {
 	
 	public Game() {
 		quarto = new Quarto();
-		player1 = new NovicePlayer(quarto);
+		player1 = new MiniMaxPlayer(quarto, 3);
 		player2 = new RandomPlayer(quarto);
 		
 		try {
