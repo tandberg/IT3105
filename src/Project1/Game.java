@@ -38,34 +38,35 @@ public class Game {
 	private void startGame() throws Exception {
 		int brickIndex = -1;
 		while(true) {
-			
 			int complete = quarto.isComplete();
 			brickIndex = player1.pickOpponentsBrick(); // PLAYER 1 PICK BRICK			
 			
 			if(complete == Quarto.WINNER) {
 				this.winner = player1;
-				System.out.println("Player1 wins");
+				System.out.println("Player1 wins (" + player1.stringify() + ")");
+				System.out.println(quarto);
 				break;
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				System.out.println("It's a draw!");
+				//System.out.println("It's a draw!");
 				//System.out.println(quarto);
 				break;
 			}
 
 			player2.placeBrick(brickIndex); // PLAYER 2 PLACE BRICK
-			System.out.println(quarto);
+			//System.out.println(quarto);
 			complete = quarto.isComplete();
 			
 			if(complete == Quarto.WINNER) {
-				System.out.println("Player2 wins");
+				//System.out.println("Player2 wins");
 				this.winner = player2;
+				System.out.println(quarto);
 				break;
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				System.out.println("It's a draw!");
+				//System.out.println("It's a draw!");
 				//System.out.println(quarto);
 
 				break;
@@ -75,7 +76,7 @@ public class Game {
 			//System.out.println("NŒ skal Minimax: placebrick");
 			//Thread.sleep(2000);
 			player1.placeBrick(brickIndex); // PLAYER 1 PLACE BRICK
-			System.out.println(quarto);
+			//System.out.println(quarto);
 			
 			//System.out.println(quarto);
 			

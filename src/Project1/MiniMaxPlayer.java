@@ -10,7 +10,7 @@ public class MiniMaxPlayer extends Player {
 	private Random random;
 	private final static int WAIT_MOVES = 8;
 	private final static int MAX_BRICKS = 16;
-    private Move goodMove;
+    private Move goodMove, badMove;
 	
 	public MiniMaxPlayer(Quarto game, int depth) {
 		super(game);
@@ -25,12 +25,11 @@ public class MiniMaxPlayer extends Player {
 	@Override
 	public void placeBrick(int brickIndex) {
 		if(shouldPrune()) {
-			System.out.println("Skal prune");
-			// do minimax alpha beta pruning to chose placement
-			// prunePlaceBrick(brickIndex);
-			// ?
+			System.out.println("Alpha-Beta function call");
 
-            this.alphabeta(this.game, this.depth, -1, 1, true);
+            int a = this.alphabeta(this.game, this.depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+            System.out.println("ALPHABETA: " + a);
+            
             game.setPiece(this.goodMove.row, this.goodMove.column, brickIndex);
 
 		} else {
@@ -39,14 +38,16 @@ public class MiniMaxPlayer extends Player {
 	}
 	
 	private int alphabeta(Quarto gameNode, int depth, int alpha, int beta, boolean player) { // player = true -> you. Initial call with true.
-        if(depth == 0) {
-            if(gameNode.isComplete() == Quarto.WINNER && !player) {
+		
+		int gameState = gameNode.isComplete();
+        if(depth == 0 || gameState != Quarto.NOT_FINISHED) {
+            if(gameState == Quarto.WINNER && !player) {
                 return 1;
             }
-            else if (gameNode.isComplete() == Quarto.WINNER && player) {
+            else if (gameState == Quarto.WINNER && player) {
                 return -1;
             }
-            else if (gameNode.isComplete() == Quarto.DRAW) {
+            else if (gameState == Quarto.DRAW) {
                 return 0;
             }
         }
@@ -54,10 +55,12 @@ public class MiniMaxPlayer extends Player {
 		if(player) {
 			for (int i = 0; i < gameNode.getBricks().size(); i++) {
                 Quarto child = gameNode.copy();
+                
                 for(Move move : getPossibleMoves(child)) {
                     child.setPiece(move.row, move.column, i);
-
                     int tempAlpha = alphabeta(child, depth - 1, alpha, beta, !player);
+                    child.removePiece(move.row, move.column, i);
+
                     if(alpha < tempAlpha) {
                         alpha = tempAlpha;
 
@@ -66,30 +69,35 @@ public class MiniMaxPlayer extends Player {
                         }
                     }
 
-                    alpha = Math.max(alpha, alphabeta(child, depth - 1, alpha, beta, !player));
                     if(beta <= alpha) {
                         break;
                     }
-                    
-                    child.removePiece(move.row, move.column, i);
                 }
 			}
-			return alpha; // Should be a move? dunno
+			return alpha;
 
 		} else {
 			for (int i = 0; i < gameNode.getBricks().size(); i++) {
 				Quarto child = gameNode.copy();
+				
                 for(Move move : getPossibleMoves(child)) {
-                    child.setPiece(move.row, move.column, i); 		// Same as above.
+                    child.setPiece(move.row, move.column, i);
+                    int tempBeta = alphabeta(child, depth - 1, alpha, beta, !player);
+                    child.removePiece(move.row, move.column, i);
                     
-                    beta = Math.min(beta, alphabeta(child, depth - 1, alpha, beta, !player));
+                    if(beta > tempBeta) {
+                    	beta = tempBeta;
+                    	
+                    	if(depth == this.depth) {
+                    		this.setBadMove(move);
+                    	}
+                    }
+                    //beta = Math.min(beta, alphabeta(child, depth - 1, alpha, beta, !player));
+                    
                     if(beta <= alpha) {
                         break;
                     }
-
-                    child.removePiece(move.row, move.column, i);
                 }
-
 			}
 			return beta;
 		}
@@ -113,8 +121,6 @@ public class MiniMaxPlayer extends Player {
 						if(tempGame.setPiece(i, j, brickIndex)) {
 							if(tempGame.isComplete() != Quarto.NOT_FINISHED) {
 								brickIsOk = false;
-								//game.setPiece(i, j, brickIndex);
-//								return brickIndex;
 							}
 						}
 						tempGame.removePiece(i, j, brickIndex);
@@ -143,6 +149,10 @@ public class MiniMaxPlayer extends Player {
 
     private void setGoodMove(Move move) {
         this.goodMove = move;
+    }
+    
+    private void setBadMove(Move move) {
+    	this.badMove = move;
     }
 
     private Collection<Move> getPossibleMoves(Quarto game) {
