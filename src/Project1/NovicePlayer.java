@@ -35,17 +35,23 @@ public class NovicePlayer extends Player {
 	public int pickOpponentsBrick() {
 		Quarto tempGame = game.copy();
 		for (int brickIndex = 0; brickIndex < tempGame.getBricks().size(); brickIndex++) {
+			boolean brickIsOk = true;
 			for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
 				for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
 					if(tempGame.setPiece(i, j, brickIndex)) {
-						if(tempGame.isComplete() == Quarto.NOT_FINISHED) {
-							game.setPiece(i, j, brickIndex);
-							return brickIndex;
+						if(tempGame.isComplete() != Quarto.NOT_FINISHED) {
+							brickIsOk = false;
+							//game.setPiece(i, j, brickIndex);
+//							return brickIndex;
 						}
 					}
 					tempGame.removePiece(i, j, brickIndex);
 				}
 			}
+			if (brickIsOk) {
+				return brickIndex;
+			}
+			brickIsOk = true;
 		}
 		return 0;
 	}

@@ -97,21 +97,16 @@ public class Quarto {
 	}
 	
 	public int isComplete() {
-		if (isDraw())
-			return DRAW;
 		if (hasCompleteColumn() || hasCompleteRow() || hasCompleteDiagonal())
 			return WINNER;
+		if (isDraw())
+			return DRAW;
 		return NOT_FINISHED;
 	}
 	
 	private boolean isDraw() {
-		for (int i = 0; i < BOARD_SIZE; i++) {
-			for (int j = 0; j < BOARD_SIZE; j++) {
-				if (board[i][j] == null)
-					return false;
-			}
-		}
-		return true;
+		return this.bricks.size() == 0;
+		
 	}
 	
 	private boolean hasCompleteRow() {

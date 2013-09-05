@@ -19,12 +19,13 @@ public class MiniMaxPlayer extends Player {
 	}
 	
 	public boolean shouldPrune() {
-		return this.game.getBricks().size() > MAX_BRICKS - WAIT_MOVES;
+		return this.game.getBricks().size() < MAX_BRICKS - WAIT_MOVES;
 	}
 	
 	@Override
 	public void placeBrick(int brickIndex) {
 		if(shouldPrune()) {
+			System.out.println("Skal prune");
 			// do minimax alpha beta pruning to chose placement
 			// prunePlaceBrick(brickIndex);
 			// ?
@@ -69,6 +70,8 @@ public class MiniMaxPlayer extends Player {
                     if(beta <= alpha) {
                         break;
                     }
+                    
+                    child.removePiece(move.row, move.column, i);
                 }
 			}
 			return alpha; // Should be a move? dunno
@@ -78,11 +81,13 @@ public class MiniMaxPlayer extends Player {
 				Quarto child = gameNode.copy();
                 for(Move move : getPossibleMoves(child)) {
                     child.setPiece(move.row, move.column, i); 		// Same as above.
-
+                    
                     beta = Math.min(beta, alphabeta(child, depth - 1, alpha, beta, !player));
                     if(beta <= alpha) {
                         break;
                     }
+
+                    child.removePiece(move.row, move.column, i);
                 }
 
 			}
@@ -99,8 +104,29 @@ public class MiniMaxPlayer extends Player {
 	@Override
 	public int pickOpponentsBrick() {
 		if(shouldPrune()) {
-			// do minimax alpha beta pruning to chose brick
+
+			Quarto tempGame = game.copy();
+			for (int brickIndex = 0; brickIndex < tempGame.getBricks().size(); brickIndex++) {
+				boolean brickIsOk = true;
+				for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
+					for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
+						if(tempGame.setPiece(i, j, brickIndex)) {
+							if(tempGame.isComplete() != Quarto.NOT_FINISHED) {
+								brickIsOk = false;
+								//game.setPiece(i, j, brickIndex);
+//								return brickIndex;
+							}
+						}
+						tempGame.removePiece(i, j, brickIndex);
+					}
+				}
+				if (brickIsOk) {
+					return brickIndex;
+				}
+				brickIsOk = true;
+			}
 			return 0;
+			
 		} else {
 			return randomPickOpponentsBrick();
 		}
