@@ -8,7 +8,7 @@ public class MiniMaxPlayer extends Player {
 
 	private int depth;
 	private Random random;
-	private final static int WAIT_MOVES = 8;
+	private final static int WAIT_MOVES = 6;
 	private final static int MAX_BRICKS = 16;
     private Move goodMove, badMove;
 	
@@ -28,11 +28,12 @@ public class MiniMaxPlayer extends Player {
 			System.out.println("Alpha-Beta function call");
 
             int a = this.alphabeta(this.game, this.depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
-            System.out.println("ALPHABETA: " + a);
+            System.out.println("ALPHABETA: " + this.goodMove.row + " - " + this.goodMove.column);
             
             game.setPiece(this.goodMove.row, this.goodMove.column, brickIndex);
 
 		} else {
+			System.out.println("\nPlacement by random\n");
 			randomPlaceBrick(brickIndex);
 		}
 	}
@@ -53,6 +54,7 @@ public class MiniMaxPlayer extends Player {
         }
 		
 		if(player) {
+			outerAlphaLoop:
 			for (int i = 0; i < gameNode.getBricks().size(); i++) {
                 Quarto child = gameNode.copy();
                 
@@ -70,13 +72,14 @@ public class MiniMaxPlayer extends Player {
                     }
 
                     if(beta <= alpha) {
-                        break;
+                        break outerAlphaLoop;
                     }
                 }
 			}
 			return alpha;
 
 		} else {
+			outerBetaLoop:
 			for (int i = 0; i < gameNode.getBricks().size(); i++) {
 				Quarto child = gameNode.copy();
 				
@@ -95,7 +98,7 @@ public class MiniMaxPlayer extends Player {
                     //beta = Math.min(beta, alphabeta(child, depth - 1, alpha, beta, !player));
                     
                     if(beta <= alpha) {
-                        break;
+                        break outerBetaLoop;
                     }
                 }
 			}
@@ -106,12 +109,23 @@ public class MiniMaxPlayer extends Player {
 	}
 
 	private void randomPlaceBrick(int brickIndex) {
+		
+		Quarto tempGame = game.copy();
+		
+		for (Move move : this.getPossibleMoves(tempGame)) { // Loops through all possible moves to check if there is a immediate winner move.
+			tempGame.setPiece(move.row, move.column, brickIndex);
+			if(tempGame.isComplete() == Quarto.WINNER) {
+				game.setPiece(move.row, move.column, brickIndex);
+				return;
+			}
+			tempGame.removePiece(move.row, move.column, brickIndex);
+		}
+		
 		while(!game.setPiece(random.nextInt(Quarto.BOARD_SIZE), random.nextInt(Quarto.BOARD_SIZE), brickIndex));
 	}
 
 	@Override
 	public int pickOpponentsBrick() {
-		if(shouldPrune()) {
 
 			Quarto tempGame = game.copy();
 			for (int brickIndex = 0; brickIndex < tempGame.getBricks().size(); brickIndex++) {
@@ -131,11 +145,8 @@ public class MiniMaxPlayer extends Player {
 				}
 				brickIsOk = true;
 			}
-			return 0;
 			
-		} else {
 			return randomPickOpponentsBrick();
-		}
 	}
 
 	private int randomPickOpponentsBrick() {

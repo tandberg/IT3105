@@ -55,6 +55,9 @@ public class Game {
 			}
 
 			player2.placeBrick(brickIndex); // PLAYER 2 PLACE BRICK
+
+			System.out.println("\n\n"+player2.stringify()+" Plasserte siste:\n\n");
+			System.out.println(quarto);
 			//System.out.println(quarto);
 			complete = quarto.isComplete();
 			
@@ -76,7 +79,8 @@ public class Game {
 			//System.out.println("NŒ skal Minimax: placebrick");
 			//Thread.sleep(2000);
 			player1.placeBrick(brickIndex); // PLAYER 1 PLACE BRICK
-			//System.out.println(quarto);
+			System.out.println("\n\n"+player1.stringify()+" Plasserte siste:\n\n");
+			System.out.println(quarto);
 			
 			//System.out.println(quarto);
 			
