@@ -1,8 +1,6 @@
 package Project1;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 public class MiniMaxPlayer extends Player {
 
@@ -24,7 +22,46 @@ public class MiniMaxPlayer extends Player {
 	
 	@Override
 	public void placeBrick(int brickIndex) {
+
+        for (int brick = 0; brick < game.getBricks().size(); brick++) {
+
+            Quarto tempGame = game.copy();
+
+            for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
+                for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
+
+                    System.out.print("lol");
+
+                    if(tempGame.getBoard()[i][j] == null) {
+                        tempGame.setPiece(i, j, brick);
+
+                        for (int tempBrickIndex = 0; tempBrickIndex < tempGame.getBricks().size(); tempBrickIndex++) {
+
+                             for (int i1 = 0; i1 < Quarto.BOARD_SIZE; i1++) {
+                                 for (int j2 = 0; j2 < Quarto.BOARD_SIZE; j2++) {
+                                     tempGame.setPiece(i1, j2, tempBrickIndex);
+
+                                     if(tempGame.isComplete() == Quarto.WINNER) {
+                                         game.setPiece(i1,j2,brickIndex);
+
+                                         System.out.print("gurr a");
+                                         return;
+                                     }
+                                     tempGame.removePiece(i1, j2, tempBrickIndex);
+                                 }
+                             }
+
+                        }
+                        tempGame.removePiece(i, j, brick);
+                    }
+
+                }
+            }
+        }
+
 		if(shouldPrune()) {
+
+
 			System.out.println("Alpha-Beta function call");
 
             double a = this.alphabeta(this.game, this.depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
@@ -41,16 +78,16 @@ public class MiniMaxPlayer extends Player {
 	private double alphabeta(Quarto gameNode, int depth, double alpha, double beta, boolean player) { // player = true -> you. Initial call with true.
 		
 		int gameState = gameNode.isComplete();
-        if(depth == 0 || gameState != Quarto.NOT_FINISHED) {
+        if(depth == 0) {
             if(gameState == Quarto.WINNER && !player) {
-                return 1;
+                return Double.MAX_VALUE;
             }
             else if (gameState == Quarto.WINNER && player) {
-                return -1;
+                return Double.MIN_VALUE;
             }
             else if (gameState == Quarto.DRAW) {
                 return 0;
-            } else {
+            } else if(gameState == Quarto.NOT_FINISHED) {
             	return heuristics(gameNode, player);
             }
         }
@@ -111,9 +148,11 @@ public class MiniMaxPlayer extends Player {
 	}
 
 	private double heuristics(Quarto gameNode, boolean player) {
-		
-		return 0;
+        return StateEvaluator.evaluate(gameNode, player);
 	}
+
+
+
 
 	private void randomPlaceBrick(int brickIndex) {
 		
@@ -135,7 +174,17 @@ public class MiniMaxPlayer extends Player {
 	public int pickOpponentsBrick() {
 
 			Quarto tempGame = game.copy();
-			for (int brickIndex = 0; brickIndex < tempGame.getBricks().size(); brickIndex++) {
+            List<Integer> bricks = new ArrayList<Integer>();
+            Collections.shuffle(bricks);
+
+        for(int i = 0; i < tempGame.getBricks().size(); i++) {
+
+            bricks.add(i);
+        }
+        Collections.shuffle(bricks);
+
+
+        for (Integer brickIndex : bricks) {
 				boolean brickIsOk = true;
 				for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
 					for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
@@ -152,6 +201,8 @@ public class MiniMaxPlayer extends Player {
 				}
 				brickIsOk = true;
 			}
+            int random = randomPickOpponentsBrick();
+            System.out.println("Index til picked brick: " + random);
 			
 			return randomPickOpponentsBrick();
 	}

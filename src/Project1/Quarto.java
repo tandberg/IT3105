@@ -90,7 +90,7 @@ public class Quarto {
 	public boolean setPiece(int i, int j, int brickIndex) {
 		if(board[i][j] != null) 
 			return false;
-		
+
 		Brick b = bricks.remove(brickIndex);
 		board[i][j] = b;
 		return true;
@@ -139,7 +139,7 @@ public class Quarto {
 		return (hasSameProperty(diagonal1) || hasSameProperty(diagonal2));
 	}
 	
-	private boolean hasSameProperty(Brick[] bricks) {
+	public static boolean hasSameProperty(Brick[] bricks) {
 		if (bricks[0] == null)
 			return false;
 		Size size = bricks[0].getSize();

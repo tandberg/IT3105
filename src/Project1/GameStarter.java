@@ -6,8 +6,8 @@ public class GameStarter {
 	
 	public GameStarter() {
 
-		String player1 = "MiniMax-4-Player";
-		String player2 = "MiniMax-3-Player";
+		String player1 = "MiniMax-3-Player";
+		String player2 = "NovicePlayer";
 		//String player2 = "RandomPlayer";
 		
 		statistics = new Statistics(player1, player2);
