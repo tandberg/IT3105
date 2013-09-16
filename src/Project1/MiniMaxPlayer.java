@@ -27,7 +27,7 @@ public class MiniMaxPlayer extends Player {
 		if(shouldPrune()) {
 			System.out.println("Alpha-Beta function call");
 
-            int a = this.alphabeta(this.game, this.depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+            double a = this.alphabeta(this.game, this.depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
             System.out.println("ALPHABETA: " + this.goodMove.row + " - " + this.goodMove.column);
             
             game.setPiece(this.goodMove.row, this.goodMove.column, brickIndex);
@@ -38,7 +38,7 @@ public class MiniMaxPlayer extends Player {
 		}
 	}
 	
-	private int alphabeta(Quarto gameNode, int depth, int alpha, int beta, boolean player) { // player = true -> you. Initial call with true.
+	private double alphabeta(Quarto gameNode, int depth, double alpha, double beta, boolean player) { // player = true -> you. Initial call with true.
 		
 		int gameState = gameNode.isComplete();
         if(depth == 0 || gameState != Quarto.NOT_FINISHED) {
@@ -50,6 +50,8 @@ public class MiniMaxPlayer extends Player {
             }
             else if (gameState == Quarto.DRAW) {
                 return 0;
+            } else {
+            	return heuristics(gameNode, player);
             }
         }
 		
@@ -60,7 +62,7 @@ public class MiniMaxPlayer extends Player {
                 
                 for(Move move : getPossibleMoves(child)) {
                     child.setPiece(move.row, move.column, i);
-                    int tempAlpha = alphabeta(child, depth - 1, alpha, beta, !player);
+                    double tempAlpha = alphabeta(child, depth - 1, alpha, beta, !player);
                     child.removePiece(move.row, move.column, i);
 
                     if(alpha < tempAlpha) {
@@ -85,7 +87,7 @@ public class MiniMaxPlayer extends Player {
 				
                 for(Move move : getPossibleMoves(child)) {
                     child.setPiece(move.row, move.column, i);
-                    int tempBeta = alphabeta(child, depth - 1, alpha, beta, !player);
+                    double tempBeta = alphabeta(child, depth - 1, alpha, beta, !player);
                     child.removePiece(move.row, move.column, i);
                     
                     if(beta > tempBeta) {
@@ -106,6 +108,11 @@ public class MiniMaxPlayer extends Player {
 		}
 		
 		//TODO: Make more meaningful Winner/draw/not_finished to fit into alphabeta
+	}
+
+	private double heuristics(Quarto gameNode, boolean player) {
+		
+		return 0;
 	}
 
 	private void randomPlaceBrick(int brickIndex) {
