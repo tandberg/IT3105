@@ -22,42 +22,6 @@ public class MiniMaxPlayer extends Player {
 	
 	@Override
 	public void placeBrick(int brickIndex) {
-		/*
-        for (int brick = 0; brick < game.getBricks().size(); brick++) {
-
-            Quarto tempGame = game.copy();
-
-            for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
-                for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
-
-                    System.out.print("lol");
-
-                    if(tempGame.getBoard()[i][j] == null) {
-                        tempGame.setPiece(i, j, brick);
-
-                        for (int tempBrickIndex = 0; tempBrickIndex < tempGame.getBricks().size(); tempBrickIndex++) {
-
-                             for (int i1 = 0; i1 < Quarto.BOARD_SIZE; i1++) {
-                                 for (int j2 = 0; j2 < Quarto.BOARD_SIZE; j2++) {
-                                     tempGame.setPiece(i1, j2, tempBrickIndex);
-
-                                     if(tempGame.isComplete() == Quarto.WINNER) {
-                                         game.setPiece(i1,j2,brickIndex);
-
-                                         System.out.print("gurr a");
-                                         return;
-                                     }
-                                     tempGame.removePiece(i1, j2, tempBrickIndex);
-                                 }
-                             }
-
-                        }
-                        tempGame.removePiece(i, j, brick);
-                    }
-
-                }
-            }
-        } */
 
 		if(shouldPrune()) {
 

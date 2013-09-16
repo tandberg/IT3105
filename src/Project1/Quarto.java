@@ -178,5 +178,37 @@ public class Quarto {
     public Brick[][] getBoard() {
         return board;
     }
+
+    public boolean brickWithSizeIsLeft(Size size) {
+        for (Brick brick : bricks) {
+            if (brick.getSize() == size)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean brickWithHoleIsLeft(Hole hole) {
+        for (Brick brick : bricks) {
+            if (brick.getHole() == hole)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean brickWithShapeIsLeft(Shape shape) {
+        for (Brick brick : bricks) {
+            if (brick.getShape() == shape)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean brickWithColorIsLeft(Color color) {
+        for (Brick brick : bricks) {
+            if (brick.getColor() == color)
+                return true;
+        }
+        return false;
+    }
 	
 }

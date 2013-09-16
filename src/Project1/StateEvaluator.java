@@ -194,51 +194,82 @@ public class StateEvaluator {
 
         double heuri = 0.0;
 
-        heuri += calculate(possibleRow);
+        heuri += calculate(possibleRow, gameNode);
         heuri += getPositionValues(gameNode);
 
 
         // System.out.println("heuri: "+ heuri);
 
-        return player ? heuri : heuri * -1;
+
+        return (Math.random() - 50) * 100;
+        //return player ? heuri : heuri * -1;
     }
 
 
-    public static int countSameProperty(Brick[] bricks) {
-        int sizeTrue = 0;
-        int holeTrue = 0;
-        int shapeTrue = 0;
-        int colorTrue = 0;
+    public static int countSameProperty(Brick[] bricks, Quarto game) {
+        if (bricks[0] == null && bricks[1] == null)
+            return 0;
+
+        Size size;
+        Hole hole;
+        Shape shape;
+        Color color;
+        if (bricks[0] != null){
+            size = bricks[0].getSize();
+            hole = bricks[0].getHole();
+            shape = bricks[0].getShape();
+            color = bricks[0].getColor();
+        }
+        else {
+            size = bricks[1].getSize();
+            hole = bricks[1].getHole();
+            shape = bricks[1].getShape();
+            color = bricks[1].getColor();
+        }
+        int sameSize = 0;
+        int sameHole = 0;
+        int sameShape = 0;
+        int sameColor = 0;
 
         for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
             Brick brick = bricks[i];
-            if (bricks[i] == null)
+            if (brick == null)
                 continue;
-            if (brick.getColor() == Color.BLUE)
-                colorTrue++;
+            if (brick.getColor() == color)
+                sameColor++;
             else
-                colorTrue--;
-            if (brick.getShape() == Shape.ROUND)
-                shapeTrue++;
+                sameColor--;
+            if (brick.getShape() == shape)
+                sameShape++;
             else
-                shapeTrue--;
-            if (brick.getHole() == Hole.HAS_HOLE)
-                holeTrue++;
+                sameShape--;
+            if (brick.getHole() == hole)
+                sameHole++;
             else
-                holeTrue--;
-            if (brick.getSize() == Size.LARGE)
-                sizeTrue++;
+                sameHole--;
+            if (brick.getSize() == size)
+                sameSize++;
             else
-                sizeTrue--;
+                sameSize--;
         }
-        return sizeTrue + holeTrue + shapeTrue + colorTrue;
+
+        int heuri = 0;
+        if (sameColor == 3 && game.brickWithColorIsLeft(color))
+            heuri += 100;
+        if (sameShape == 3 && game.brickWithShapeIsLeft(shape))
+            heuri += 100;
+        if (sameSize == 3 && game.brickWithSizeIsLeft(size))
+            heuri += 100;
+        if (sameHole == 3 && game.brickWithHoleIsLeft(hole))
+            heuri += 100;
+        return heuri;
     }
 
-    private static double calculate(List<Brick[]> possibleRows) {
+    private static double calculate(List<Brick[]> possibleRows, Quarto game) {
 
         double count = 0;
         for (Brick[] row : possibleRows) {
-            count += countSameProperty(row) / (Quarto.BOARD_SIZE * Quarto.BOARD_SIZE);
+            count += countSameProperty(row, game);
         }
         return count;
     }
