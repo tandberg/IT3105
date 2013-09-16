@@ -72,7 +72,7 @@ public class Quarto {
 	
 	public String toString() {
 		String out = "";
-		out += "Availible bricks: " + bricks + "\n";
+
 		out += "Board status:\n";
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
@@ -84,6 +84,7 @@ public class Quarto {
 			}
 			out += "\n";
 		}
+        out += "\nAvailible bricks: " + bricks + "\n";
 		return out;
 	}
 	
