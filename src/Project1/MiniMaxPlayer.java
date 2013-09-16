@@ -22,7 +22,7 @@ public class MiniMaxPlayer extends Player {
 	
 	@Override
 	public void placeBrick(int brickIndex) {
-
+		/*
         for (int brick = 0; brick < game.getBricks().size(); brick++) {
 
             Quarto tempGame = game.copy();
@@ -57,7 +57,7 @@ public class MiniMaxPlayer extends Player {
 
                 }
             }
-        }
+        } */
 
 		if(shouldPrune()) {
 
@@ -78,7 +78,7 @@ public class MiniMaxPlayer extends Player {
 	private double alphabeta(Quarto gameNode, int depth, double alpha, double beta, boolean player) { // player = true -> you. Initial call with true.
 		
 		int gameState = gameNode.isComplete();
-        if(depth == 0) {
+        if(depth == 0 || gameState != Quarto.NOT_FINISHED) {
             if(gameState == Quarto.WINNER && !player) {
                 return Double.MAX_VALUE;
             }
@@ -87,7 +87,8 @@ public class MiniMaxPlayer extends Player {
             }
             else if (gameState == Quarto.DRAW) {
                 return 0;
-            } else if(gameState == Quarto.NOT_FINISHED) {
+            } 
+            else if(gameState == Quarto.NOT_FINISHED) {
             	return heuristics(gameNode, player);
             }
         }
