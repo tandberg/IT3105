@@ -6,7 +6,7 @@ public class MiniMaxPlayer extends Player {
 
 	private int depth;
 	private Random random;
-	private final static int WAIT_MOVES = 6;
+	private final static int WAIT_MOVES = 4;
 	private final static int MAX_BRICKS = 16;
     private Move goodMove, badMove;
 	
@@ -139,35 +139,38 @@ public class MiniMaxPlayer extends Player {
 	public int pickOpponentsBrick() {
 
 			Quarto tempGame = game.copy();
-            List<Integer> bricks = new ArrayList<Integer>();
-            Collections.shuffle(bricks);
-
+            //List<Integer> bricks = new ArrayList<Integer>();
+            //Collections.shuffle(bricks);
+        /*
         for(int i = 0; i < tempGame.getBricks().size(); i++) {
 
             bricks.add(i);
         }
         Collections.shuffle(bricks);
+          */
 
-
-        for (Integer brickIndex : bricks) {
+        for (int brickIndex = 0; brickIndex < game.getBricks().size(); brickIndex++) {
 				boolean brickIsOk = true;
 				for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
 					for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
 						if(tempGame.setPiece(i, j, brickIndex)) {
-							if(tempGame.isComplete() != Quarto.NOT_FINISHED) {
+							//System.out.println("Complete?: " + tempGame.isComplete());
+                            if(tempGame.isComplete() == Quarto.WINNER) {
+
 								brickIsOk = false;
 							}
+                            tempGame.removePiece(i, j, brickIndex);
 						}
-						tempGame.removePiece(i, j, brickIndex);
+
 					}
 				}
 				if (brickIsOk) {
+                    System.out.println("Index til picked brick: " + brickIndex);
 					return brickIndex;
 				}
-				brickIsOk = true;
 			}
             int random = randomPickOpponentsBrick();
-            System.out.println("Index til picked brick: " + random);
+            System.out.println("Index til random picked brick: " + random);
 			
 			return randomPickOpponentsBrick();
 	}
