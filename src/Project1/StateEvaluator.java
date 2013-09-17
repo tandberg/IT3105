@@ -6,6 +6,9 @@ import java.util.List;
 public class StateEvaluator {
 
 
+    public final static int TRIPLET_VALUE = 100;
+
+
     public static double evaluate(Quarto gameNode, boolean player) {
         Brick[][] board = gameNode.getBoard();
         List<Brick[]> possibleRow = new ArrayList<Brick[]>();
@@ -38,8 +41,9 @@ public class StateEvaluator {
         // System.out.println("heuri: "+ heuri);
 
 
-        return (Math.random() - 50) * 100;
+        //return (Math.random() - 50) * 100;
         //return player ? heuri : heuri * -1;
+        return 0;
     }
 
 
@@ -92,13 +96,13 @@ public class StateEvaluator {
 
         int heuri = 0;
         if (sameColor == 3 && game.brickWithColorIsLeft(color))
-            heuri += 100;
+            heuri += TRIPLET_VALUE;
         if (sameShape == 3 && game.brickWithShapeIsLeft(shape))
-            heuri += 100;
+            heuri += TRIPLET_VALUE;
         if (sameSize == 3 && game.brickWithSizeIsLeft(size))
-            heuri += 100;
+            heuri += TRIPLET_VALUE;
         if (sameHole == 3 && game.brickWithHoleIsLeft(hole))
-            heuri += 100;
+            heuri += TRIPLET_VALUE;
         return heuri;
     }
 

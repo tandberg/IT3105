@@ -112,8 +112,9 @@ public class Quarto {
 	
 	private boolean hasCompleteRow() {
 		for (int i = 0; i < BOARD_SIZE; i++) {
-			if (hasSameProperty(board[i]))
+			if (hasSameProperty(board[i])) {
 				return true;
+            }
 		}
 		return false;
 	}
@@ -124,8 +125,9 @@ public class Quarto {
 			for (int j = 0; j < BOARD_SIZE; j++) {
 				bricks[j] = board[j][i];
 			}
-			if (hasSameProperty(bricks))
+			if (hasSameProperty(bricks)) {
 				return true;
+            }
 		}
 		return false;
 	}
@@ -137,7 +139,7 @@ public class Quarto {
 			diagonal1[i] = board[i][i];
 			diagonal2[i] = board[i][BOARD_SIZE - 1 - i];
 		}
-		return (hasSameProperty(diagonal1) || hasSameProperty(diagonal2));
+        return (hasSameProperty(diagonal1) || hasSameProperty(diagonal2));
 	}
 	
 	public static boolean hasSameProperty(Brick[] bricks) {
@@ -167,6 +169,15 @@ public class Quarto {
 		}
 		return (sameSize || sameHole || sameShape || sameColor);
 	}
+
+    public static String arrayToString(Brick[] bricks) {
+        String s = "[";
+        for (int i = 0; i < bricks.length; i++) {
+            s += bricks[i] + ", ";
+        }
+        s +="]";
+        return s;
+    }
 
 	public void removePiece(int i, int j, int brickIndex) {
 		Brick brickToRemove = board[i][j];

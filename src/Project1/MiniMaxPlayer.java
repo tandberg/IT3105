@@ -176,6 +176,7 @@ public class MiniMaxPlayer extends Player {
 	}
 
 	private int randomPickOpponentsBrick() {
+        if(game.getBricks().size() == 0) return 0;
 		return random.nextInt(game.getBricks().size());
 	}
 
