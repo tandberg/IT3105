@@ -16,12 +16,10 @@ public class StateEvaluatorHT {
         } else {
 
             if (completesLine(state)) {
-                System.out.println("Current state completes line");
                 score = 1000;
             }
 
             if (canPlaceSecondPiece(state)) {
-                System.out.println("Current state adds piece number two to line");
                 score = 500;
             }
         }
