@@ -6,14 +6,32 @@ public class GameStarter {
 	private final static int NUMBER_OF_GAMES = 100;
 	private Statistics statistics;
 	
-	public GameStarter() {
+	public GameStarter(boolean tournament) {
 
+		if(tournament) {
+
+			String p1 = "MiniMax-4-PlayerST";
+			String p2 = "MiniMax-4-PlayerHT";
+			
+			statistics = new Statistics(p1, p2);
+			
+			for (int i = 0; i < NUMBER_OF_GAMES; i++) {
+				System.out.println("Game num: #" + (i+1));
+				Game g = new Game(p1, p2);
+				statistics.addGame(g);
+			}
+
+			System.out.println(statistics);
+			System.exit(0);
+			
+		}
+		
 		String player1 = choosePlayer(true);
 
         String player2 = choosePlayer(false);
         if (player1 == null || player2 == null) {
             System.out.println("Please select valid players!");
-            new GameStarter();
+            new GameStarter(false);
         }
 
         statistics = new Statistics(player1, player2);
@@ -54,6 +72,6 @@ public class GameStarter {
     }
 	
 	public static void main(String[] args) {
-		new GameStarter();
+		new GameStarter(true);
 	}
 }

@@ -30,6 +30,10 @@ public class Game {
 			return new MiniMaxPlayer(quarto, 3);
 		} else if(playername.equals("MiniMax-4-Player")) {
 			return new MiniMaxPlayer(quarto, 4);
+		} else if(playername.equals("MiniMax-4-PlayerHT")) {
+			return new MiniMaxPlayerHT(quarto, 4);
+		} else if(playername.equals("MiniMax-4-PlayerST")) {
+			return new MiniMaxPlayer(quarto, 4);
 		}
 		
 		return null;
