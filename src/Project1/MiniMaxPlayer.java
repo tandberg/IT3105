@@ -25,16 +25,11 @@ public class MiniMaxPlayer extends Player {
 
 		if(shouldPrune()) {
 
-
-			System.out.println("Alpha-Beta function call");
-
             double a = this.alphabeta(this.game, this.depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
-            System.out.println("ALPHABETA: " + this.goodMove.row + " - " + this.goodMove.column);
             
             game.setPiece(this.goodMove.row, this.goodMove.column, brickIndex);
 
 		} else {
-			System.out.println("\nPlacement by random\n");
 			randomPlaceBrick(brickIndex);
 		}
 	}
