@@ -12,6 +12,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public void placeBrick(int index) {
+    	System.out.println("Brick to place: " + game.getBricks().get(index));
         System.out.println("Select row:");
         int row = scanner.nextInt();
 
@@ -27,6 +28,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public int pickOpponentsBrick() {
+    	System.out.println(game);
         System.out.println("Select brick for opponent:");
         return scanner.nextInt();
     }
