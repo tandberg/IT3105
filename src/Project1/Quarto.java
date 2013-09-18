@@ -31,6 +31,10 @@ public class Quarto {
 			new Brick(Size.SMALL, Color.RED, Hole.NO_HOLE, Shape.SQUARE)
 	};
 	private List<Brick> bricks = new ArrayList<Brick>(Arrays.asList(BRICKS_PROTOTYPE));
+    private int x;
+    private int y;
+
+
 	
 	public Quarto() {
 		board = new Brick[BOARD_SIZE][BOARD_SIZE];
@@ -91,7 +95,8 @@ public class Quarto {
 	public boolean setPiece(int i, int j, int brickIndex) {
 		if(board[i][j] != null) 
 			return false;
-
+        this.x = i;
+        this.y = j;
 		Brick b = bricks.remove(brickIndex);
 		board[i][j] = b;
 		return true;
@@ -220,6 +225,14 @@ public class Quarto {
                 return true;
         }
         return false;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 	
 }
