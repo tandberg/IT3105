@@ -49,8 +49,6 @@ public class Game {
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				//System.out.println("It's a draw!");
-				//System.out.println(quarto);
 				break;
 			}
 
@@ -61,39 +59,24 @@ public class Game {
 			complete = quarto.isComplete();
 			
 			if(complete == Quarto.WINNER) {
-				//System.out.println("Player2 wins");
 				this.winner = player2;
 				System.out.println(quarto);
 				break;
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				//System.out.println("It's a draw!");
-				//System.out.println(quarto);
-
 				break;
 			}
 
 			brickIndex = player2.pickOpponentsBrick(); // PLAYER 2 PICK BRICK
-			//System.out.println("N� skal Minimax: placebrick");
-			//Thread.sleep(2000);
 			player1.placeBrick(brickIndex); // PLAYER 1 PLACE BRICK
 
 			System.out.println(""+player1.stringify()+" Plasserte siste:\n");
             System.out.println(quarto);
-			//System.out.println(quarto);
-			
-			//System.out.println(quarto);
-			
-			//Thread.sleep(2000);
 		}
 	}
 	
 	public Player getWinner() {
 		return winner;
 	}
-
-	/*public static void main(String[] args) {
-		Game game = new Game();
-	}*/
 }

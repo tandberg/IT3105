@@ -3,7 +3,7 @@ package Project1;
 import java.util.Scanner;
 
 public class GameStarter {
-	private final static int NUMBER_OF_GAMES = 1;
+	private final static int NUMBER_OF_GAMES = 100;
 	private Statistics statistics;
 	
 	public GameStarter() {
@@ -15,8 +15,6 @@ public class GameStarter {
             System.out.println("Please select valid players!");
             new GameStarter();
         }
-
-
 
         statistics = new Statistics(player1, player2);
 		
@@ -49,7 +47,7 @@ public class GameStarter {
             case 3:
                 return "MiniMax-3-Player";
             case 4:
-                return "MiniMax-3-Player";
+                return "MiniMax-4-Player";
             default:
                 return null;
         }

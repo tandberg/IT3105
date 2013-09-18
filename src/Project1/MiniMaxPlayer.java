@@ -39,7 +39,8 @@ public class MiniMaxPlayer extends Player {
 		}
 	}
 	
-	private double alphabeta(Quarto gameNode, int depth, double alpha, double beta, boolean player) { // player = true -> you. Initial call with true.
+	// player = true -> you. Initial call with true.
+	private double alphabeta(Quarto gameNode, int depth, double alpha, double beta, boolean player) { 
 		
 		int gameState = gameNode.isComplete();
         if(depth == 0 || gameState != Quarto.NOT_FINISHED) {
@@ -99,7 +100,6 @@ public class MiniMaxPlayer extends Player {
                     		this.setBadMove(move);
                     	}
                     }
-                    //beta = Math.min(beta, alphabeta(child, depth - 1, alpha, beta, !player));
                     
                     if(beta <= alpha) {
                         break outerBetaLoop;
@@ -108,16 +108,11 @@ public class MiniMaxPlayer extends Player {
 			}
 			return beta;
 		}
-		
-		//TODO: Make more meaningful Winner/draw/not_finished to fit into alphabeta
 	}
 
 	private double heuristics(Quarto gameNode, boolean player) {
         return StateEvaluator.evaluate(gameNode, player);
 	}
-
-
-
 
 	private void randomPlaceBrick(int brickIndex) {
 		
@@ -137,24 +132,14 @@ public class MiniMaxPlayer extends Player {
 
 	@Override
 	public int pickOpponentsBrick() {
-
-			Quarto tempGame = game.copy();
-            //List<Integer> bricks = new ArrayList<Integer>();
-            //Collections.shuffle(bricks);
-        /*
-        for(int i = 0; i < tempGame.getBricks().size(); i++) {
-
-            bricks.add(i);
-        }
-        Collections.shuffle(bricks);
-          */
+		Quarto tempGame = game.copy();
 
         for (int brickIndex = 0; brickIndex < game.getBricks().size(); brickIndex++) {
 				boolean brickIsOk = true;
 				for (int i = 0; i < Quarto.BOARD_SIZE; i++) {
 					for (int j = 0; j < Quarto.BOARD_SIZE; j++) {
 						if(tempGame.setPiece(i, j, brickIndex)) {
-							//System.out.println("Complete?: " + tempGame.isComplete());
+
                             if(tempGame.isComplete() == Quarto.WINNER) {
 
 								brickIsOk = false;
