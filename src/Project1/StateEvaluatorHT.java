@@ -28,7 +28,7 @@ public class StateEvaluatorHT {
 
         // Take depth into account when evaluating a move. We want to
         // win sooner, rather than later.
-        return score;
+        return score*-1;
     }
 
 

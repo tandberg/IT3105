@@ -111,7 +111,7 @@ public class MiniMaxPlayerHT extends Player {
 	}
 
 	private double heuristics(Quarto gameNode, boolean player) {
-        return StateEvaluatorHT.evaluate(gameNode, player);
+        return StateEvaluatorHT.evaluate(gameNode, this.depth);
 	}
 
 	private void randomPlaceBrick(int brickIndex) {
@@ -167,7 +167,7 @@ public class MiniMaxPlayerHT extends Player {
 
 	@Override
 	public String stringify() {
-		return "MiniMax-"+this.depth+"-Player";
+		return "MiniMax-"+this.depth+"-PlayerHT";
 	}
 
     private void setGoodMove(Move move) {

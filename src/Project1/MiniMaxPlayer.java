@@ -167,7 +167,7 @@ public class MiniMaxPlayer extends Player {
 
 	@Override
 	public String stringify() {
-		return "MiniMax-"+this.depth+"-Player";
+		return "MiniMax-"+this.depth+"-PlayerST";
 	}
 
     private void setGoodMove(Move move) {
