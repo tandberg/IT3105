@@ -2,7 +2,7 @@ package Project1;
 
 import java.util.*;
 
-public class MiniMaxPlayer extends Player {
+public class MiniMaxPlayerHT extends Player {
 
 	private int depth;
 	private Random random;
@@ -10,7 +10,7 @@ public class MiniMaxPlayer extends Player {
 	private final static int MAX_BRICKS = 16;
     private Move goodMove, badMove;
 	
-	public MiniMaxPlayer(Quarto game, int depth) {
+	public MiniMaxPlayerHT(Quarto game, int depth) {
 		super(game);
 		this.depth = depth;
 		this.random = new Random();
@@ -106,7 +106,7 @@ public class MiniMaxPlayer extends Player {
 	}
 
 	private double heuristics(Quarto gameNode, boolean player) {
-        return StateEvaluator.evaluate(gameNode, player);
+        return StateEvaluatorHT.evaluate(gameNode, this.depth);
 	}
 
 	private void randomPlaceBrick(int brickIndex) {
@@ -162,7 +162,7 @@ public class MiniMaxPlayer extends Player {
 
 	@Override
 	public String stringify() {
-		return "MiniMax-"+this.depth+"-PlayerST";
+		return "MiniMax-"+this.depth+"-PlayerHT";
 	}
 
     private void setGoodMove(Move move) {
