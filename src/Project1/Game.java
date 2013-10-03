@@ -30,6 +30,10 @@ public class Game {
 			return new MiniMaxPlayer(quarto, 3);
 		} else if(playername.equals("MiniMax-4-Player")) {
 			return new MiniMaxPlayer(quarto, 4);
+		} else if(playername.equals("MiniMax-4-PlayerHT")) {
+			return new MiniMaxPlayerHT(quarto, 4);
+		} else if(playername.equals("MiniMax-4-PlayerST")) {
+			return new MiniMaxPlayer(quarto, 4);
 		}
 		
 		return null;
@@ -49,50 +53,34 @@ public class Game {
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				//System.out.println("It's a draw!");
-				//System.out.println(quarto);
 				break;
 			}
 
 			player2.placeBrick(brickIndex); // PLAYER 2 PLACE BRICK
 
-			System.out.println("\n\n"+player2.stringify()+" Plasserte siste:\n\n");
-			System.out.println(quarto);
-			//System.out.println(quarto);
+			System.out.println(""+player2.stringify()+" Plasserte siste:\n");
+            System.out.println(quarto);
 			complete = quarto.isComplete();
 			
 			if(complete == Quarto.WINNER) {
-				//System.out.println("Player2 wins");
 				this.winner = player2;
 				System.out.println(quarto);
 				break;
 			}
 			else if (complete == Quarto.DRAW) {
 				this.winner = null;
-				//System.out.println("It's a draw!");
-				//System.out.println(quarto);
-
 				break;
 			}
 
 			brickIndex = player2.pickOpponentsBrick(); // PLAYER 2 PICK BRICK
-			//System.out.println("NŒ skal Minimax: placebrick");
-			//Thread.sleep(2000);
 			player1.placeBrick(brickIndex); // PLAYER 1 PLACE BRICK
-			System.out.println("\n\n"+player1.stringify()+" Plasserte siste:\n\n");
-			System.out.println(quarto);
-			
-			//System.out.println(quarto);
-			
-			//Thread.sleep(2000);
+
+			System.out.println(""+player1.stringify()+" Plasserte siste:\n");
+            System.out.println(quarto);
 		}
 	}
 	
 	public Player getWinner() {
 		return winner;
 	}
-
-	/*public static void main(String[] args) {
-		Game game = new Game();
-	}*/
 }

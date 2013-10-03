@@ -44,8 +44,9 @@ public class NovicePlayer extends Player {
 						if(tempGame.isComplete() != Quarto.NOT_FINISHED) {
 							brickIsOk = false;
 						}
+                        tempGame.removePiece(i, j, brickIndex);
 					}
-					tempGame.removePiece(i, j, brickIndex);
+
 				}
 			}
 			if (brickIsOk) {
