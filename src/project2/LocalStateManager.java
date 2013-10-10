@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class LocalStateManager {
 
-    public final static int NUMBER_OF_ITERATIONS = 1000;
+    public final static int NUMBER_OF_SUCCESSOR_STATES = 10000;
 
 	// 1.
 	public abstract void initialize(int size);
