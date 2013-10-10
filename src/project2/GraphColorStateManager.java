@@ -15,13 +15,12 @@ public class GraphColorStateManager extends LocalStateManager {
 		
 	}
 
-	@Override
-	public void initialize() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void initialize(int size) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	@Override
+    @Override
 	public void modifyState() {
 		// TODO Auto-generated method stub
 		
@@ -29,8 +28,10 @@ public class GraphColorStateManager extends LocalStateManager {
 
 	@Override
 	public void modifyRandomState() {
-		// TODO Auto-generated method stub
-		
+        int node = this.random.nextInt(this.state.getNumberOfNodes());
+        int color = this.random.nextInt(this.state.getNumberOfColors());
+
+        this.state.setColor(node, color);
 	}
 
 	@Override
