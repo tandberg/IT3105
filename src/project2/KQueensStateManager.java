@@ -7,27 +7,21 @@ public class KQueensStateManager extends LocalStateManager {
 	private int ksize;
 	private boolean[][] board;
 	private int queensOnBoard;
-	
-	
-	
-
-
-	public void initialize(int size) {
-		ksize = size;
-		board = new boolean[ksize][ksize];
-		queensOnBoard = 0;
-		
-	}
 
     @Override
-    public void initialize() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	public void initialize(int size) {
+		ksize = size;
+		board = new boolean[ksize][ksize];		queensOnBoard = 0;
+
+
+	}
 
     @Override
 	public void mofifyState() {
 		// TODO Auto-generated method stub
-		
+
+
+
 	}
 
 	@Override

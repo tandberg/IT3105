@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class LocalStateManager {
 
 	// 1.
-	public abstract void initialize();
+	public abstract void initialize(int size);
 	
 	// 2.
 	public abstract void mofifyState();
