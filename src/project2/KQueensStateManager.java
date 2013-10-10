@@ -17,12 +17,9 @@ public class KQueensStateManager extends LocalStateManager {
 	}
 
     @Override
-	public void mofifyState() {
-		// TODO Auto-generated method stub
-
-
-
-	}
+    public void modifyState() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 	@Override
 	public void modifyRandomState() {

@@ -12,23 +12,89 @@ public class KQueensState extends State {
     private int kSize;
     private boolean[][] board;
     private int queensOnBoard;
+    private int[][] collisionMatrix;
 
 
     public KQueensState(boolean[][] board) {
         this.board = board;
-        kSize = board[0].length;
-        queensOnBoard = 0;
+        kSize = board.length;
+        queensOnBoard = countQueensOnBoard();
     }
 
+    public static void main(String[] args) {
+        boolean[][] board = {
+                {false, true, false, false},
+                {true, false, false, false},
+                {false, false, true, false},
+                {false, true, true, false},
+        };
+        KQueensState state = new KQueensState(board);
+        System.out.println(state);
+        System.out.println(state.getCollisions());
 
-    public int getCollisions() {
+    }
+
+    private void buildCollisionMatrix() {
+        collisionMatrix = new int[kSize][kSize];
+        for (int i = 0; i < kSize; i++) {
+            for (int j = 0; j < kSize; j++) {
+                countCollisionsForCoordinate(i, j);
+            }
+
+        }
+
+    }
+
+    private int countCollisionsForCoordinate(int x, int y) {
+        int collisions = 0;
+
+
+        return collisions;
+    }
+
+    private int getCollisionsForCoordinateInRow(int y) {
+        int collisions = 0;
+        for (int i = 0; i < kSize; i++) {
+            int c = 0;
+            if (board[y][i])
+                c++;
+            if (c > 0)
+                collisions += (c - 1);
+        }
+        return collisions;
+    }
+
+    private int getCollisionsForCoordinateInColumn(int x) {
+        int collisions = 0;
+        for (int i = 0; i < kSize; i++) {
+            int c = 0;
+            if (board[i][x]) {
+                c++;
+            }
+            if (c > 0)
+                collisions += c - 1;
+        }
+        return collisions;
+    }
+
+    private int countQueensOnBoard() {
+        int queens = 0;
+        for (int i = 0; i < kSize; i++) {
+            for (int j = 0; j < kSize; j++) {
+                if (board[i][j])
+                    queens++;
+            }
+        }
+        return queens;
+    }
+
+    private int getCollisions() {
         int collisions = 0;
         collisions += getCollisionsInRow();
         collisions += getCollisionsInColumn();
         collisions += getCollisionsInDiagonal();
         return collisions;
     }
-
 
     private int getCollisionsInRow() {
         int collisions = 0;
@@ -135,7 +201,6 @@ public class KQueensState extends State {
         return collisions;
     }
 
-
     @Override
     public String toString() {
         String out = "";
@@ -143,8 +208,7 @@ public class KQueensState extends State {
             for (int j = 0; j < kSize; j++) {
                 if (board[i][j]) {
                     out += "O\t";
-                }
-                else
+                } else
                     out += "X\t";
             }
             out += "\n";
@@ -152,18 +216,33 @@ public class KQueensState extends State {
         return out;
     }
 
-    public static void main(String[] args) {
-        boolean[][] board = {
-                {false, false, false, false},
-                {false, false, false, false},
-                {false, false, true, false},
-                {false, true, false, false},
-        };
-        KQueensState state = new KQueensState(board);
-        System.out.println(state);
-        System.out.println(state.getCollisions());
-
+    @Override
+    public double evaluate() {
+        return getCollisions();
     }
 
+    @Override
+    public State copyState() {
+        return new KQueensState(this.board);
+    }
 
+    @Override
+    public int getColor(int node) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setColor(int node, int color) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getNumberOfNodes() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getNumberOfColors() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
