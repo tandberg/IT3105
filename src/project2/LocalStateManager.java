@@ -4,11 +4,13 @@ import java.util.List;
 
 public abstract class LocalStateManager {
 
+    public final static int NUMBER_OF_ITERATIONS = 1000;
+
 	// 1.
 	public abstract void initialize(int size);
 	
 	// 2.
-	public abstract void mofifyState();
+	public abstract void modifyState();
 	public abstract void modifyRandomState();
 	public abstract void modifyIntelligentState();
 	

@@ -1,10 +1,16 @@
 package project2;
 
 import java.util.List;
+import java.util.Random;
 
 public class GraphColorStateManager extends LocalStateManager {
 
+    private State state;
+    private Random random;
+
+
 	public GraphColorStateManager() {
+        this.random = new Random();
 		
 	}
 
@@ -15,7 +21,7 @@ public class GraphColorStateManager extends LocalStateManager {
 	}
 
 	@Override
-	public void mofifyState() {
+	public void modifyState() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -34,19 +40,64 @@ public class GraphColorStateManager extends LocalStateManager {
 
 	@Override
 	public List<State> generateSuccessorState() {
-		// TODO Auto-generated method stub
+
+
+
+        double tMax = 100.0;
+
+        double fTarget = 0.0;
+
+        double T = tMax;
+        double evaluation = this.state.evaluate();
+
+        boolean complete = false;
+
+        while(! complete) {
+
+            State bestState = null; // Pmax in the algorithm
+            int bestScore = Integer.MAX_VALUE; // Previous node as max?
+
+            for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
+
+                State temporaryState = this.state.copyState();
+
+                int node = this.random.nextInt(temporaryState.getNumberOfNodes());
+                int color = this.random.nextInt(temporaryState.getNumberOfColors());
+                temporaryState.setColor(node, color);
+
+                if(temporaryState.evaluate() < bestScore) {
+                    bestState = temporaryState;
+                }
+            }
+
+            double q = (bestScore - evaluation) / evaluation;
+            double p = Math.min(1.0, Math.exp( (-q)/T ));
+
+            double x = this.random.nextDouble();
+
+            if(x > p) {
+                this.state = bestState;
+            } else {
+                // Set til en random
+            }
+
+            T = T - 21.2; // pretty number huh? :D
+
+
+            complete = evaluation > fTarget;
+        }
+
 		return null;
 	}
 
 	@Override
 	public double evaluate(State state) {
-		// TODO Auto-generated method stub
-		return 0;
+		return state.evaluate();
 	}
 
 	@Override
 	public void displayState(State state) {
-		// TODO Auto-generated method stub
-		
-	}
+        System.out.println(state);
+        System.out.println("Number of collisions in state: " + state.evaluate());
+    }
 }
