@@ -1,7 +1,9 @@
 package project2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GraphColorState extends State {
 
@@ -33,6 +35,27 @@ public class GraphColorState extends State {
         }
 
         return eval / 2.0;
+    }
+
+    public Map<Integer, Integer> getViolationNodes() { // Returns <node, numCollisions>
+        Map<Integer, Integer> nodes = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < this.numberOfNodes; i++) {
+            int collisions = 0;
+            List<Character> neighbours = this.getNeighbours(convertIntToNode(i));
+
+            for (Character node : neighbours) {
+                if(this.getColor(node) == getColor(convertIntToNode(i))) {
+                    collisions++;
+                }
+            }
+
+            if(collisions > 0) {
+                nodes.put(i, collisions);
+            }
+        }
+
+        return nodes;
     }
 
     public int getNumberOfNodes() {
@@ -122,9 +145,11 @@ public class GraphColorState extends State {
         System.out.println(state.isNeighbour('c', 'e'));
         state.setColor('a', 2);
         state.setColor('b', 2);
+        state.setColor('c', 2);
 
         System.out.println(state);
         System.out.println(state.evaluate());
+        System.out.println(state.getViolationNodes());
     }
 
 }
