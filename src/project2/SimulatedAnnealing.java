@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class SimulatedAnnealing {
 
+    private static final int NUMBER_OF_ITERATIONS = 100;
+
     public static void algorithm(State state) {
 
         Random r = new Random();
