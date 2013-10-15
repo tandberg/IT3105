@@ -10,14 +10,25 @@ public class GraphColorStateManager extends LocalStateManager {
     private Random random;
 
 
-	public GraphColorStateManager() {
+	public GraphColorStateManager(int difficulty) {
         this.random = new Random();
-		
+		this.initialize(difficulty);
 	}
 
     @Override
-    public void initialize(int size) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void initialize(int difficulty) {
+
+        boolean[][] matrix = {
+                {true, true, false, true, false},
+                {true, true, true, false, true},
+                {false, true, true, false, false},
+                {true, false, false, true, false},
+                {false, true, false, false, true}
+        };
+        int colors = 3;
+
+        this.state = new GraphColorState(matrix, colors);
+        this.state.randomize();
     }
 
     @Override

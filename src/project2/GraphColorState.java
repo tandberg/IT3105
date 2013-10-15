@@ -1,9 +1,6 @@
 package project2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GraphColorState extends State {
 
@@ -20,6 +17,13 @@ public class GraphColorState extends State {
         this.colors = colors-1;
         this.coloring = new int[numberOfNodes];
 
+    }
+
+    public void randomize() {
+        Random r = new Random();
+        for (int i = 0; i < this.coloring.length; i++) {
+            coloring[i] = r.nextInt(this.colors+1);
+        }
     }
 
     public double evaluate() {
