@@ -1,16 +1,17 @@
 package project2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class KQueensStateManager extends LocalStateManager {
 
+    private final static int NEW_STATES = 10000;
     private int ksize;
     private boolean[][] board;
     private int queensOnBoard;
-    private KQueensState state;
 
     public KQueensStateManager(int difficulty) {
-        this.initialize(8);
+        this.initialize(4);
     }
 
     @Override
@@ -21,11 +22,6 @@ public class KQueensStateManager extends LocalStateManager {
 
         this.state = new KQueensState(size);
         this.state.randomize();
-    }
-
-    @Override
-    public void modifyState() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -41,15 +37,22 @@ public class KQueensStateManager extends LocalStateManager {
     }
 
     @Override
-    public List<State> generateSuccessorState() {
-        // TODO Auto-generated method stub
-        return null;
+    public List<State> generateSuccessorStates() {
+
+        List<State> states = new ArrayList<State>();
+
+        for (int i = 0; i < NEW_STATES; i++) {
+            State temporaryState = this.state.copyState();
+            temporaryState.moveRandom();
+
+            states.add(temporaryState);
+        }
+        return states;
     }
 
     @Override
-    public double evaluate(State state) {
-        // TODO Auto-generated method stub
-        return 0;
+    public double evaluate() {
+        return this.state.evaluate();
     }
 
     private boolean checkColumns() {
@@ -70,9 +73,8 @@ public class KQueensStateManager extends LocalStateManager {
     }
 
     @Override
-    public void displayState(State state) {
-        // TODO Auto-generated method stub
-
+    public void displayState() {
+        System.out.println(this.state.toString());
     }
 
 }

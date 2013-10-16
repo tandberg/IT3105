@@ -4,23 +4,26 @@ import java.util.List;
 
 public abstract class LocalStateManager {
 
-    public final static int NUMBER_OF_SUCCESSOR_STATES = 10000;
+    protected State state;
 
-    // 1.
+    public void modifyState(State state) {
+        this.state = state;
+    }
+
     public abstract void initialize(int size);
 
-    // 2.
-    public abstract void modifyState();
     public abstract void modifyRandomState();
-	public abstract void modifyIntelligentState();
-	
-	// 3.
-	public abstract List<State> generateSuccessorState();
-	
-	// 4.
-	public abstract double evaluate(State state);
-	
-	// 5.
-	public abstract void displayState(State state);
-	
+
+    public abstract void modifyIntelligentState();
+
+    public abstract List<State> generateSuccessorStates();
+
+    public abstract double evaluate();
+
+    public abstract void displayState();
+
+    public String toString() {
+        return state.toString();
+    }
+
 }

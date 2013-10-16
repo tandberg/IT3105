@@ -1,5 +1,7 @@
 package project2;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -11,6 +13,12 @@ import java.util.Random;
  */
 public class KQueensState extends State {
 
+    public static boolean[][] debug = {
+            {false, false, true, false},
+            {true, false, false, false},
+            {true, false, false, false},
+            {false, false, false, true},
+    };
     private int kSize;
     private boolean[][] board;
     private int queensOnBoard;
@@ -21,17 +29,22 @@ public class KQueensState extends State {
         kSize = board.length;
         queensOnBoard = countQueensOnBoard();
         buildCollisionMatrix();
+        randomize();
+
+
+        board = debug;
+        queensOnBoard = kSize;
+
     }
 
     public static void main(String[] args) {
         boolean[][] board = {
-                {false, true, false, false},
-                {false, false, false, false},
-                {false, false, false, false},
-                {true, true, false, false},
+                {false, false, true, false},
+                {true, false, false, false},
+                {true, false, false, false},
+                {false, false, false, true},
         };
         KQueensState state = new KQueensState(4);
-        state.randomize();
         System.out.println(state);
         System.out.println(state.getCollisions());
 
@@ -43,6 +56,41 @@ public class KQueensState extends State {
 
         }
 
+    }
+
+    public void moveRandom() {
+        Random random = new Random();
+
+        List<Coordinate> positions = getBrickPositions();
+
+        Coordinate chosenBrick = positions.get(random.nextInt(positions.size()));
+
+        while (true) {
+            int x = random.nextInt(kSize);
+            int y = random.nextInt(kSize);
+
+            if (!board[y][x]) {
+                board[chosenBrick.y][chosenBrick.x] = false;
+                board[y][x] = true;
+                break;
+            }
+
+
+        }
+
+
+    }
+
+    public List<Coordinate> getBrickPositions() {
+        List<Coordinate> positions = new ArrayList<Coordinate>();
+
+        for (int i = 0; i < kSize; i++) {
+            for (int j = 0; j < kSize; j++) {
+                if (board[i][j])
+                    positions.add(new Coordinate(j, i));
+            }
+        }
+        return positions;
     }
 
     public void randomize() {
@@ -150,8 +198,12 @@ public class KQueensState extends State {
     private int getCollisions() {
         int collisions = 0;
         collisions += getCollisionsInRow();
+        System.out.println("row: " + getCollisionsInRow());
         collisions += getCollisionsInColumn();
+        System.out.println("column: " + getCollisionsInColumn());
         collisions += getCollisionsInDiagonal();
+        System.out.println("diagonal: " + getCollisionsInDiagonal());
+        System.out.println("collisions: " + collisions);
         return collisions;
     }
 
@@ -263,9 +315,9 @@ public class KQueensState extends State {
         for (int i = 0; i < kSize; i++) {
             for (int j = 0; j < kSize; j++) {
                 if (board[i][j]) {
-                    out += "O\t";
+                    out += "@\t";
                 } else
-                    out += "X\t";
+                    out += ".\t";
             }
             out += "\n";
         }
@@ -282,23 +334,13 @@ public class KQueensState extends State {
         return new KQueensState(kSize);
     }
 
-    @Override
-    public int getColor(int node) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    class Coordinate {
+        int x, y;
+
+        public Coordinate(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
-    @Override
-    public void setColor(int node, int color) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public int getNumberOfNodes() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public int getNumberOfColors() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 }
