@@ -39,12 +39,14 @@ public class GraphColorState extends State {
         GraphColorState state = new GraphColorState(matrix, 3); // init with matrix and 3 colors (K = 3)
         System.out.println(state.isNeighbour('c', 'e'));
         state.setColor('a', 2);
-        state.setColor('b', 2);
+        state.setColor('b', 1);
         state.setColor('c', 2);
 
         System.out.println(state);
         System.out.println(state.evaluate());
         System.out.println(state.getViolationNodes());
+
+        System.out.println("JSON\n\n" + state.toJSON());
     }
 
     public void randomize() {
@@ -160,6 +162,35 @@ public class GraphColorState extends State {
         for (int i = 0; i < this.numberOfNodes; i++) {
             sb.append(convertIntToNode(i) + " (" + this.getColor(convertIntToNode(i)) + "): " + getNeighbours(convertIntToNode(i)) + "\n");
         }
+
+        return sb.toString();
+    }
+
+    public String toJSON() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"nodes\": [");
+
+        for (int i = 0; i < numberOfNodes; i++) {
+            sb.append("{\"name\":\""+convertIntToNode(i)+"\", \"group\": "+coloring[i]+" },");
+        }
+
+        sb.deleteCharAt(sb.length()-1);
+
+
+        sb.append("],\"links\": [");
+
+        for (int i = 0; i < numberOfNodes; i++) {
+            for (int j = 0; j < numberOfNodes; j++) {
+
+                if(matrix[i][j]) {
+                    sb.append("{\"source\":" + i + ", \"target\": "+j+", \"value\": 10},");
+                }
+
+            }
+        }
+
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("]}");
 
         return sb.toString();
     }
