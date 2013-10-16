@@ -27,7 +27,14 @@ public class GraphColorStateManager extends LocalStateManager {
         };
         int colors = 3;
 
-        this.state = new GraphColorState(matrix, colors);
+        switch (difficulty) {
+            case 1:
+                Puzzle puzzle = PredefinedGraphColorStates.getEasyGraphColorPuzzle();
+                this.state = new GraphColorState(puzzle.matrix, puzzle.colors);
+                break;
+        }
+
+        //this.state = new GraphColorState(matrix, colors);
         this.state.randomize();
     }
 
