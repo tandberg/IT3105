@@ -1,5 +1,7 @@
 package project2;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sigurd
@@ -14,31 +16,63 @@ public class KQueensState extends State {
     private int queensOnBoard;
     private int[][] collisionMatrix;
 
-
-    public KQueensState(boolean[][] board) {
-        this.board = board;
+    public KQueensState(int k) {
+        board = new boolean[k][k];
         kSize = board.length;
         queensOnBoard = countQueensOnBoard();
+        buildCollisionMatrix();
     }
 
     public static void main(String[] args) {
         boolean[][] board = {
                 {false, true, false, false},
-                {true, false, false, false},
-                {false, false, true, false},
-                {false, true, true, false},
+                {false, false, false, false},
+                {false, false, false, false},
+                {true, true, false, false},
         };
-        KQueensState state = new KQueensState(board);
+        KQueensState state = new KQueensState(4);
+        state.randomize();
         System.out.println(state);
         System.out.println(state.getCollisions());
 
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                System.out.print(state.collisionMatrix[i][j] + "\t");
+            }
+            System.out.print("\n");
+
+        }
+
+    }
+
+    public void randomize() {
+        Random random = new Random();
+
+
+        while (queensOnBoard < kSize) {
+            int x = random.nextInt(kSize);
+            int y = random.nextInt(kSize);
+            if (!board[y][x]) {
+                board[y][x] = true;
+                queensOnBoard++;
+            }
+        }
+        buildCollisionMatrix();
+
+    }
+
+    public int[][] getCollisionMatrix() {
+        return collisionMatrix;
     }
 
     private void buildCollisionMatrix() {
         collisionMatrix = new int[kSize][kSize];
+
         for (int i = 0; i < kSize; i++) {
+            setCollisionsForCoordinateInColumn(i);
+            setCollisionsForCoordinateInRow(i);
             for (int j = 0; j < kSize; j++) {
-                countCollisionsForCoordinate(i, j);
+                collisionMatrix[j][i] += countCollisionsForCoordinate(i, j);
             }
 
         }
@@ -48,31 +82,56 @@ public class KQueensState extends State {
     private int countCollisionsForCoordinate(int x, int y) {
         int collisions = 0;
 
-
+        if (board[y][x])
+            collisions++;
+        collisions += getCollisionsForCoordinateInDiagonal(x, y);
         return collisions;
     }
 
-    private int getCollisionsForCoordinateInRow(int y) {
+    private void setCollisionsForCoordinateInRow(int y) {
         int collisions = 0;
         for (int i = 0; i < kSize; i++) {
-            int c = 0;
             if (board[y][i])
-                c++;
-            if (c > 0)
-                collisions += (c - 1);
+                collisions++;
         }
-        return collisions;
+        for (int i = 0; i < kSize; i++) {
+            collisionMatrix[y][i] += collisions;
+        }
     }
 
-    private int getCollisionsForCoordinateInColumn(int x) {
+    private void setCollisionsForCoordinateInColumn(int x) {
         int collisions = 0;
         for (int i = 0; i < kSize; i++) {
-            int c = 0;
             if (board[i][x]) {
-                c++;
+                collisions++;
             }
-            if (c > 0)
-                collisions += c - 1;
+        }
+        for (int i = 0; i < kSize; i++) {
+            collisionMatrix[i][x] += collisions;
+        }
+    }
+
+    private int getCollisionsForCoordinateInDiagonal(int x, int y) {
+        int collisions = 0;
+
+        for (int i = x + 1, j = y - 1; i < kSize && j >= 0; i++, j--) {
+            if (board[j][i])
+                collisions++;
+        }
+
+        for (int i = x + 1, j = y + 1; i < kSize && j < kSize; i++, j++) {
+            if (board[j][i])
+                collisions++;
+        }
+
+        for (int i = x - 1, j = y + 1; i >= 0 && j < kSize; i--, j++) {
+            if (board[j][i])
+                collisions++;
+        }
+
+        for (int i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[j][i])
+                collisions++;
         }
         return collisions;
     }
@@ -128,7 +187,6 @@ public class KQueensState extends State {
     private int getCollisionsInDiagonal() {
         int collisions = 0;
 
-
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
             int x = kSize - 1 - i;
@@ -146,11 +204,10 @@ public class KQueensState extends State {
                 collisions += c - 1;
         }
 
-
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
             int x = kSize - 1;
-            int y = kSize - 1 - i;
+            int y = kSize - 2 - i;
             for (int k = 0; k < kSize; k++) {
                 if (x >= kSize || x < 0 || y >= kSize || y < 0)
                     break;
@@ -167,7 +224,7 @@ public class KQueensState extends State {
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
             int x = 0;
-            int y = kSize - 1 - 1;
+            int y = kSize - 1 - i;
             for (int k = 0; k < kSize; k++) {
                 if (x >= kSize || x < 0 || y >= kSize || y < 0)
                     break;
@@ -181,11 +238,10 @@ public class KQueensState extends State {
                 collisions += c - 1;
         }
 
-
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
-            int x = 0 + i;
-            int y = kSize - 1;
+            int x = i;
+            int y = kSize - 2;
             for (int k = 0; k < kSize; k++) {
                 if (x >= kSize || x < 0 || y >= kSize || y < 0)
                     break;
@@ -223,7 +279,7 @@ public class KQueensState extends State {
 
     @Override
     public State copyState() {
-        return new KQueensState(this.board);
+        return new KQueensState(kSize);
     }
 
     @Override

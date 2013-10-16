@@ -1,13 +1,13 @@
 package project2;
 
-import java.util.Random;
-
 public class SimulatedAnnealing {
 
     private static final int NUMBER_OF_ITERATIONS = 100;
 
-    public static void algorithm(State state) {
 
+
+    public static void algorithm(State state) {
+/*
         Random r = new Random();
 
         double tMax = 100.0;
@@ -21,7 +21,7 @@ public class SimulatedAnnealing {
 
         while(! complete) {
 
-            State bestState = null; // Pmax in the algorithm
+            State bestState = null; // Pmax in the algorithms
             int bestScore = Integer.MAX_VALUE; // Previous node as max?
 
             for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) { // n ?
@@ -52,7 +52,7 @@ public class SimulatedAnnealing {
 
 
             complete = evaluation > fTarget;
-        }
+        }*/
     }
 
 }
