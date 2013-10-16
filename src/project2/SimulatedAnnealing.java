@@ -7,8 +7,8 @@ public class SimulatedAnnealing implements Algorithm {
 
     private static final int NUMBER_OF_ITERATIONS = 100;
     private static SimulatedAnnealing sa = null;
-    private static double T_MAX = 100.0;
-    private static double D_T = 0.2;
+    private static double T_MAX = 10000.0;
+    private static double D_T = 0.97;
     private static double F_TARGET = 0.0;
     private Random random;
 
@@ -25,12 +25,16 @@ public class SimulatedAnnealing implements Algorithm {
 
     public void solve(LocalStateManager manager) {
         double T = T_MAX;
-        boolean complete = false;
 
-        while (!complete) {
-            System.out.println(manager);
+        int iterations = 0;
+
+        while (true) {
+
+            if (iterations % 100 == 0) {
+                System.out.println(iterations + " - T:" + T);
+            }
+
             double evaluation = manager.evaluate();
-            System.out.println(evaluation + " - " + F_TARGET);
             List<State> neighbours = manager.generateSuccessorStates();
 
             State bestNeighbour = null;
@@ -46,18 +50,34 @@ public class SimulatedAnnealing implements Algorithm {
 
             double q = (bestNeighbourEvaluation - evaluation) / evaluation;
             double p = Math.min(1, Math.exp(-q / T));
+//            System.out.println("p: " + p + " rart: " + Math.exp(-q / T) + " X(hos oss): " + (-q / T));
             double x = this.random.nextDouble();
+/*
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }*/
 
             if (x > p) {
                 manager.modifyState(bestNeighbour);
+                evaluation = bestNeighbour.evaluate();
             } else {
-                manager.modifyState(neighbours.get(this.random.nextInt(neighbours.size())));
+
+                State s = neighbours.get(this.random.nextInt(neighbours.size()));
+                manager.modifyState(s);
+                evaluation = s.evaluate();
             }
 
             T = T * D_T;
+            iterations++;
 
-            complete = evaluation == F_TARGET;
+            if (evaluation == F_TARGET) {
+                break;
+            }
         }
+
+        System.out.println("SA Iterations: " + iterations);
     }
 
 }

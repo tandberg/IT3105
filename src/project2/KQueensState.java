@@ -14,10 +14,10 @@ import java.util.Random;
 public class KQueensState extends State {
 
     public static boolean[][] debug = {
-            {false, false, true, false},
-            {true, false, false, false},
-            {true, false, false, false},
+            {false, false, false, false},
             {false, false, false, true},
+            {true, true, true, true},
+            {false, false, true, false},
     };
     private int kSize;
     private boolean[][] board;
@@ -32,8 +32,8 @@ public class KQueensState extends State {
         randomize();
 
 
-        board = debug;
-        queensOnBoard = kSize;
+//        board = debug;
+//        queensOnBoard = kSize;
 
     }
 
@@ -48,35 +48,44 @@ public class KQueensState extends State {
         System.out.println(state);
         System.out.println(state.getCollisions());
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                System.out.print(state.collisionMatrix[i][j] + "\t");
-            }
-            System.out.print("\n");
-
-        }
+//        for (int i = 0; i < board.length; i++) {
+//            for (int j = 0; j < board.length; j++) {
+//                System.out.print(state.collisionMatrix[i][j] + "\t");
+//            }
+//            System.out.print("\n");
+//
+//        }
 
     }
 
     public void moveRandom() {
         Random random = new Random();
 
-        List<Coordinate> positions = getBrickPositions();
 
-        Coordinate chosenBrick = positions.get(random.nextInt(positions.size()));
-
-        while (true) {
-            int x = random.nextInt(kSize);
-            int y = random.nextInt(kSize);
-
-            if (!board[y][x]) {
-                board[chosenBrick.y][chosenBrick.x] = false;
-                board[y][x] = true;
-                break;
+        for (int i = 0; i < kSize; i++) {
+            for (int j = 0; j < kSize; j++) {
+                if (board[i][j]) {
+                    board[i][j] = false;
+                    board[i][random.nextInt(kSize)] = true;
+                }
             }
-
-
         }
+//        List<Coordinate> positions = getBrickPositions();
+//
+//        Coordinate chosenBrick = positions.get(random.nextInt(positions.size()));
+//
+//        while (true) {
+//            int x = random.nextInt(kSize);
+//            int y = random.nextInt(kSize);
+//
+//            if (!board[y][x]) {
+//                board[chosenBrick.y][chosenBrick.x] = false;
+//                board[y][x] = true;
+//                break;
+//            }
+//
+//
+//        }
 
 
     }
@@ -96,15 +105,19 @@ public class KQueensState extends State {
     public void randomize() {
         Random random = new Random();
 
-
-        while (queensOnBoard < kSize) {
-            int x = random.nextInt(kSize);
-            int y = random.nextInt(kSize);
-            if (!board[y][x]) {
-                board[y][x] = true;
-                queensOnBoard++;
-            }
+        for (int i = 0; i < kSize; i++) {
+            board[i][random.nextInt(kSize)] = true;
+            queensOnBoard++;
         }
+
+//        while (queensOnBoard < kSize) {
+//            int x = random.nextInt(kSize);
+//            int y = random.nextInt(kSize);
+//            if (!board[y][x]) {
+//                board[y][x] = true;
+//                queensOnBoard++;
+//            }
+//        }
         buildCollisionMatrix();
 
     }
@@ -114,16 +127,16 @@ public class KQueensState extends State {
     }
 
     private void buildCollisionMatrix() {
-        collisionMatrix = new int[kSize][kSize];
-
-        for (int i = 0; i < kSize; i++) {
-            setCollisionsForCoordinateInColumn(i);
-            setCollisionsForCoordinateInRow(i);
-            for (int j = 0; j < kSize; j++) {
-                collisionMatrix[j][i] += countCollisionsForCoordinate(i, j);
-            }
-
-        }
+//        collisionMatrix = new int[kSize][kSize];
+//
+//        for (int i = 0; i < kSize; i++) {
+//            setCollisionsForCoordinateInColumn(i);
+//            setCollisionsForCoordinateInRow(i);
+//            for (int j = 0; j < kSize; j++) {
+//                collisionMatrix[j][i] += countCollisionsForCoordinate(i, j);
+//            }
+//
+//        }
 
     }
 
@@ -136,7 +149,7 @@ public class KQueensState extends State {
         return collisions;
     }
 
-    private void setCollisionsForCoordinateInRow(int y) {
+    private void CollisionsForCoordinateInRow(int y) {
         int collisions = 0;
         for (int i = 0; i < kSize; i++) {
             if (board[y][i])
@@ -198,13 +211,17 @@ public class KQueensState extends State {
     private int getCollisions() {
         int collisions = 0;
         collisions += getCollisionsInRow();
-        System.out.println("row: " + getCollisionsInRow());
+//        System.out.println("row: " + getCollisionsInRow());
         collisions += getCollisionsInColumn();
-        System.out.println("column: " + getCollisionsInColumn());
+//        System.out.println("column: " + getCollisionsInColumn());
         collisions += getCollisionsInDiagonal();
-        System.out.println("diagonal: " + getCollisionsInDiagonal());
-        System.out.println("collisions: " + collisions);
+//        System.out.println("diagonal: " + getCollisionsInDiagonal());
+//        System.out.println("collisions: " + collisions);
         return collisions;
+    }
+
+    private int sumToOne(int n) {
+        return n * (n + 1) / 2;
     }
 
     private int getCollisionsInRow() {
@@ -216,7 +233,7 @@ public class KQueensState extends State {
                     c++;
             }
             if (c > 0)
-                collisions += (c - 1);
+                collisions += sumToOne(c - 1);
         }
         return collisions;
     }
@@ -231,7 +248,7 @@ public class KQueensState extends State {
                 }
             }
             if (c > 0)
-                collisions += c - 1;
+                collisions += sumToOne(c - 1);
         }
         return collisions;
     }
@@ -253,8 +270,10 @@ public class KQueensState extends State {
                 x--;
             }
             if (c > 0)
-                collisions += c - 1;
+                collisions += sumToOne(c - 1);
         }
+
+        //System.out.println("diagonal1: " + collisions);
 
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
@@ -270,8 +289,10 @@ public class KQueensState extends State {
                 x--;
             }
             if (c > 0)
-                collisions += c - 1;
+                collisions += sumToOne(c - 1);
         }
+
+//        System.out.println("diagonal2: " + collisions);
 
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
@@ -286,14 +307,17 @@ public class KQueensState extends State {
                 y--;
                 x++;
             }
+
             if (c > 0)
-                collisions += c - 1;
+                collisions += sumToOne(c - 1);
         }
+
+//        System.out.println("diagonal3: " + collisions);
 
         for (int i = 0, j = 0; i < kSize && j < kSize; i++, j--) {
             int c = 0;
-            int x = i;
-            int y = kSize - 2;
+            int x = i + 1;
+            int y = kSize - 1;
             for (int k = 0; k < kSize; k++) {
                 if (x >= kSize || x < 0 || y >= kSize || y < 0)
                     break;
@@ -304,8 +328,10 @@ public class KQueensState extends State {
                 x++;
             }
             if (c > 0)
-                collisions += c - 1;
+                collisions += sumToOne(c - 1);
         }
+//        System.out.println("diagonal4: " + collisions);
+
         return collisions;
     }
 

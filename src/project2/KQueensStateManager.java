@@ -5,20 +5,32 @@ import java.util.List;
 
 public class KQueensStateManager extends LocalStateManager {
 
-    private final static int NEW_STATES = 10000;
+    private final static int NEW_STATES = 100;
     private int ksize;
     private boolean[][] board;
     private int queensOnBoard;
 
     public KQueensStateManager(int difficulty) {
-        this.initialize(4);
+        this.initialize(difficulty);
     }
 
     @Override
-    public void initialize(int size) {
-        ksize = size;
-        board = new boolean[ksize][ksize];
-        queensOnBoard = 0;
+    public void initialize(int difficulty) {
+
+        int size;
+        switch (difficulty) {
+            case 1:
+                size = 4;
+                break;
+            case 2:
+                size = 8;
+                break;
+            case 3:
+                size = 1000;
+                break;
+            default:
+                size = 4;
+        }
 
         this.state = new KQueensState(size);
         this.state.randomize();
@@ -53,23 +65,6 @@ public class KQueensStateManager extends LocalStateManager {
     @Override
     public double evaluate() {
         return this.state.evaluate();
-    }
-
-    private boolean checkColumns() {
-        for (int i = 0; i < ksize; i++) {
-            for (int j = 0; j < ksize; j++) {
-
-            }
-
-        }
-        return false;
-    }
-
-    private boolean checkRows() {
-        for (int i = 0; i < ksize; i++) {
-
-        }
-        return false;
     }
 
     @Override
