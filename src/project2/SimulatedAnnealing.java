@@ -35,6 +35,7 @@ public class SimulatedAnnealing implements Algorithm {
             }
 
             double evaluation = manager.evaluate();
+            //System.out.println(manager);
             List<State> neighbours = manager.generateSuccessorStates();
 
             State bestNeighbour = null;
@@ -42,7 +43,8 @@ public class SimulatedAnnealing implements Algorithm {
 
             for (State neighbour : neighbours) {
                 double neighbourEvaluation = neighbour.evaluate();
-                if (neighbourEvaluation < bestNeighbourEvaluation) {
+
+                if (neighbourEvaluation < bestNeighbourEvaluation) { // TODO: Større eller mindre? Sende inn som argument?
                     bestNeighbour = neighbour;
                     bestNeighbourEvaluation = neighbourEvaluation;
                 }
@@ -50,14 +52,8 @@ public class SimulatedAnnealing implements Algorithm {
 
             double q = (bestNeighbourEvaluation - evaluation) / evaluation;
             double p = Math.min(1, Math.exp(-q / T));
-//            System.out.println("p: " + p + " rart: " + Math.exp(-q / T) + " X(hos oss): " + (-q / T));
             double x = this.random.nextDouble();
-/*
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }*/
+
 
             if (x > p) {
                 manager.modifyState(bestNeighbour);

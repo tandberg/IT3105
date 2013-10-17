@@ -18,6 +18,11 @@ public class GraphColorState extends State {
 
     }
 
+    private GraphColorState(boolean[][] matrix, int colors, int[] coloring) {
+        this(matrix, colors);
+        this.coloring = coloring;
+    }
+
     private static int convertNodeToInt(char node) {
         return Character.toLowerCase(node) - 'a';
     }
@@ -27,7 +32,7 @@ public class GraphColorState extends State {
     }
 
     public static void main(String[] args) {
-
+        /*
         boolean[][] matrix = {
                 {true, true, false, true, false},
                 {true, true, true, false, true},
@@ -46,7 +51,15 @@ public class GraphColorState extends State {
         System.out.println(state.evaluate());
         System.out.println(state.getViolationNodes());
 
-        System.out.println("JSON\n\n" + state.toJSON());
+        System.out.println("JSON\n\n" + state.toJSON());*/
+
+        Puzzle puzzle = PredefinedGraphColorStates.getTriforceGraphColorPuzzle();
+
+        GraphColorState state = new GraphColorState(puzzle.matrix, puzzle.colors);
+        state.randomize();
+        System.out.println(state.toJSON());
+        System.out.println("\n\nevaluation: " + state.evaluate());
+
     }
 
     public void randomize() {
@@ -60,7 +73,7 @@ public class GraphColorState extends State {
     public void moveRandom() {
         Random random = new Random();
         int node = random.nextInt(this.getNumberOfNodes());
-        int color = random.nextInt(this.getNumberOfColors());
+        int color = random.nextInt(this.getNumberOfColors()+1);
 
         this.setColor(node, color);
     }
@@ -110,7 +123,7 @@ public class GraphColorState extends State {
     }
 
     public State copyState() {
-        return new GraphColorState(this.matrix, this.colors + 1);
+        return new GraphColorState(this.matrix, this.colors + 1, this.coloring);
     }
 
     public void setColor(char nodeName, int color) {
@@ -162,6 +175,8 @@ public class GraphColorState extends State {
         for (int i = 0; i < this.numberOfNodes; i++) {
             sb.append(convertIntToNode(i) + " (" + this.getColor(convertIntToNode(i)) + "): " + getNeighbours(convertIntToNode(i)) + "\n");
         }
+
+        sb.append("\ntoJSON:\n\n" + this.toJSON());
 
         return sb.toString();
     }

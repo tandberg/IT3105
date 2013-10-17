@@ -15,14 +15,31 @@ public class PredefinedGraphColorStates {
         return new Puzzle(matrix, colors);
     }
 
-    public static Puzzle getMediumColorPuzzle() { // TODO: Make more puzzles
-        int colors = 4;
+    public static Puzzle getTriforceGraphColorPuzzle() {
+        int colors = 3;
         boolean[][] matrix = {
-                {true, true, false, true, false},
-                {true, true, true, false, true},
-                {false, true, true, false, false},
-                {true, false, false, true, false},
-                {false, true, false, false, true}
+                {true, true, true, false, false, false},
+                {true, true, true, true, true, false},
+                {true, true, true, false, true, true},
+                {false, true, false, true, true, false},
+                {false, true, true, true, true, true},
+                {false, false, true, false, true, true}
+        };
+
+        return new Puzzle(matrix, colors);
+    }
+
+    public static Puzzle getMediumGraphColorPuzzle() { // TODO: Make more puzzles
+        int colors = 3;
+        boolean[][] matrix = {
+                {true, true, true, true, false, true, false, true},
+                {true, true, true, false, true, true, true, false},
+                {true, true, true, true, true, false, true, true},
+                {true, false, true, true, true, true, true, false},
+                {false, true, true, true, true, true, false, true},
+                {true, true, false, true, true, true, true, true},
+                {false, true, true, true, false, true, true, true},
+                {true, false, true, false, true, true, true, true}
         };
 
         return new Puzzle(matrix, colors);

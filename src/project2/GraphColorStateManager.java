@@ -18,38 +18,28 @@ public class GraphColorStateManager extends LocalStateManager {
     @Override
     public void initialize(int difficulty) {
 
-        boolean[][] matrix = {
-                {true, true, false, true, false},
-                {true, true, true, false, true},
-                {false, true, true, false, false},
-                {true, false, false, true, false},
-                {false, true, false, false, true}
-        };
-        int colors = 3;
-
+        Puzzle puzzle;
         switch (difficulty) {
             case 1:
-                Puzzle puzzle = PredefinedGraphColorStates.getEasyGraphColorPuzzle();
+                puzzle = PredefinedGraphColorStates.getEasyGraphColorPuzzle();
+                this.state = new GraphColorState(puzzle.matrix, puzzle.colors);
+                break;
+
+            case 2:
+                puzzle = PredefinedGraphColorStates.getMediumGraphColorPuzzle();
                 this.state = new GraphColorState(puzzle.matrix, puzzle.colors);
                 break;
         }
 
-        //this.state = new GraphColorState(matrix, colors);
         this.state.randomize();
     }
 
     @Override
     public void modifyRandomState() {
-        /*int node = this.random.nextInt(this.state.getNumberOfNodes());
-        int color = this.random.nextInt(this.state.getNumberOfColors());
-
-        this.state.setColor(node, color);*/
     }
 
     @Override
     public void modifyIntelligentState() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -65,7 +55,6 @@ public class GraphColorStateManager extends LocalStateManager {
 
         return states;
 
-
     }
 
     @Override
@@ -77,5 +66,8 @@ public class GraphColorStateManager extends LocalStateManager {
     public void displayState() {
         System.out.println(this.state);
         System.out.println("Number of collisions in state: " + this.state.evaluate());
+
+        System.out.println("\nJSON:\n\n");
+        System.out.println(((GraphColorState) state).toJSON());
     }
 }
