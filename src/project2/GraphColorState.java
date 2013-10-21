@@ -32,26 +32,6 @@ public class GraphColorState extends State {
     }
 
     public static void main(String[] args) {
-        /*
-        boolean[][] matrix = {
-                {true, true, false, true, false},
-                {true, true, true, false, true},
-                {false, true, true, false, false},
-                {true, false, false, true, false},
-                {false, true, false, false, true}
-        };
-
-        GraphColorState state = new GraphColorState(matrix, 3); // init with matrix and 3 colors (K = 3)
-        System.out.println(state.isNeighbour('c', 'e'));
-        state.setColor('a', 2);
-        state.setColor('b', 1);
-        state.setColor('c', 2);
-
-        System.out.println(state);
-        System.out.println(state.evaluate());
-        System.out.println(state.getViolationNodes());
-
-        System.out.println("JSON\n\n" + state.toJSON());*/
 
         Puzzle puzzle = PredefinedGraphColorStates.getTriforceGraphColorPuzzle();
 
@@ -73,7 +53,7 @@ public class GraphColorState extends State {
     public void moveRandom() {
         Random random = new Random();
         int node = random.nextInt(this.getNumberOfNodes());
-        int color = random.nextInt(this.getNumberOfColors()+1);
+        int color = random.nextInt(this.getNumberOfColors());
 
         this.setColor(node, color);
     }
@@ -119,7 +99,7 @@ public class GraphColorState extends State {
     }
 
     public int getNumberOfColors() {
-        return this.colors; // XXX: Hva gjør random (0, 10) => tar den med 10?
+        return this.colors + 1; // XXX: Hva gjør random (0, 10) => tar den med 10?
     }
 
     public State copyState() {
@@ -176,7 +156,7 @@ public class GraphColorState extends State {
             sb.append(convertIntToNode(i) + " (" + this.getColor(convertIntToNode(i)) + "): " + getNeighbours(convertIntToNode(i)) + "\n");
         }
 
-        sb.append("\ntoJSON:\n\n" + this.toJSON());
+        sb.append("\ntoJSON:\n" + this.toJSON() +"\n");
 
         return sb.toString();
     }
