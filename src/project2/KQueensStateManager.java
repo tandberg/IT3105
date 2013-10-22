@@ -26,7 +26,7 @@ public class KQueensStateManager extends LocalStateManager {
                 size = 8;
                 break;
             case 3:
-                size = 1000;
+                size = 12;
                 break;
             default:
                 size = 4;
@@ -34,6 +34,7 @@ public class KQueensStateManager extends LocalStateManager {
 
         this.state = new KQueensState(size);
         this.state.randomize();
+        System.out.println(this.state);
     }
 
     @Override
@@ -44,8 +45,8 @@ public class KQueensStateManager extends LocalStateManager {
 
     @Override
     public void modifyIntelligentState() {
-        // TODO Auto-generated method stub
-
+//        System.out.println(this);
+        this.state.moveIntelligent();
     }
 
     @Override

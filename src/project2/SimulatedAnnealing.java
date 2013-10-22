@@ -29,10 +29,10 @@ public class SimulatedAnnealing implements Algorithm {
         int iterations = 0;
 
         while (true) {
-
-            if (iterations % 100 == 0) {
-                System.out.println(iterations + " - T:" + T);
-            }
+            //TODO remove
+//            if (iterations % 100 == 0) {
+//                System.out.println(iterations + " - T:" + T);
+//            }
 
             double evaluation = manager.evaluate();
             //System.out.println(manager);

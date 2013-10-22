@@ -10,4 +10,6 @@ public abstract class State {
 
     public abstract void moveRandom();
 
+    public abstract void moveIntelligent();
+
 }

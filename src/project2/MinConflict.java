@@ -1,19 +1,40 @@
 package project2;
 
-public class MinConflict {
+import java.util.Random;
 
-    public final static int MAX_ITERATIONS = 10000;
+public class MinConflict implements Algorithm {
 
-    public static void algorithm(State s) { // WIP
+    public final static int MAX_ITERATIONS = 100000000;
+    private static MinConflict ma = null;
+    private Random random;
 
-        int i = 0;
-        while(i < MAX_ITERATIONS) {
-
-
-
-            i++;
-        }
-
+    private MinConflict() {
+        this.random = new Random();
     }
 
+    public static MinConflict getInstance() {
+        if (ma == null)
+            return new MinConflict();
+        return ma;
+    }
+
+    @Override
+    public void solve(LocalStateManager manager) {
+        int i = 0;
+
+        while (i < MAX_ITERATIONS) {
+            double evaluation = manager.evaluate();
+            if (evaluation == 0) {
+                break;
+            }
+            manager.modifyIntelligentState();
+            i++;
+
+
+            if (i % 10000 == 0)
+                System.out.println("Iterasjon: " + i + ", kollisjoner: " + evaluation);
+        }
+
+        System.out.println("MC Iterations: " + i);
+    }
 }

@@ -63,7 +63,7 @@ public class GeneralPuzzleSolver {
             if (algorithmType == 1) {
                 algorithm = SimulatedAnnealing.getInstance();
             } else {
-                algorithm = SimulatedAnnealing.getInstance();
+                algorithm = MinConflict.getInstance();
             }
 
             algorithm.solve(manager);
