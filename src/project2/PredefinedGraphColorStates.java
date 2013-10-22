@@ -1,5 +1,7 @@
 package project2;
 
+import java.io.FileReader;
+
 public class PredefinedGraphColorStates {
 
     public static Puzzle getEasyGraphColorPuzzle() {
@@ -75,6 +77,20 @@ public class PredefinedGraphColorStates {
                 {f, f, f, f, f, t, f, f, f, f, f, f, f, f, f, f, f, t, t, t}, // t
 
         };
+
+        return new Puzzle(matrix, colors);
+    }
+
+    public static Puzzle getFileEasyGraphColorPuzzle() {
+
+        int colors = 5;
+
+        FileReader
+
+        boolean[][] matrix = new boolean[n][n];
+
+
+
 
         return new Puzzle(matrix, colors);
     }
