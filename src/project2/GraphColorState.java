@@ -52,7 +52,46 @@ public class GraphColorState extends State {
 
     @Override
     public void moveIntelligent() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        int node = this.getRandomViolationNode();
+        int oldColor = this.getColor(node);
+        double[] colorEvals = new double[this.getNumberOfColors()];
+
+
+        for (int i = 0; i < this.getNumberOfColors(); i++) {
+
+            this.setColor(node, i);
+            colorEvals[i] = this.evaluate();
+            this.setColor(node, oldColor);
+        }
+
+
+        double min = Double.MAX_VALUE;
+        for (int i = 0; i < this.getNumberOfColors(); i++) {
+            if(min > colorEvals[i]) {
+                this.setColor(node, i);
+            }
+        }
+
+    }
+
+    private int getRandomViolationNode() {
+        Random r = new Random();
+
+        while(true) {
+
+            int n = r.nextInt(this.numberOfNodes);
+
+            for (int i = 0; i < this.numberOfNodes; i++) {
+                for (Integer integer : this.getNeighbours(n)) {
+                    if(getColor(i) == getColor(integer))
+                        return i;
+                }
+
+            }
+
+        }
+
     }
 
     public double evaluate() {
