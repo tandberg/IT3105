@@ -92,4 +92,9 @@ public class FutoshikiState extends State {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void moveIntelligent() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 }

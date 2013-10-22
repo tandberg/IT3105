@@ -1,6 +1,7 @@
 package project2;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class PredefinedGraphColorStates {
@@ -85,8 +86,14 @@ public class PredefinedGraphColorStates {
     public static Puzzle getFileEasyGraphColorPuzzle() {
 
         int colors = 5;
+        int n = 0;
 
-        BufferedReader br = new BufferedReader(new FileReader("graph-color-1.txt"));
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("graph-color-1.txt"));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         boolean[][] matrix = new boolean[n][n];
 
