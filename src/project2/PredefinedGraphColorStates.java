@@ -3,6 +3,7 @@ package project2;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class PredefinedGraphColorStates {
 
@@ -86,22 +87,48 @@ public class PredefinedGraphColorStates {
     public static Puzzle getFileEasyGraphColorPuzzle() {
 
         int colors = 5;
-        int n = 0;
-
+        boolean[][] matrix = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("graph-color-1.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/graph-color-1.txt"));
 
+            int n = Integer.parseInt(br.readLine().split(" ")[0]);
+            matrix = new boolean[n][n];
 
+            for (int i = 0; i < n; i++) {
+                br.readLine();
+            }
+
+            String edge = br.readLine();
+            while(edge != null) {
+
+                int a = Integer.parseInt(edge.split(" ")[0]);
+                int b = Integer.parseInt(edge.split(" ")[1]);
+
+                matrix[a][b] = true;
+                matrix[b][a] = false;
+
+                edge = br.readLine();
+            }
+
+            System.out.println(n);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        boolean[][] matrix = new boolean[n][n];
 
 
 
 
         return new Puzzle(matrix, colors);
+    }
+
+    public static void main(String[] args) {
+        Puzzle p = getFileEasyGraphColorPuzzle();
+        GraphColorState g = new GraphColorState(p.matrix, p.colors);
+        g.randomize();
+        System.out.println(g);
     }
 }

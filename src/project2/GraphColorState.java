@@ -23,14 +23,6 @@ public class GraphColorState extends State {
         this.coloring = coloring;
     }
 
-    private static int convertNodeToInt(char node) {
-        return Character.toLowerCase(node) - 'a';
-    }
-
-    private static char convertIntToNode(int node) {
-        return (char) (node + (int) 'a');
-    }
-
     public static void main(String[] args) {
 
         Puzzle puzzle = PredefinedGraphColorStates.getTriforceGraphColorPuzzle();
@@ -67,9 +59,9 @@ public class GraphColorState extends State {
         double eval = 0.0;
 
         for (int i = 0; i < this.numberOfNodes; i++) {
-            List<Character> nodes = this.getNeighbours(convertIntToNode(i));
-            for (Character node : nodes) {
-                if (this.getColor(node) == getColor(convertIntToNode(i))) {
+            List<Integer> nodes = this.getNeighbours(i);
+            for (Integer node : nodes) {
+                if (this.getColor(node) == getColor(i)) {
                     eval += 1.0;
                 }
             }
@@ -83,10 +75,10 @@ public class GraphColorState extends State {
 
         for (int i = 0; i < this.numberOfNodes; i++) {
             int collisions = 0;
-            List<Character> neighbours = this.getNeighbours(convertIntToNode(i));
+            List<Integer> neighbours = this.getNeighbours(i);
 
-            for (Character node : neighbours) {
-                if (this.getColor(node) == getColor(convertIntToNode(i))) {
+            for (Integer node : neighbours) {
+                if (this.getColor(node) == getColor(i)) {
                     collisions++;
                 }
             }
@@ -111,8 +103,7 @@ public class GraphColorState extends State {
         return new GraphColorState(this.matrix, this.colors + 1, this.coloring);
     }
 
-    public void setColor(char nodeName, int color) {
-        int node = convertNodeToInt(nodeName);
+    public void setColor(int node, int color) {
 
         if (node > this.numberOfNodes || color > this.colors)
             throw new IllegalArgumentException("SetColor # node given: " + node + ", color: " + color);
@@ -120,35 +111,24 @@ public class GraphColorState extends State {
         this.coloring[node] = color;
     }
 
-    public void setColor(int node, int color) {
-        this.setColor(convertIntToNode(node), color);
-    }
-
-    public int getColor(char nodeName) {
-        return this.coloring[convertNodeToInt(nodeName)];
-    }
-
     public int getColor(int node) {
         return this.coloring[node];
     }
 
-    public boolean isNeighbour(char node1, char node2) {
-        int nodeA = convertNodeToInt(node1);
-        int nodeB = convertNodeToInt(node2);
+    public boolean isNeighbour(int node1, int node2) {
 
-        if (nodeA > this.numberOfNodes || nodeB > this.numberOfNodes)
-            throw new IllegalArgumentException("isNeighbour # node1: " + nodeA + " node2: " + nodeB);
+        if (node1 > this.numberOfNodes || node2 > this.numberOfNodes)
+            throw new IllegalArgumentException("isNeighbour # node1: " + node1 + " node2: " + node2);
 
-        return this.matrix[nodeA][nodeB] || this.matrix[nodeB][nodeA];
+        return this.matrix[node1][node2] || this.matrix[node2][node1];
     }
 
-    public List<Character> getNeighbours(char nodeName) {
-        int node = convertNodeToInt(nodeName);
-        List<Character> neighbours = new ArrayList<Character>();
+    public List<Integer> getNeighbours(int node) {
+        List<Integer> neighbours = new ArrayList<Integer>();
 
         for (int i = 0; i < this.numberOfNodes; i++) {
             if (this.matrix[node][i] && node != i) {
-                neighbours.add(convertIntToNode(i));
+                neighbours.add(i);
             }
         }
         return neighbours;
@@ -158,7 +138,7 @@ public class GraphColorState extends State {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < this.numberOfNodes; i++) {
-            sb.append(convertIntToNode(i) + " (" + this.getColor(convertIntToNode(i)) + "): " + getNeighbours(convertIntToNode(i)) + "\n");
+            sb.append(i + " (color: " + this.getColor(i) + "): " + getNeighbours(i) + "\n");
         }
 
         sb.append("\ntoJSON:\n" + this.toJSON() +"\n");
@@ -171,7 +151,7 @@ public class GraphColorState extends State {
         sb.append("{\"nodes\": [");
 
         for (int i = 0; i < numberOfNodes; i++) {
-            sb.append("{\"name\":\""+convertIntToNode(i)+"\", \"group\": "+coloring[i]+" },");
+            sb.append("{\"name\":\""+i+"\", \"group\": "+coloring[i]+" },");
         }
 
         sb.deleteCharAt(sb.length()-1);
