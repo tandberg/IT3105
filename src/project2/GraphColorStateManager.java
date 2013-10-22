@@ -45,6 +45,7 @@ public class GraphColorStateManager extends LocalStateManager {
 
     @Override
     public void modifyIntelligentState() {
+        state.moveIntelligent();
     }
 
     @Override

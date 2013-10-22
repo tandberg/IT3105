@@ -65,10 +65,12 @@ public class GraphColorState extends State {
             this.setColor(node, oldColor);
         }
 
+        System.out.println(Arrays.toString(colorEvals));
 
         double min = Double.MAX_VALUE;
         for (int i = 0; i < this.getNumberOfColors(); i++) {
             if(min > colorEvals[i]) {
+                min = colorEvals[i];
                 this.setColor(node, i);
             }
         }
