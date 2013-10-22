@@ -26,7 +26,7 @@ public class KQueensStateManager extends LocalStateManager {
                 size = 8;
                 break;
             case 3:
-                size = 14;
+                size = 1000;
                 break;
             default:
                 size = 4;
@@ -39,7 +39,7 @@ public class KQueensStateManager extends LocalStateManager {
 
     @Override
     public void modifyRandomState() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub11
 
     }
 

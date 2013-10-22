@@ -74,7 +74,7 @@ public class KQueensState extends State {
     public Queen pickRandomQueen() {
         while (true) {
             Queen queen = queens[random.nextInt(kSize)];
-            if (getCollisionsForCoordinate(queen.row, queen.col) > 0)
+            if (getCollisionsForCoordinate(queen.row, queen.col) > 1)
                 return queen;
         }
     }
@@ -82,7 +82,10 @@ public class KQueensState extends State {
     public void intelligentMove(Queen queen) {
         int row = queen.row;
         int lowest = getCollisionsForCoordinate(row, queen.col);
+//        System.out.println("Collisions for queen: " + lowest);
 //        System.out.println("Collisions: " + lowest);
+//        System.out.println(this);
+//        System.out.println("Ser på alternativ plass til queen rad: " + queen.row + ", col: " + queen.col);
         List<Integer> bestCols = new ArrayList<Integer>();
         bestCols.add(queen.col);
         for (int col = 0; col < kSize; col++) {
@@ -90,6 +93,7 @@ public class KQueensState extends State {
                 continue;
             }
             int collisionsForCoordinate = getCollisionsForCoordinate(row, col);
+//            System.out.println("Alternativ kollone: " + col + ", " + collisionsForCoordinate + " kollisjoner. " + getCollisionsForCoordinateInColumn(col) + " in column, and " + getCollisionsForCoordinateInDiagonal(row, col) + " in diagonals");
             if (collisionsForCoordinate < lowest) {
                 bestCols.removeAll(bestCols);
                 lowest = collisionsForCoordinate;
@@ -168,26 +172,26 @@ public class KQueensState extends State {
         return collisions;
     }
 
-    private int getCollisionsForCoordinateInDiagonal(int x, int y) {
+    private int getCollisionsForCoordinateInDiagonal(int row, int col) {
         int collisions = 0;
 
-        for (int i = x + 1, j = y - 1; i < kSize && j >= 0; i++, j--) {
-            if (board[j][i] != null)
+        for (int r = row + 1, c = col - 1; r < kSize && c >= 0; r++, c--) {
+            if (board[r][c] != null)
                 collisions++;
         }
 
-        for (int i = x + 1, j = y + 1; i < kSize && j < kSize; i++, j++) {
-            if (board[j][i] != null)
+        for (int r = row + 1, c = col + 1; r < kSize && c < kSize; r++, c++) {
+            if (board[r][c] != null)
                 collisions++;
         }
 
-        for (int i = x - 1, j = y + 1; i >= 0 && j < kSize; i--, j++) {
-            if (board[j][i] != null)
+        for (int r = row - 1, c = col + 1; r >= 0 && c < kSize; r--, c++) {
+            if (board[r][c] != null)
                 collisions++;
         }
 
-        for (int i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--) {
-            if (board[j][i] != null)
+        for (int r = row - 1, c = col - 1; r >= 0 && c >= 0; r--, c--) {
+            if (board[r][c] != null)
                 collisions++;
         }
         return collisions;
