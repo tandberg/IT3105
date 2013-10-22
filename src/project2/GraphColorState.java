@@ -58,6 +58,11 @@ public class GraphColorState extends State {
         this.setColor(node, color);
     }
 
+    @Override
+    public void moveIntelligent() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public double evaluate() {
         double eval = 0.0;
 

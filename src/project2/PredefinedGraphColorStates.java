@@ -1,5 +1,6 @@
 package project2;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class PredefinedGraphColorStates {
@@ -85,7 +86,7 @@ public class PredefinedGraphColorStates {
 
         int colors = 5;
 
-        FileReader
+        BufferedReader br = new BufferedReader(new FileReader("graph-color-1.txt"));
 
         boolean[][] matrix = new boolean[n][n];
 
