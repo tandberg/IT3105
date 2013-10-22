@@ -85,11 +85,30 @@ public class PredefinedGraphColorStates {
     }
 
     public static Puzzle getFileEasyGraphColorPuzzle() {
+        int colors = 6;
+        boolean[][] matrix = getFileGraphColorMatrix("graph-color-1.txt");
+        return new Puzzle(matrix, colors);
+    }
 
-        int colors = 5;
+    public static Puzzle getFileMediumGraphColorPuzzle() {
+        int colors = 6; // 6 gikk
+        boolean[][] matrix = getFileGraphColorMatrix("graph-color-2.txt");
+        return new Puzzle(matrix, colors);
+    }
+
+    public static Puzzle getFileHardGraphColorPuzzle() {
+        int colors = 100;
+        boolean[][] matrix = getFileGraphColorMatrix("graph-color-3.txt");
+        return new Puzzle(matrix, colors);
+    }
+
+
+    public static boolean[][] getFileGraphColorMatrix(String filename) {
+
+        int colors = 10;
         boolean[][] matrix = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/graph-color-1.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/"+filename));
 
             int n = Integer.parseInt(br.readLine().split(" ")[0]);
             matrix = new boolean[n][n];
@@ -118,17 +137,17 @@ public class PredefinedGraphColorStates {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-
-
-
-
-        return new Puzzle(matrix, colors);
+        return matrix;
     }
 
     public static void main(String[] args) {
-        Puzzle p = getFileEasyGraphColorPuzzle();
+        Puzzle p = getEasyGraphColorPuzzle();
         GraphColorState g = new GraphColorState(p.matrix, p.colors);
-        g.randomize();
+
+        g.setColor(1, 1);
+        g.setColor(3, 1);
+
+        System.out.println(g.evaluate());
         System.out.println(g);
     }
 }

@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class GraphColorStateManager extends LocalStateManager {
 
-    private static int NEW_STATES = 1000;
+    private static int NEW_STATES = 10;
     private Random random;
 
 
@@ -26,12 +26,12 @@ public class GraphColorStateManager extends LocalStateManager {
                 break;
 
             case 2:
-                puzzle = PredefinedGraphColorStates.getMediumGraphColorPuzzle();
+                puzzle = PredefinedGraphColorStates.getFileMediumGraphColorPuzzle();
                 this.state = new GraphColorState(puzzle.matrix, puzzle.colors);
                 break;
 
             case 3:
-                puzzle = PredefinedGraphColorStates.getHardGraphColorPuzzle();
+                puzzle = PredefinedGraphColorStates.getFileHardGraphColorPuzzle();
                 this.state = new GraphColorState(puzzle.matrix, puzzle.colors);
                 break;
         }

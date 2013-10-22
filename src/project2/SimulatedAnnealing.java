@@ -8,8 +8,8 @@ public class SimulatedAnnealing implements Algorithm {
     private static final int NUMBER_OF_ITERATIONS = 100;
     private static SimulatedAnnealing sa = null;
     private static double T_MAX = 10000.0;
-    private static double D_T = 0.97;
-    private static double F_TARGET = 0.0;
+    private static double D_T = 0.92;
+    private static double F_TARGET = 1.0;
     private Random random;
 
     private SimulatedAnnealing() {
@@ -23,28 +23,32 @@ public class SimulatedAnnealing implements Algorithm {
             return sa;
     }
 
+    public static double convertEvaluation(double evaluation) {
+        return Math.exp(-evaluation);
+    }
+
     public void solve(LocalStateManager manager) {
         double T = T_MAX;
 
         int iterations = 0;
-
+        System.out.println("SA GOING:");
         while (true) {
             //TODO remove
-//            if (iterations % 100 == 0) {
-//                System.out.println(iterations + " - T:" + T);
-//            }
+            if (iterations % 100 == 0) {
+                System.out.println(iterations + " - T:" + T + " eval: " + manager.evaluate());
+            }
 
-            double evaluation = manager.evaluate();
+            double evaluation = convertEvaluation(manager.evaluate());
             //System.out.println(manager);
             List<State> neighbours = manager.generateSuccessorStates();
 
             State bestNeighbour = null;
-            double bestNeighbourEvaluation = Double.MAX_VALUE;
+            double bestNeighbourEvaluation = 0;
 
             for (State neighbour : neighbours) {
-                double neighbourEvaluation = neighbour.evaluate();
+                double neighbourEvaluation = convertEvaluation(neighbour.evaluate());
 
-                if (neighbourEvaluation < bestNeighbourEvaluation) { // TODO: Større eller mindre? Sende inn som argument?
+                if (neighbourEvaluation > bestNeighbourEvaluation) {
                     bestNeighbour = neighbour;
                     bestNeighbourEvaluation = neighbourEvaluation;
                 }
@@ -56,13 +60,14 @@ public class SimulatedAnnealing implements Algorithm {
 
 
             if (x > p) {
+
                 manager.modifyState(bestNeighbour);
-                evaluation = bestNeighbour.evaluate();
+                evaluation = convertEvaluation(bestNeighbour.evaluate());
             } else {
 
                 State s = neighbours.get(this.random.nextInt(neighbours.size()));
                 manager.modifyState(s);
-                evaluation = s.evaluate();
+                evaluation = convertEvaluation(s.evaluate());
             }
 
             T = T * D_T;
