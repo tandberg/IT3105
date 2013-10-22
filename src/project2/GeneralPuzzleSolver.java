@@ -65,11 +65,11 @@ public class GeneralPuzzleSolver {
             } else {
                 algorithm = MinConflict.getInstance();
             }
-            long startTime = System.nanoTime();
+            long startTime = System.currentTimeMillis();
             algorithm.solve(manager);
 
             manager.displayState();
-            System.out.println("Run time: " + startTime);
+            System.out.println("Run time: " + (System.currentTimeMillis() - startTime));
 
             System.out.println("Want to run another problem? [y/n]");
 
