@@ -91,6 +91,8 @@ public class PredefinedGraphColorStates {
         try {
             BufferedReader br = new BufferedReader(new FileReader("graph-color-1.txt"));
 
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

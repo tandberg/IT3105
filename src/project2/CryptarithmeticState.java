@@ -93,4 +93,9 @@ public class CryptarithmeticState extends State {
     public void moveRandom() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public void moveIntelligent() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
