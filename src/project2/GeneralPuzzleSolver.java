@@ -73,6 +73,7 @@ public class GeneralPuzzleSolver {
                 algorithm = MinConflict.getInstance();
             }
             long startTime = System.currentTimeMillis();
+            System.out.println("Starting... \n");
             algorithm.solve(manager);
 
             System.out.println(manager);
