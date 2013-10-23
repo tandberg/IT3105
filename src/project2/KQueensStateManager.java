@@ -5,7 +5,7 @@ import java.util.List;
 
 public class KQueensStateManager extends LocalStateManager {
 
-    private final static int NEW_STATES = 100;
+    private final static int NEW_STATES = 625;
 
     public KQueensStateManager(int difficulty) {
         this.initialize(difficulty);
@@ -17,13 +17,13 @@ public class KQueensStateManager extends LocalStateManager {
         int size;
         switch (difficulty) {
             case 1:
-                size = 4;
-                break;
-            case 2:
                 size = 8;
                 break;
+            case 2:
+                size = 25;
+                break;
             case 3:
-                size = 2000;
+                size = 1000;
                 break;
             default:
                 size = 4;

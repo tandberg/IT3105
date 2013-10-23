@@ -10,6 +10,8 @@ public class GeneralPuzzleSolver {
     public static final String game3 = "Futoshiki";
 
     public static void main(String[] args) {
+        System.out.println("Working Directory = " +
+                System.getProperty("user.dir"));
 
         Scanner sc = new Scanner(System.in);
 
