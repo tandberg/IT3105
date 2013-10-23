@@ -1,31 +1,21 @@
 package project2;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class FutoshikiState extends State {
 
-
-//    public int[][] matrix;
-//    public Set<String> constraints2;
-
     private int[][] board;
     private boolean[][] locked;
-    private Map<String, String> lessThan;
-    private Map<String, String> greaterThan;
     private Set<String> constraints;
     private Random random;
 
 
-    public FutoshikiState(int k) {
-        lessThan = new HashMap<String, String>();
-        greaterThan = new HashMap<String, String>();
-        constraints = new HashSet<String>();
+    public FutoshikiState(FutoshikiGame game) {
+        this.board = game.board;
+        this.constraints = game.constraints;
         random = new Random();
-//        this.matrix = new int[k][k];
-        //this.constraints = new ArrayList<Constraint>();
-//        this.constraints2 = new HashSet<String>();
-        board = FutoshikiGame.getEasyBoard();
-        FutoshikiGame.initializeEasyBoard(lessThan, greaterThan, constraints);
         buildLocked();
     }
 
@@ -41,12 +31,6 @@ public class FutoshikiState extends State {
         System.out.println(state);
         state.randomize();
         System.out.println(state);
-
-//        state.addConstraint(0, 0, 1, 0);
-//        state.addConstraint(2, 0, 1, 2);
-
-        // '0.2>0.3' set som holder på dessa
-
     }
 
     private void buildLocked() {
@@ -105,6 +89,13 @@ public class FutoshikiState extends State {
                 collisions++;
         }
 
+        Set<Integer> used = new HashSet<Integer>();
+        for (int r = 0; r < board.length; r++) {
+            if (used.contains(board[r][col]))
+                collisions++;
+            used.add(board[r][col]);
+        }
+
         return collisions;
     }
 
@@ -161,7 +152,7 @@ public class FutoshikiState extends State {
                 collisions += getCollisionsForCoordinate(row, col);
             }
         }
-
+/*
         Set<Integer> used;
         for (int col = 0; col < board.length; col++) {
             used = new HashSet<Integer>();
@@ -172,7 +163,7 @@ public class FutoshikiState extends State {
                 used.add(board[row][col]);
             }
         }
-
+*/
         return collisions;
     }
 
@@ -238,7 +229,38 @@ public class FutoshikiState extends State {
 
     @Override
     public void moveIntelligent() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        int row, col;
+        while (true) {
+            row = random.nextInt(board.length);
+            col = random.nextInt(board.length);
+
+            if (locked[row][col] == false) {
+                break;
+            }
+        }
+
+        Set<Coordinate> poosibleMoves = new HashSet<Coordinate>();
+        int lowestCollisions = Integer.MAX_VALUE;
+        int prevA = board[row][col];
+        for (int c = 0; c < board.length; c++) {
+            int collisions = 0;
+            int prevB = board[row][c];
+
+            move(row, col, c);
+
+
+        }
+
+
+    }
+
+    public void move(int row, int colA, int colB) {
+        if (locked[row][colA] || locked[row][colB])
+            return;
+        int col1Value = board[row][colA];
+
+        board[row][colA] = board[row][colB];
+        board[row][colB] = col1Value;
     }
 
 

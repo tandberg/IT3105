@@ -15,21 +15,10 @@ public class FutoshikiStateManager extends LocalStateManager {
     @Override
     public void initialize(int difficulty) {
         int size;
-        switch (difficulty) {
-            case 1:
-                size = 4;
-                break;
-            case 2:
-                size = 8;
-                break;
-            case 3:
-                size = 1000;
-                break;
-            default:
-                size = 4;
-        }
+        FutoshikiGame game;
+        game = new FutoshikiGame(difficulty)
 
-        this.state = new FutoshikiState(size);
+        this.state = new FutoshikiState(game);
         this.state.randomize();
         System.out.println(this.state);
     }
