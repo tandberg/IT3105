@@ -4,56 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created with IntelliJ IDEA.
- * User: sigurd
- * Date: 10/10/13
- * Time: 2:06 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class KQueensState extends State {
 
-    public static boolean[][] debug = {
-            {false, false, false, false},
-            {false, false, false, true},
-            {true, true, true, true},
-            {false, false, true, false},
-    };
     private int kSize;
     private Queen[][] board;
     private Queen[] queens;
-    private Random random = new Random();
-    private int[][] collisionMatrix;
+    private Random random;
 
     public KQueensState(int k) {
+        random = new Random();
         board = new Queen[k][k];
         kSize = board.length;
         queens = new Queen[kSize];
-        buildCollisionMatrix();
     }
 
     public KQueensState(Queen[][] board, Queen[] queens, Random random) {
+        this.random = random;
         this.board = board;
         kSize = board.length;
         this.queens = queens;
     }
 
-    public static void main(String[] args) {
-        boolean[][] board = {
-                {false, false, true, false},
-                {true, false, false, false},
-                {true, false, false, false},
-                {false, false, false, true},
-        };
-        KQueensState state = new KQueensState(4);
-        System.out.println(state);
-        System.out.println(state.getCollisions());
-
-    }
-
     public void moveRandom() {
-
-
         for (int row = 0; row < kSize; row++) {
             for (int col = 0; col < kSize; col++) {
                 if (board[row][col] != null) {
@@ -65,9 +38,7 @@ public class KQueensState extends State {
 
     @Override
     public void moveIntelligent() {
-//        System.out.println(this);
         Queen queen = pickRandomQueen();
-//        System.out.println("Queen, rad: " + queen.row + ", col: " + queen.col);
         intelligentMove(queen);
     }
 
@@ -82,10 +53,6 @@ public class KQueensState extends State {
     public void intelligentMove(Queen queen) {
         int row = queen.row;
         int lowest = getCollisionsForCoordinate(row, queen.col);
-//        System.out.println("Collisions for queen: " + lowest);
-//        System.out.println("Collisions: " + lowest);
-//        System.out.println(this);
-//        System.out.println("Ser på alternativ plass til queen rad: " + queen.row + ", col: " + queen.col);
         List<Integer> bestCols = new ArrayList<Integer>();
         bestCols.add(queen.col);
         for (int col = 0; col < kSize; col++) {
@@ -93,7 +60,6 @@ public class KQueensState extends State {
                 continue;
             }
             int collisionsForCoordinate = getCollisionsForCoordinate(row, col);
-//            System.out.println("Alternativ kollone: " + col + ", " + collisionsForCoordinate + " kollisjoner. " + getCollisionsForCoordinateInColumn(col) + " in column, and " + getCollisionsForCoordinateInDiagonal(row, col) + " in diagonals");
             if (collisionsForCoordinate < lowest) {
                 bestCols.removeAll(bestCols);
                 lowest = collisionsForCoordinate;
@@ -102,12 +68,6 @@ public class KQueensState extends State {
                 bestCols.add(col);
             }
         }
-
-        for (int i = 0; i < bestCols.size(); i++) {
-            Integer integer = bestCols.get(i);
-//            System.out.println("Alternativ kollone: " + integer + ", " + getCollisionsForCoordinate(row, integer) + " kollisjoner.");
-        }
-
 
         int col = bestCols.get(random.nextInt(bestCols.size()));
         moveQueen(row, col, row, queen.col);
@@ -120,39 +80,18 @@ public class KQueensState extends State {
         Queen q = board[oldRow][oldCol];
         q.row = row;
         q.col = col;
-        q.collisions = q.getCollisionsForQueen();
+
         board[row][col] = q;
         board[oldRow][oldCol] = null;
     }
 
     public void randomize() {
         Random random = new Random();
-
-        System.out.println("randomizing..");
-
         for (int row = 0; row < kSize; row++) {
             int col = random.nextInt(kSize);
             queens[row] = new Queen(row, col, true);
             board[row][col] = queens[row];
         }
-    }
-
-    public int[][] getCollisionMatrix() {
-        return collisionMatrix;
-    }
-
-    private void buildCollisionMatrix() {
-//        collisionMatrix = new int[kSize][kSize];
-//
-//        for (int i = 0; i < kSize; i++) {
-//            setCollisionsForCoordinateInColumn(i);
-//            setCollisionsForCoordinateInRow(i);
-//            for (int j = 0; j < kSize; j++) {
-//                collisionMatrix[j][i] += countCollisionsForCoordinate(i, j);
-//            }
-//
-//        }
-
     }
 
     private int getCollisionsForCoordinate(int row, int col) {
@@ -200,10 +139,7 @@ public class KQueensState extends State {
     private int getCollisions() {
         int collisions = 0;
         collisions += getCollisionsInColumn();
-//        System.out.println("column: " + getCollisionsInColumn());
         collisions += getCollisionsInDiagonal();
-//        System.out.println("diagonal: " + getCollisionsInDiagonal());
-//        System.out.println("collisions: " + collisions);
         return collisions;
     }
 
@@ -297,7 +233,6 @@ public class KQueensState extends State {
             if (c > 0)
                 collisions += sumToOne(c - 1);
         }
-//        System.out.println("diagonal4: " + collisions);
 
         return collisions;
     }
@@ -344,17 +279,11 @@ public class KQueensState extends State {
     class Queen {
         int row, col;
         boolean onBoard;
-        int collisions;
 
         public Queen(int row, int col, boolean onBoard) {
             this.row = row;
             this.col = col;
             this.onBoard = onBoard;
-//            this.collisions = getCollisionsForQueen();
-        }
-
-        public int getCollisionsForQueen() {
-            return 0;
         }
     }
 

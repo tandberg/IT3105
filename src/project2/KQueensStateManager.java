@@ -23,7 +23,7 @@ public class KQueensStateManager extends LocalStateManager {
                 size = 8;
                 break;
             case 3:
-                size = 1000;
+                size = 500;
                 break;
             default:
                 size = 4;
