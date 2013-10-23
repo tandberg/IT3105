@@ -35,13 +35,6 @@ public class FutoshikiState extends State {
         }
     }
 
-//    public void addConstraint(int ax, int ay, int bx, int by) {
-//        //this.constraints.add(new Constraint(new Field(ax, ay), new Field(bx, by)));
-//
-//        constraints2.add(ax + "." + ay + ">" + bx + "." + by);
-//
-//    }
-
     private int getCollisionsForCoordinate(int row, int col) {
         int collisions = 0;
         if (constraints.contains(buildConstraintString(row, col, row, col + 1, "<"))) {
@@ -144,24 +137,18 @@ public class FutoshikiState extends State {
                 collisions += getCollisionsForCoordinate(row, col);
             }
         }
-/*
-        Set<Integer> used;
-        for (int col = 0; col < board.length; col++) {
-            used = new HashSet<Integer>();
-            for (int row = 0; row < board.length; row++) {
-                if (used.contains(board[row][col])) {
-                    collisions++;
-                }
-                used.add(board[row][col]);
-            }
-        }
-*/
         return collisions;
     }
 
     @Override
     public State copyState() {
-        return new FutoshikiState(board, locked, constraints, random);
+        int[][] b = new int[board.length][board.length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                b[i][j] = board[i][j];
+            }
+        }
+        return new FutoshikiState(b, locked, constraints, random);
     }
 
     @Override
@@ -280,15 +267,4 @@ public class FutoshikiState extends State {
         return true;
     }
 
-
-}
-
-class Coordinate {
-    int row;
-    int col;
-
-    public Coordinate(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
 }
