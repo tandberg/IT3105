@@ -13,7 +13,7 @@ public class GeneralPuzzleSolver {
 
         Scanner sc = new Scanner(System.in);
 
-        LocalStateManager manager = null;
+        LocalStateManager manager;
         Algorithm algorithm;
 
         while (true) {

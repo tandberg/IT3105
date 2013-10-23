@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class SimulatedAnnealing implements Algorithm {
 
-    private static final int NUMBER_OF_ITERATIONS = 100;
     private static SimulatedAnnealing sa = null;
     private static double T_MAX = 10000.0;
     private static double D_T = 0.92;
@@ -34,7 +33,7 @@ public class SimulatedAnnealing implements Algorithm {
         while (true) {
 
             if (iterations % 100 == 0) {
-                System.out.println(iterations + " - T:" + T + " eval: " + manager.evaluate());
+                System.out.println(iterations + " - Temperature:" + T + " Conflicts: " + manager.evaluate());
             }
 
             double evaluation = convertEvaluation(manager.evaluate());

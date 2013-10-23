@@ -1,7 +1,6 @@
 package project2;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class FutoshikiGame {
@@ -30,16 +29,6 @@ public class FutoshikiGame {
         }
     }
 
-
-
-    public void initializeEasyBoard() {
-
-        constraints.add("0.0>1.0");
-        constraints.add("1.1>1.2");
-        constraints.add("2.1<2.2");
-        constraints.add("3.1<3.2");
-    }
-
     public static int[][] getEasyBoard() {
         int[][] b = {
                 {0, 0, 0, 0},
@@ -48,6 +37,39 @@ public class FutoshikiGame {
                 {3, 0, 0, 0}
         };
         return b;
+    }
+
+    public static int[][] getMediumBoard() {
+        int[][] b = {
+                {5, 0, 0, 0, 0, 0},
+                {0, 2, 0, 4, 0, 3},
+                {0, 0, 2, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 5, 0, 0},
+                {0, 0, 0, 0, 0, 0}
+        };
+        return b;
+    }
+
+    public static int[][] getHardBoard() {
+        int[][] b = {
+                {0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 5},
+                {0, 1, 0, 6, 2, 0},
+                {0, 0, 4, 0, 0, 0},
+                {0, 2, 0, 0, 0, 0},
+                {4, 0, 0, 0, 0, 0}
+        };
+
+        return b;
+    }
+
+    public void initializeEasyBoard() {
+
+        constraints.add("0.0>1.0");
+        constraints.add("1.1>1.2");
+        constraints.add("2.1<2.2");
+        constraints.add("3.1<3.2");
     }
 
     public void initializeMediumBoard() {
@@ -79,18 +101,6 @@ public class FutoshikiGame {
 
     }
 
-    public static int[][] getMediumBoard() {
-        int[][] b = {
-                {5, 0, 0, 0, 0, 0},
-                {0, 2, 0, 4, 0, 3},
-                {0, 0, 2, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0},
-                {0, 0, 0, 5, 0, 0},
-                {0, 0, 0, 0, 0, 0}
-        };
-        return b;
-    }
-
     private void initializeHardBoard() {
 
         constraints.add("0.2<0.3");
@@ -108,18 +118,5 @@ public class FutoshikiGame {
 
         constraints.add("4.5<5.5");
 
-    }
-
-    public static int[][] getHardBoard() {
-        int[][] b = {
-                {0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 5},
-                {0, 1, 0, 6, 2, 0},
-                {0, 0, 4, 0, 0, 0},
-                {0, 2, 0, 0, 0, 0},
-                {4, 0, 0, 0, 0, 0}
-        };
-
-        return b;
     }
 }
