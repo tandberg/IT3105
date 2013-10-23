@@ -1,5 +1,6 @@
 package project2;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +10,8 @@ public class FutoshikiGame {
     public int[][] board;
 
     public FutoshikiGame(int difficulty) {
+        constraints = new HashSet<String>();
+
         switch (difficulty) {
             case 1:
                 initializeEasyBoard();
@@ -93,7 +96,11 @@ public class FutoshikiGame {
     public static int[][] getHardBoard() {
         int[][] b = {
                 {0, 0, 0, 0, 0, 0},
-                {}
+                {0, 0, 0, 0, 0, 5},
+                {0, 1, 0, 6, 2, 0},
+                {0, 0, 4, 0, 0, 0},
+                {0, 2, 0, 0, 0, 0},
+                {4, 0, 0, 0, 0, 0}
         };
 
         return b;
