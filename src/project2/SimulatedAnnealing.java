@@ -53,7 +53,6 @@ public class SimulatedAnnealing implements Algorithm {
                     bestNeighbourEvaluation = neighbourEvaluation;
                 }
             }
-            System.out.println(bestNeighbour);
             double q = (bestNeighbourEvaluation - evaluation) / evaluation;
             double p = Math.min(1, Math.exp(-q / T));
             double x = this.random.nextDouble();

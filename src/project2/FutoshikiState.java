@@ -1,8 +1,6 @@
 package project2;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class FutoshikiState extends State {
 
@@ -10,6 +8,7 @@ public class FutoshikiState extends State {
     private boolean[][] locked;
     private Set<String> constraints;
     private Random random;
+    private int notMoving = 0;
 
 
     public FutoshikiState(FutoshikiGame game) {
@@ -54,11 +53,11 @@ public class FutoshikiState extends State {
                 collisions++;
         }
 
-        if (constraints.contains(buildConstraintString(row, col, row, col - 1, "<"))) {
+        if (col > 0 && constraints.contains(buildConstraintString(row, col, row, col - 1, "<"))) {
             if (!(board[row][col] < board[row][col - 1]))
                 collisions++;
         }
-        if (constraints.contains(buildConstraintString(row, col, row, col - 1, ">"))) {
+        if (col > 0 && constraints.contains(buildConstraintString(row, col, row, col - 1, ">"))) {
             if (!(board[row][col] > board[row][col - 1]))
                 collisions++;
         }
@@ -73,11 +72,11 @@ public class FutoshikiState extends State {
                 collisions++;
         }
 
-        if (constraints.contains(buildConstraintString(row, col, row - 1, col, "<"))) {
+        if (row > 0 && constraints.contains(buildConstraintString(row, col, row - 1, col, "<"))) {
             if (!(board[row][col] < board[row - 1][col]))
                 collisions++;
         }
-        if (constraints.contains(buildConstraintString(row, col, row, col - 1, ">"))) {
+        if (row > 0 && constraints.contains(buildConstraintString(row, col, row - 1, col, ">"))) {
             if (!(board[row][col] > board[row - 1][col]))
                 collisions++;
         }
@@ -232,28 +231,53 @@ public class FutoshikiState extends State {
             }
         }
 
-        Set<Coordinate> poosibleMoves = new HashSet<Coordinate>();
+        List<Integer> possibleMoves = new ArrayList<Integer>();
         int lowestCollisions = Integer.MAX_VALUE;
         int prevA = board[row][col];
         for (int c = 0; c < board.length; c++) {
             int collisions = 0;
             int prevB = board[row][c];
 
+            if (!move(row, col, c)) {
+                continue;
+            }
+            collisions += getCollisionsForCoordinate(row, col);
+            collisions += getCollisionsForCoordinate(row, c);
+
+            if (collisions < lowestCollisions) {
+                lowestCollisions = collisions;
+                possibleMoves.clear();
+                possibleMoves.add((c));
+            } else if (collisions == lowestCollisions) {
+                possibleMoves.add((c));
+            }
+
             move(row, col, c);
 
+            if (col == c)
+                notMoving++;
+
+            if (notMoving == 100) {
+                notMoving = 0;
+                moveRandom();
+
+            }
 
         }
 
+        int colNew = possibleMoves.get(random.nextInt(possibleMoves.size()));
 
+        move(row, col, colNew);
     }
 
-    public void move(int row, int colA, int colB) {
+    public boolean move(int row, int colA, int colB) {
         if (locked[row][colA] || locked[row][colB])
-            return;
+            return false;
         int col1Value = board[row][colA];
 
         board[row][colA] = board[row][colB];
         board[row][colB] = col1Value;
+        return true;
     }
 
 

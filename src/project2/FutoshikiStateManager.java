@@ -30,7 +30,7 @@ public class FutoshikiStateManager extends LocalStateManager {
 
     @Override
     public void modifyIntelligentState() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.state.moveIntelligent();
     }
 
     @Override

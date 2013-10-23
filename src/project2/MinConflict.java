@@ -30,11 +30,21 @@ public class MinConflict implements Algorithm {
             manager.modifyIntelligentState();
             i++;
 
+//            System.out.println(manager.state);
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            }
 
-            if (i % 10000 == 0)
+            if (i % 10000 == 0) {
+                System.out.println(manager.state);
                 System.out.println("Iterasjon: " + i + ", kollisjoner: " + evaluation);
+
+            }
         }
 
         System.out.println("MC Iterations: " + i);
+        System.out.println(manager.state);
     }
 }
