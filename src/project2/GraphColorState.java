@@ -58,20 +58,18 @@ public class GraphColorState extends State {
         int node = this.getRandomViolationNode();
 
 
-
-
         List<Integer> bestColors = new ArrayList<Integer>();
         double bestEvaluation = Double.MAX_VALUE;
 
         for (int i = 0; i < this.getNumberOfColors(); i++) {
             this.setColor(node, i);
 
-            if(bestEvaluation > this.evaluate()) {
+            if (bestEvaluation > this.evaluate()) {
                 bestEvaluation = this.evaluate();
                 bestColors.clear();
             }
 
-            if(bestEvaluation == this.evaluate()) {
+            if (bestEvaluation == this.evaluate()) {
                 bestColors.add(i);
             }
             //this.setColor(node, oldColor);
@@ -84,13 +82,13 @@ public class GraphColorState extends State {
     private int getRandomViolationNode() {
         Random r = new Random();
 
-        while(true) {
+        while (true) {
 
             int n = r.nextInt(this.numberOfNodes);
 
             for (int i = 0; i < this.numberOfNodes; i++) {
                 for (Integer integer : this.getNeighbours(n)) {
-                    if(getColor(i) == getColor(integer))
+                    if (getColor(i) == getColor(integer))
                         return i;
                 }
 
@@ -145,7 +143,21 @@ public class GraphColorState extends State {
     }
 
     public State copyState() {
-        return new GraphColorState(this.matrix, this.colors + 1, this.coloring);
+
+        boolean[][] m = new boolean[this.numberOfNodes][this.numberOfNodes];
+
+        for (int i = 0; i < this.numberOfNodes; i++) {
+            for (int j = 0; j < this.numberOfNodes; j++) {
+                m[i][j] = this.matrix[i][j];
+            }
+        }
+
+        int[] c = new int[this.numberOfNodes];
+        for (int i = 0; i < this.numberOfNodes; i++) {
+            c[i] = this.coloring[i];
+        }
+
+        return new GraphColorState(m, this.colors + 1, c);
     }
 
     public void setColor(int node, int color) {
@@ -186,7 +198,7 @@ public class GraphColorState extends State {
             sb.append(i + " (color: " + this.getColor(i) + "): " + getNeighbours(i) + "\n");
         }
 
-        sb.append("\ntoJSON:\n" + this.toJSON() +"\n");
+        sb.append("\ntoJSON:\n" + this.toJSON() + "\n");
 
         return sb.toString();
     }
@@ -196,10 +208,10 @@ public class GraphColorState extends State {
         sb.append("{\"nodes\": [");
 
         for (int i = 0; i < numberOfNodes; i++) {
-            sb.append("{\"name\":\""+i+"\", \"group\": "+coloring[i]+" },");
+            sb.append("{\"name\":\"" + i + "\", \"group\": " + coloring[i] + " },");
         }
 
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
 
 
         sb.append("],\"links\": [");
@@ -207,14 +219,14 @@ public class GraphColorState extends State {
         for (int i = 0; i < numberOfNodes; i++) {
             for (int j = 0; j < numberOfNodes; j++) {
 
-                if(matrix[i][j]) {
-                    sb.append("{\"source\":" + i + ", \"target\": "+j+", \"value\": 10},");
+                if (matrix[i][j]) {
+                    sb.append("{\"source\":" + i + ", \"target\": " + j + ", \"value\": 10},");
                 }
 
             }
         }
 
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         sb.append("]}");
 
         return sb.toString();
