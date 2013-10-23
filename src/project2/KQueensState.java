@@ -240,16 +240,19 @@ public class KQueensState extends State {
     @Override
     public String toString() {
         String out = "";
+        StringBuilder sb = new StringBuilder();
+
         for (int i = 0; i < kSize; i++) {
             for (int j = 0; j < kSize; j++) {
                 if (board[i][j] != null) {
-                    out += "@\t";
-                } else
-                    out += ".\t";
+                    sb.append("@\t");
+                } else {
+                    sb.append(".\t");
+                }
             }
-            out += "\n";
+            sb.append("\n");
         }
-        return out;
+        return sb.toString();
     }
 
     @Override
