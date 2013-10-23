@@ -105,7 +105,6 @@ public class PredefinedGraphColorStates {
 
     public static boolean[][] getFileGraphColorMatrix(String filename) {
 
-        int colors = 10;
         boolean[][] matrix = null;
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/"+filename));
@@ -129,8 +128,6 @@ public class PredefinedGraphColorStates {
                 edge = br.readLine();
             }
 
-            System.out.println(n);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (IOException e) {
@@ -138,16 +135,5 @@ public class PredefinedGraphColorStates {
         }
 
         return matrix;
-    }
-
-    public static void main(String[] args) {
-        Puzzle p = getEasyGraphColorPuzzle();
-        GraphColorState g = new GraphColorState(p.matrix, p.colors);
-
-        g.setColor(1, 1);
-        g.setColor(3, 1);
-
-        System.out.println(g.evaluate());
-        System.out.println(g);
     }
 }

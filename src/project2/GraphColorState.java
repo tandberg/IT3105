@@ -23,17 +23,6 @@ public class GraphColorState extends State {
         this.coloring = coloring;
     }
 
-    public static void main(String[] args) {
-
-        Puzzle puzzle = PredefinedGraphColorStates.getTriforceGraphColorPuzzle();
-
-        GraphColorState state = new GraphColorState(puzzle.matrix, puzzle.colors);
-        state.randomize();
-        System.out.println(state.toJSON());
-        System.out.println("\n\nevaluation: " + state.evaluate());
-
-    }
-
     public void randomize() {
         Random r = new Random();
         for (int i = 0; i < this.coloring.length; i++) {
@@ -52,7 +41,6 @@ public class GraphColorState extends State {
 
     @Override
     public void moveIntelligent() {
-        //int oldColor = this.getColor(node);
         Random random = new Random();
 
         int node = this.getRandomViolationNode();
@@ -72,7 +60,6 @@ public class GraphColorState extends State {
             if (bestEvaluation == this.evaluate()) {
                 bestColors.add(i);
             }
-            //this.setColor(node, oldColor);
         }
 
         int newColor = bestColors.get(random.nextInt(bestColors.size()));

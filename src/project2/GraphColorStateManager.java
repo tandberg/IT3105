@@ -72,6 +72,5 @@ public class GraphColorStateManager extends LocalStateManager {
     public void displayState() {
         System.out.println(this.state);
         System.out.println("Number of collisions in state: " + this.state.evaluate());
-
     }
 }

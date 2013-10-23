@@ -31,15 +31,13 @@ public class SimulatedAnnealing implements Algorithm {
         double T = T_MAX;
 
         int iterations = 0;
-        System.out.println("SA GOING:");
         while (true) {
-            //TODO remove
+
             if (iterations % 100 == 0) {
                 System.out.println(iterations + " - T:" + T + " eval: " + manager.evaluate());
             }
 
             double evaluation = convertEvaluation(manager.evaluate());
-            //System.out.println(manager);
             List<State> neighbours = manager.generateSuccessorStates();
 
             State bestNeighbour = null;
