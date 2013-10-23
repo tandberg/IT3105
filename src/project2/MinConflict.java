@@ -28,7 +28,6 @@ public class MinConflict implements Algorithm {
 
             if (i % 10000 == 0) {
                 System.out.println("Iteration: " + i + ", Conflicts: " + evaluation);
-
             }
         }
 
