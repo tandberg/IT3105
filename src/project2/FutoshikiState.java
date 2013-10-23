@@ -26,13 +26,6 @@ public class FutoshikiState extends State {
         this.random = random;
     }
 
-    public static void main(String[] args) {
-        FutoshikiState state = new FutoshikiState(4);
-        System.out.println(state);
-        state.randomize();
-        System.out.println(state);
-    }
-
     private void buildLocked() {
         locked = new boolean[board.length][board.length];
         for (int row = 0; row < board.length; row++) {

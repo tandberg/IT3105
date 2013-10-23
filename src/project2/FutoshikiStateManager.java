@@ -16,7 +16,7 @@ public class FutoshikiStateManager extends LocalStateManager {
     public void initialize(int difficulty) {
         int size;
         FutoshikiGame game;
-        game = new FutoshikiGame(difficulty)
+        game = new FutoshikiGame(difficulty);
 
         this.state = new FutoshikiState(game);
         this.state.randomize();
