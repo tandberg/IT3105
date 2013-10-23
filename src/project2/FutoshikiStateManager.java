@@ -14,13 +14,10 @@ public class FutoshikiStateManager extends LocalStateManager {
 
     @Override
     public void initialize(int difficulty) {
-        int size;
         FutoshikiGame game;
         game = new FutoshikiGame(difficulty);
-
         this.state = new FutoshikiState(game);
         this.state.randomize();
-        System.out.println(this.state);
     }
 
     @Override
