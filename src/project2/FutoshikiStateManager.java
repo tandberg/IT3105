@@ -24,11 +24,6 @@ public class FutoshikiStateManager extends LocalStateManager {
     }
 
     @Override
-    public void modifyRandomState() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void modifyIntelligentState() {
         this.state.moveIntelligent();
     }
@@ -51,8 +46,4 @@ public class FutoshikiStateManager extends LocalStateManager {
         return this.state.evaluate();
     }
 
-    @Override
-    public void displayState() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

@@ -12,15 +12,11 @@ public abstract class LocalStateManager {
 
     public abstract void initialize(int size);
 
-    public abstract void modifyRandomState();
-
     public abstract void modifyIntelligentState();
 
     public abstract List<State> generateSuccessorStates();
 
     public abstract double evaluate();
-
-    public abstract void displayState();
 
     public String toString() {
         return state.toString();

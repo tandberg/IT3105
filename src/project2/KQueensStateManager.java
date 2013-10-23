@@ -6,9 +6,6 @@ import java.util.List;
 public class KQueensStateManager extends LocalStateManager {
 
     private final static int NEW_STATES = 100;
-    private int ksize;
-    private boolean[][] board;
-    private int queensOnBoard;
 
     public KQueensStateManager(int difficulty) {
         this.initialize(difficulty);
@@ -38,14 +35,7 @@ public class KQueensStateManager extends LocalStateManager {
     }
 
     @Override
-    public void modifyRandomState() {
-        // TODO Auto-generated method stub11
-
-    }
-
-    @Override
     public void modifyIntelligentState() {
-//        System.out.println(this);
         this.state.moveIntelligent();
     }
 
@@ -60,18 +50,12 @@ public class KQueensStateManager extends LocalStateManager {
 
             states.add(temporaryState);
         }
-
         return states;
     }
 
     @Override
     public double evaluate() {
         return this.state.evaluate();
-    }
-
-    @Override
-    public void displayState() {
-        System.out.println(this.state.toString());
     }
 
 }
