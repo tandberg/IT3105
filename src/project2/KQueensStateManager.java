@@ -31,7 +31,6 @@ public class KQueensStateManager extends LocalStateManager {
 
         this.state = new KQueensState(size);
         this.state.randomize();
-        System.out.println(this.state);
     }
 
     @Override
