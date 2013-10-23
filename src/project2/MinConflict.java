@@ -26,7 +26,7 @@ public class MinConflict implements Algorithm {
             manager.modifyIntelligentState();
             i++;
 
-            if (i % 10000 == 0 || true) {
+            if (i % 10000 == 0) {
                 System.out.println("Iteration: " + i + ", Conflicts: " + evaluation);
 
             }

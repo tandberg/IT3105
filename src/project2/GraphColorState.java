@@ -8,6 +8,7 @@ public class GraphColorState extends State {
     private int numberOfNodes;
     private int colors;
     private int[] coloring;
+    private int notMoving;
 
     public GraphColorState(boolean[][] matrix, int colors) {
         this.matrix = matrix;
@@ -15,6 +16,8 @@ public class GraphColorState extends State {
 
         this.colors = colors - 1;
         this.coloring = new int[numberOfNodes];
+
+        notMoving = 0;
 
     }
 
@@ -42,8 +45,9 @@ public class GraphColorState extends State {
     @Override
     public void moveIntelligent() {
         Random random = new Random();
-
         int node = this.getRandomViolationNode();
+
+        int oldColor = this.getColor(node);
 
 
         List<Integer> bestColors = new ArrayList<Integer>();
@@ -63,6 +67,15 @@ public class GraphColorState extends State {
         }
 
         int newColor = bestColors.get(random.nextInt(bestColors.size()));
+
+        if (oldColor == newColor)
+            notMoving++;
+
+        if (notMoving == 10000) {
+            notMoving = 0;
+            moveRandom();
+
+        }
         this.setColor(node, newColor);
     }
 
@@ -75,7 +88,7 @@ public class GraphColorState extends State {
 
             for (int i = 0; i < this.numberOfNodes; i++) {
                 for (Integer integer : this.getNeighbours(n)) {
-                    if (getColor(i) == getColor(integer))
+                    if (getColor(i) == getColor(integer) && i == integer)
                         return i;
                 }
 

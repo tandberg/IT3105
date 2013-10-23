@@ -86,18 +86,18 @@ public class PredefinedGraphColorStates {
 
     public static Puzzle getFileEasyGraphColorPuzzle() {
         int colors = 4; // 4 gikk
-        boolean[][] matrix = getFileGraphColorMatrix("graph-color-1.txt");
+        boolean[][] matrix = getFileGraphColorMatrix("graph-color-2.txt");
         return new Puzzle(matrix, colors);
     }
 
     public static Puzzle getFileMediumGraphColorPuzzle() {
         int colors = 4; // 4 gikk
-        boolean[][] matrix = getFileGraphColorMatrix("graph-color-2.txt");
+        boolean[][] matrix = getFileGraphColorMatrix("graph-color-1.txt");
         return new Puzzle(matrix, colors);
     }
 
     public static Puzzle getFileHardGraphColorPuzzle() {
-        int colors = 6; // 6 gikk
+        int colors = 5; // 5 gikk
         boolean[][] matrix = getFileGraphColorMatrix("graph-color-3.txt");
         return new Puzzle(matrix, colors);
     }
