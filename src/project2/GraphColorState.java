@@ -56,15 +56,19 @@ public class GraphColorState extends State {
         Random random = new Random();
 
         int node = this.getRandomViolationNode();
+
+
+
+
         List<Integer> bestColors = new ArrayList<Integer>();
         double bestEvaluation = Double.MAX_VALUE;
 
         for (int i = 0; i < this.getNumberOfColors(); i++) {
             this.setColor(node, i);
 
-            System.out.println("besteval" + bestEvaluation + " eval: " + this.evaluate());
             if(bestEvaluation > this.evaluate()) {
                 bestEvaluation = this.evaluate();
+                bestColors.clear();
             }
 
             if(bestEvaluation == this.evaluate()) {
@@ -73,10 +77,7 @@ public class GraphColorState extends State {
             //this.setColor(node, oldColor);
         }
 
-        System.out.println(bestColors);
         int newColor = bestColors.get(random.nextInt(bestColors.size()));
-
-        System.out.println("node: " + node + ", newcolor: " + newColor);
         this.setColor(node, newColor);
     }
 

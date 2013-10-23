@@ -21,7 +21,7 @@ public class GraphColorStateManager extends LocalStateManager {
         Puzzle puzzle;
         switch (difficulty) {
             case 1:
-                puzzle = PredefinedGraphColorStates.getEasyGraphColorPuzzle();
+                puzzle = PredefinedGraphColorStates.getFileEasyGraphColorPuzzle();
                 this.state = new GraphColorState(puzzle.matrix, puzzle.colors);
                 break;
 
