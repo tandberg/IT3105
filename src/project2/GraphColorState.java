@@ -52,29 +52,32 @@ public class GraphColorState extends State {
 
     @Override
     public void moveIntelligent() {
+        //int oldColor = this.getColor(node);
+        Random random = new Random();
 
         int node = this.getRandomViolationNode();
-        int oldColor = this.getColor(node);
-        double[] colorEvals = new double[this.getNumberOfColors()];
-
+        List<Integer> bestColors = new ArrayList<Integer>();
+        double bestEvaluation = Double.MAX_VALUE;
 
         for (int i = 0; i < this.getNumberOfColors(); i++) {
-
             this.setColor(node, i);
-            colorEvals[i] = this.evaluate();
-            this.setColor(node, oldColor);
-        }
 
-        System.out.println(Arrays.toString(colorEvals));
-
-        double min = Double.MAX_VALUE;
-        for (int i = 0; i < this.getNumberOfColors(); i++) {
-            if(min > colorEvals[i]) {
-                min = colorEvals[i];
-                this.setColor(node, i);
+            System.out.println("besteval" + bestEvaluation + " eval: " + this.evaluate());
+            if(bestEvaluation > this.evaluate()) {
+                bestEvaluation = this.evaluate();
             }
+
+            if(bestEvaluation == this.evaluate()) {
+                bestColors.add(i);
+            }
+            //this.setColor(node, oldColor);
         }
 
+        System.out.println(bestColors);
+        int newColor = bestColors.get(random.nextInt(bestColors.size()));
+
+        System.out.println("node: " + node + ", newcolor: " + newColor);
+        this.setColor(node, newColor);
     }
 
     private int getRandomViolationNode() {
