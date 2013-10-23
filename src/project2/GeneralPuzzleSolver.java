@@ -7,6 +7,7 @@ public class GeneralPuzzleSolver {
 
     public static final String game1 = "KQueens";
     public static final String game2 = "GraphColor";
+    public static final String game3 = "Futoshiki";
 
     public static void main(String[] args) {
 
@@ -19,6 +20,7 @@ public class GeneralPuzzleSolver {
             System.out.println("Select the game you want to play:");
             System.out.println("[1] " + game1);
             System.out.println("[2] " + game2);
+            System.out.println("[3] " + game3);
             int game = sc.nextInt();
 
             if (game < 1 || game > 3) {
@@ -57,6 +59,11 @@ public class GeneralPuzzleSolver {
                 case 2:
                     manager = new GraphColorStateManager(difficulty);
                     break;
+                case 3:
+                    manager = new FutoshikiStateManager(difficulty);
+                    break;
+                default:
+                    continue;
             }
 
 
