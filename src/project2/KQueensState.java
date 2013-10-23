@@ -324,7 +324,21 @@ public class KQueensState extends State {
 
     @Override
     public State copyState() {
-        return new KQueensState(board, queens, random);
+
+        Queen[][] b = new Queen[kSize][kSize];
+
+        for (int i = 0; i < kSize; i++) {
+            for (int j = 0; j < kSize; j++) {
+                b[i][j] = board[i][j];
+            }
+        }
+
+        Queen[] q = new Queen[kSize];
+        for (int i = 0; i < kSize; i++) {
+            q[i] = queens[i];
+        }
+
+        return new KQueensState(b, q, random);
     }
 
     class Queen {

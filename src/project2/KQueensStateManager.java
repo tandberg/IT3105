@@ -60,6 +60,7 @@ public class KQueensStateManager extends LocalStateManager {
 
             states.add(temporaryState);
         }
+
         return states;
     }
 
