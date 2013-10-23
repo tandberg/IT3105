@@ -19,9 +19,8 @@ public class FutoshikiStateManager extends LocalStateManager {
         game = new FutoshikiGame(difficulty);
 
         this.state = new FutoshikiState(game);
-        System.out.println(this.state);
-        System.exit(0);
         this.state.randomize();
+        System.out.println(this.state);
     }
 
     @Override
