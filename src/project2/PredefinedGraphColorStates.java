@@ -91,13 +91,13 @@ public class PredefinedGraphColorStates {
     }
 
     public static Puzzle getFileMediumGraphColorPuzzle() {
-        int colors = 6; // 6 gikk
+        int colors = 4; // 6 gikk
         boolean[][] matrix = getFileGraphColorMatrix("graph-color-2.txt");
         return new Puzzle(matrix, colors);
     }
 
     public static Puzzle getFileHardGraphColorPuzzle() {
-        int colors = 100;
+        int colors = 10; // 10 gikk
         boolean[][] matrix = getFileGraphColorMatrix("graph-color-3.txt");
         return new Puzzle(matrix, colors);
     }
@@ -123,7 +123,7 @@ public class PredefinedGraphColorStates {
                 int b = Integer.parseInt(edge.split(" ")[1]);
 
                 matrix[a][b] = true;
-                matrix[b][a] = false;
+                matrix[b][a] = true;
 
                 edge = br.readLine();
             }

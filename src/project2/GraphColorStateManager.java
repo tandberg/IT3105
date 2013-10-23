@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class GraphColorStateManager extends LocalStateManager {
 
-    private static int NEW_STATES = 10;
+    private static int NEW_STATES = 100;
     private Random random;
 
 

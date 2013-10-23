@@ -24,7 +24,7 @@ public class SimulatedAnnealing implements Algorithm {
     }
 
     public static double convertEvaluation(double evaluation) {
-        return Math.exp(-evaluation);
+        return Math.exp(-evaluation / 500);
     }
 
     public void solve(LocalStateManager manager) {
