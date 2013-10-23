@@ -75,8 +75,8 @@ public class GeneralPuzzleSolver {
             long startTime = System.currentTimeMillis();
             algorithm.solve(manager);
 
-            manager.displayState();
-            System.out.println("Run time: " + (System.currentTimeMillis() - startTime));
+            System.out.println(manager);
+            System.out.println("Run time: " + (System.currentTimeMillis() - startTime) + "ms");
 
             System.out.println("Want to run another problem? [y/n]");
 

@@ -40,10 +40,6 @@ public class GraphColorStateManager extends LocalStateManager {
     }
 
     @Override
-    public void modifyRandomState() {
-    }
-
-    @Override
     public void modifyIntelligentState() {
         state.moveIntelligent();
     }
@@ -66,11 +62,5 @@ public class GraphColorStateManager extends LocalStateManager {
     @Override
     public double evaluate() {
         return this.state.evaluate();
-    }
-
-    @Override
-    public void displayState() {
-        System.out.println(this.state);
-        System.out.println("Number of collisions in state: " + this.state.evaluate());
     }
 }
