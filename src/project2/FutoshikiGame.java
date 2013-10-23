@@ -91,6 +91,22 @@ public class FutoshikiGame {
     }
 
     private void initializeHardBoard() {
+
+        constraints.add("0.3>0.2");
+
+        constraints.add("1.1>1.0");
+        constraints.add("1.1>1.2");
+        constraints.add("1.2>1.3");
+        constraints.add("1.5>1.4");
+
+        constraints.add("2.3>2.4");
+        constraints.add("2.5>2.4");
+
+        constraints.add("3.1>3.0");
+        constraints.add("3.3>3.4");
+
+        constraints.add("4.5>5.5");
+
     }
 
     public static int[][] getHardBoard() {
