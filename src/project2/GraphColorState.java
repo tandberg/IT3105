@@ -100,33 +100,12 @@ public class GraphColorState extends State {
         return eval / 2.0;
     }
 
-    public Map<Integer, Integer> getViolationNodes() { // Returns <node, numCollisions>
-        Map<Integer, Integer> nodes = new HashMap<Integer, Integer>();
-
-        for (int i = 0; i < this.numberOfNodes; i++) {
-            int collisions = 0;
-            List<Integer> neighbours = this.getNeighbours(i);
-
-            for (Integer node : neighbours) {
-                if (this.getColor(node) == getColor(i)) {
-                    collisions++;
-                }
-            }
-
-            if (collisions > 0) {
-                nodes.put(i, collisions);
-            }
-        }
-
-        return nodes;
-    }
-
     public int getNumberOfNodes() {
         return this.numberOfNodes;
     }
 
     public int getNumberOfColors() {
-        return this.colors + 1; // XXX: Hva gjør random (0, 10) => tar den med 10?
+        return this.colors + 1;
     }
 
     public State copyState() {
@@ -159,14 +138,6 @@ public class GraphColorState extends State {
         return this.coloring[node];
     }
 
-    public boolean isNeighbour(int node1, int node2) {
-
-        if (node1 > this.numberOfNodes || node2 > this.numberOfNodes)
-            throw new IllegalArgumentException("isNeighbour # node1: " + node1 + " node2: " + node2);
-
-        return this.matrix[node1][node2] || this.matrix[node2][node1];
-    }
-
     public List<Integer> getNeighbours(int node) {
         List<Integer> neighbours = new ArrayList<Integer>();
 
@@ -192,10 +163,10 @@ public class GraphColorState extends State {
 
     public String toJSON() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{\"nodes\": [");
+        sb.append("{\"nodes\":[");
 
         for (int i = 0; i < numberOfNodes; i++) {
-            sb.append("{\"name\":\"" + i + "\", \"group\": " + coloring[i] + " },");
+            sb.append("{\"name\":\"" + i + "\",\"group\":" + coloring[i] + "},");
         }
 
         sb.deleteCharAt(sb.length() - 1);
@@ -207,7 +178,7 @@ public class GraphColorState extends State {
             for (int j = 0; j < numberOfNodes; j++) {
 
                 if (matrix[i][j]) {
-                    sb.append("{\"source\":" + i + ", \"target\": " + j + ", \"value\": 10},");
+                    sb.append("{\"source\":" + i + ",\"target\":" + j + ", \"value\":1},");
                 }
 
             }

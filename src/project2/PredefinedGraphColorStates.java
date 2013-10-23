@@ -85,19 +85,19 @@ public class PredefinedGraphColorStates {
     }
 
     public static Puzzle getFileEasyGraphColorPuzzle() {
-        int colors = 6;
+        int colors = 4; // 4 gikk
         boolean[][] matrix = getFileGraphColorMatrix("graph-color-1.txt");
         return new Puzzle(matrix, colors);
     }
 
     public static Puzzle getFileMediumGraphColorPuzzle() {
-        int colors = 4; // 6 gikk
+        int colors = 4; // 4 gikk
         boolean[][] matrix = getFileGraphColorMatrix("graph-color-2.txt");
         return new Puzzle(matrix, colors);
     }
 
     public static Puzzle getFileHardGraphColorPuzzle() {
-        int colors = 10; // 10 gikk
+        int colors = 6; // 6 gikk
         boolean[][] matrix = getFileGraphColorMatrix("graph-color-3.txt");
         return new Puzzle(matrix, colors);
     }
@@ -129,9 +129,9 @@ public class PredefinedGraphColorStates {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
         return matrix;
