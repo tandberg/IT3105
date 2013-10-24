@@ -2,7 +2,7 @@ package project2;
 
 public class MinConflict implements Algorithm {
 
-    public final static int MAX_ITERATIONS = 100000000;
+    public final static int MAX_ITERATIONS = 1000000;
     private static MinConflict ma = null;
 
     private MinConflict() {
@@ -30,7 +30,7 @@ public class MinConflict implements Algorithm {
                 System.out.println("Iteration: " + i + ", Conflicts: " + evaluation);
             }
         }
-
+        ReportNumbers.endEvals.add(manager.evaluate());
         System.out.println("MC Iterations: " + i);
     }
 }

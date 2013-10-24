@@ -1,5 +1,6 @@
 package project2;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +31,9 @@ public class SimulatedAnnealing implements Algorithm {
         double T = T_MAX;
 
         int iterations = 0;
-        while (true) {
+
+
+        while (iterations < 10000) {
 
             if (iterations % 100 == 0) {
                 System.out.println(iterations + " - Temperature:" + T + " Conflicts: " + manager.evaluate());
@@ -74,6 +77,7 @@ public class SimulatedAnnealing implements Algorithm {
             }
         }
 
+        ReportNumbers.endEvals.add(manager.evaluate());
         System.out.println("SA Iterations: " + iterations);
     }
 
