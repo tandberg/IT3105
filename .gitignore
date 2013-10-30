@@ -11,3 +11,5 @@
 # IDEA
 .idea/
 *.iml
+bin/*
+.settings/*
