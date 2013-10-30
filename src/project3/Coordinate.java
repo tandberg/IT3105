@@ -9,6 +9,6 @@ public class Coordinate {
     }
 
     public String toString() {
-        return "X: " + this.x + " Y: " + this.y;
+        return "\nX: " + this.x + " Y: " + this.y;
     }
 }
