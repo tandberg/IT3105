@@ -56,6 +56,7 @@ public class CircleProblem {
             for (Particle particle : particles) {
                 particle.update();
             }
+            System.out.println(globalBest);
             iterations++;
         }
 
