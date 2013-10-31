@@ -1,32 +1,50 @@
 package project3;
 
+import java.util.Random;
+
 public class Particle {
 
+    private static double global_best_position = 0;
+    private final static double c1 = 1;
+    private final static double c2 = 1;
+
+    private Random random;
     private double posX;
     private double velocity;
+    private double local_best_position;
+    private double prevVelocity;
+    private double prevPosition;
+
 
     public Particle(double posX, double velocity) {
+        this.random = new Random();
         this.posX = posX;
         this.velocity = velocity;
+
+        this.local_best_position = 0;
+
+        this.prevVelocity = this.random.nextDouble();
+        this.prevPosition = this.random.nextDouble();
     }
 
-    public double velocity(int t) {
-        double inertia = velocity(t-1);
-        double memory = c1 * r1 * (myBest(t-1) - position(t-1));
-        double influence = c2 * r2 * (globalBest(t-1) - position(t-1));
+    public void updateVelocity() {
+        double inertia = this.velocity;
+        double memory = c1 * this.random.nextDouble() * (this.local_best_position - this.velocity);
+        double influence = c2 * this.random.nextDouble() * (global_best_position - this.velocity);
 
-        return inertia + memory + influence;
+        this.velocity = inertia + memory + influence;
     }
 
-    public double myBest(int t) {
-        return 0;
+    public void updatePosition() {
+        this.posX = this.prevPosition + this.velocity;
     }
 
-    public double globalBest(int t) {
-        return 0;
+    public void update() {
+        updatePosition();
+        updateVelocity();
     }
 
-    public double position(int t) {
-        return this.posX + velocity(t);
+    public String toString() {
+        return "pos: " + this.posX + " velocity: " + this.velocity;
     }
 }
