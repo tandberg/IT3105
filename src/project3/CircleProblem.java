@@ -44,8 +44,6 @@ public class CircleProblem {
     }
 
     public void solve() {
-        for (Particle particle : particles) {
-
-        }
+        
     }
 }
