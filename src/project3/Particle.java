@@ -17,6 +17,7 @@ public class Particle {
     private double[] bestLocalPositions;
 
     public Particle(int n) {
+        random = new Random();
         this.dimensions = n;
         positions = new double[n];
         velocities = new double[n];
@@ -26,7 +27,9 @@ public class Particle {
         fillRandomVelocities();
         updateBestLocalPositions();
 
-        random = new Random();
+        for (int i = 0; i < globalBestPositions.length; i++) {
+            globalBestPositions[i] = Double.MAX_VALUE;
+        }
     }
 
     private void updateBestLocalPositions() {
@@ -43,7 +46,7 @@ public class Particle {
 
     private void fillRandomPositions() {
         for (int i = 0; i < positions.length; i++) {
-            positions[i] = random.nextDouble();
+            positions[i] = random.nextDouble() * 100;
         }
         updateBestLocalPositions();
     }
