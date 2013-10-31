@@ -45,6 +45,7 @@ public class Particle {
         for (int i = 0; i < positions.length; i++) {
             positions[i] = random.nextDouble();
         }
+        updateBestLocalPositions();
     }
 
     public void update() {
