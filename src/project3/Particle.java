@@ -5,7 +5,7 @@ import java.util.Random;
 public class Particle {
 
 
-    private static double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
+    public static double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
     private final static double c1 = 1;
     private final static double c2 = 1;
     private Random random;
