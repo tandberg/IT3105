@@ -2,26 +2,28 @@ package project3;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CircleProblem {
 
     public static final int NUM_PARTICLES = 100;
-    private List<Coordinate> particles;
-    private Random random;
+    public static final int NUM_DIMENSIONS = 1;
+    private List<Particle> particles;
+    private double globalBest = Double.MAX_VALUE;
 
     public CircleProblem() {
 
-        particles = new ArrayList<Coordinate>();
-        random = new Random();
-
+        particles = new ArrayList<Particle>();
         initializeParticles();
         System.out.println(particles);
     }
 
+    public static void main(String[] args) {
+        new CircleProblem();
+    }
+
     private void initializeParticles() {
         for (int i = 0; i < NUM_PARTICLES; i++) {
-            particles.add(new Coordinate(random.nextDouble(), random.nextDouble()));
+            particles.add(new Particle(NUM_DIMENSIONS));
         }
     }
 
@@ -33,8 +35,17 @@ public class CircleProblem {
         return sum;
     }
 
+    public double fitnessFunction(List<Double> us) {
+        double value = 0;
+        for (Double u : us) {
+            value += (u * u);
+        }
+        return value;
+    }
 
-    public static void main(String[] args) {
-        new CircleProblem();
+    public void solve() {
+        for (Particle particle : particles) {
+
+        }
     }
 }
