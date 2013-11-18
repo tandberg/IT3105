@@ -38,10 +38,13 @@ public class CircleProblem {
         return sum;
     }
 
-    public double fitnessFunction(double[] bestPositions) {
+    public double fitnessFunction() {
         double value = 0;
-        for (double u : bestPositions) {
-            value += (u * u);
+        for (Particle p : particles) {
+//        for (double u : bestPositions) {
+            for (Double pos : p.getPositions()) {
+                value += (pos * pos);
+            }
         }
         return value;
     }
@@ -49,7 +52,7 @@ public class CircleProblem {
     public void solve() {
         int iterations = 0;
         while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
-            double temp = fitnessFunction(Particle.globalBestPositions);
+            double temp = fitnessFunction();
             if (temp < globalBest) {
                 globalBest = temp;
             }
