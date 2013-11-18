@@ -34,19 +34,19 @@ public class Particle {
     }
 
     private void updateBestLocalPositions() {
+        double bestDistance = 0;
+        double tmpDistance = 0;
 
-//        int bestNode = 0;
-//        double bestDistance = Double.MAX_VALUE;
-//        for (int i = 0; i < positions.length; i++) {
-//            bestDistance += Math.pow(positions[i], 2);
-//        }
-//        bestDistance
-//
-//
-//        if()
+        for (int i = 0; i < positions.length; i++) {
+            tmpDistance += Math.pow(positions[i], 2);
+            bestDistance += Math.pow(bestLocalPositions[i], 2);
+        }
 
-        for (int i = 0; i < bestLocalPositions.length; i++) {
-            bestLocalPositions[i] = Math.min(bestLocalPositions[i], positions[i]); // use euclidian distance
+        if(Math.sqrt(tmpDistance) < Math.sqrt(bestDistance)) {
+            // This Particle has better a better position than seen before.
+            for (int i = 0; i < positions.length; i++) {
+                bestLocalPositions[i] = positions[i];
+            }
         }
     }
 
@@ -73,9 +73,19 @@ public class Particle {
     }
 
     private void updateGlobals() {
+        double bestDistance = 0;
+        double tmpDistance = 0;
+
         for (int i = 0; i < positions.length; i++) {
-//            System.out.println("Tidligere: " + globalBestPositions[i] + ", ny: " + positions[i]);
-            globalBestPositions[i] = Math.min(Math.abs(globalBestPositions[i]), Math.abs(positions[i])); // use euclidian distance
+            tmpDistance += Math.pow(positions[i], 2);
+            bestDistance += Math.pow(globalBestPositions[i], 2);
+        }
+
+        if(Math.sqrt(tmpDistance) < Math.sqrt(bestDistance)) {
+            // This Particle has better a better position than all have seen before.
+            for (int i = 0; i < positions.length; i++) {
+                globalBestPositions[i] = positions[i];
+            }
         }
     }
 
@@ -99,10 +109,7 @@ public class Particle {
 
     private void updatePosition() {
         for (int i = 0; i < positions.length; i++) {
-            System.out.println("before: " + positions[i]);
             positions[i] = positions[i] + velocities[i];
-            System.out.println("after: " + positions[i]);
-
         }
     }
 
