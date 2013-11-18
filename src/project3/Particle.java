@@ -1,5 +1,6 @@
 package project3;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Particle {
@@ -33,8 +34,19 @@ public class Particle {
     }
 
     private void updateBestLocalPositions() {
+
+//        int bestNode = 0;
+//        double bestDistance = Double.MAX_VALUE;
+//        for (int i = 0; i < positions.length; i++) {
+//            bestDistance += Math.pow(positions[i], 2);
+//        }
+//        bestDistance
+//
+//
+//        if()
+
         for (int i = 0; i < bestLocalPositions.length; i++) {
-            bestLocalPositions[i] = Math.min(bestLocalPositions[i], positions[i]);
+            bestLocalPositions[i] = Math.min(bestLocalPositions[i], positions[i]); // use euclidian distance
         }
     }
 
@@ -46,7 +58,8 @@ public class Particle {
 
     private void fillRandomPositions() {
         for (int i = 0; i < positions.length; i++) {
-            positions[i] = random.nextDouble() * 100;
+            // Initial positions between -100 and 100
+            positions[i] = (random.nextDouble() * 200) - 100;
         }
         updateBestLocalPositions();
     }
@@ -61,7 +74,8 @@ public class Particle {
 
     private void updateGlobals() {
         for (int i = 0; i < positions.length; i++) {
-            globalBestPositions[i] = Math.min(globalBestPositions[i], positions[i]);
+//            System.out.println("Tidligere: " + globalBestPositions[i] + ", ny: " + positions[i]);
+            globalBestPositions[i] = Math.min(Math.abs(globalBestPositions[i]), Math.abs(positions[i])); // use euclidian distance
         }
     }
 
@@ -72,13 +86,32 @@ public class Particle {
             double influence = c2 * random.nextDouble() * (globalBestPositions[i] - velocities[i]);
 
             velocities[i] = inertia + memory + influence;
+
+            if(velocities[i] > 1) {
+                velocities[i] = 1;
+            } else if(velocities[i] < -1) {
+                velocities[i] = -1;
+            }
+
+            //System.out.println("velocity in "+i+" dimension: " + velocities[i]);
         }
     }
 
     private void updatePosition() {
         for (int i = 0; i < positions.length; i++) {
+            System.out.println("before: " + positions[i]);
             positions[i] = positions[i] + velocities[i];
+            System.out.println("after: " + positions[i]);
+
         }
+    }
+
+    public String toString() {
+        return "Position: " + Arrays.toString(positions) + " Velocity: " + Arrays.toString(velocities);
+    }
+
+    public double[] getPositions() {
+        return positions;
     }
 
 }
