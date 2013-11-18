@@ -1,13 +1,15 @@
 package project3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CircleProblem {
 
-    public static final int NUM_PARTICLES = 50;
+    public static final int NUM_PARTICLES = 100;
     public static final int NUM_DIMENSIONS = 2;
-    public static final int MAX_ITERATIONS = 10000;
+    public static final int MAX_ITERATIONS = 100;
+    public static final int LIMIT = 100;
     public static final double GOAL = 0.001;
     private List<Particle> particles;
     private double globalBest = Double.MAX_VALUE;
@@ -38,14 +40,13 @@ public class CircleProblem {
         return sum;
     }
 
-    public double fitnessFunction() {
+    public double fitnessFunction(double[] positions) {
         double value = 0;
-        //for (Particle p : particles) {
-//        for (double u : bestPositions) {
-        for (Double pos : Particle.globalBestPositions) {
-            value += (pos * pos);
+
+        for (int i = 0; i < positions.length; i++) {
+            value += Math.pow(positions[i], 2);
         }
-        //}
+
         return value;
     }
 
@@ -55,7 +56,11 @@ public class CircleProblem {
 
             System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
 
-            double temp = fitnessFunction();
+
+            double temp = fitnessFunction(Particle.globalBestPositions);
+
+//            System.out.println("avg: " + temp);
+
             if (temp < globalBest) {
                 globalBest = temp;
             }
@@ -71,6 +76,16 @@ public class CircleProblem {
         System.out.println("Number of iterations: " + iterations);
         System.out.println("Global best: " + globalBest);
 
+
+        System.out.print("JSON:\n[");
+        for(Particle p : particles) {
+            System.out.print(p.toJSON() + ",");
+        }
+        System.out.println("];");
+
+        System.out.println("globals" + Arrays.toString(Particle.globalBestPositions));
+
+        System.out.println(particles);
 
     }
 }
