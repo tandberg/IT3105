@@ -7,7 +7,7 @@ public class CircleProblem {
 
     public static final int NUM_PARTICLES = 100;
     public static final int NUM_DIMENSIONS = 1;
-    public static final int MAX_ITERATIONS = 1000;
+    public static final int MAX_ITERATIONS = 10000;
     public static final double GOAL = 0.001;
     private List<Particle> particles;
     private double globalBest = Double.MAX_VALUE;
@@ -38,24 +38,29 @@ public class CircleProblem {
         return sum;
     }
 
-    public double fitnessFunction() {
+    public double fitnessFunction(Particle p) {
         double value = 0;
-        for (Particle p : particles) {
+        //for (Particle p : particles) {
 //        for (double u : bestPositions) {
-            for (Double pos : p.getPositions()) {
-                value += (pos * pos);
-            }
+        for (Double pos : p.getPositions()) {
+            value += (pos * pos);
         }
+        //}
         return value;
     }
 
     public void solve() {
         int iterations = 0;
         while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
-            double temp = fitnessFunction();
-            if (temp < globalBest) {
-                globalBest = temp;
+            double temp = Double.MAX_VALUE;
+            for (Particle p : particles) {
+                temp = fitnessFunction(p);
+                if (temp < globalBest) {
+                    globalBest = temp;
+                }
             }
+
+
             for (Particle particle : particles) {
                 particle.update();
             }
