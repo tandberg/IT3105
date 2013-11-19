@@ -1,6 +1,7 @@
 package project3.task2;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Particle {
@@ -8,7 +9,7 @@ public class Particle {
 
     private final static double c1 = 0.5;
     private final static double c2 = 0.5;
-    public static double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
+    private double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
     private Random random;
     private int dimensions;
     private double[] positions;
@@ -66,15 +67,15 @@ public class Particle {
         updateBestLocalPositions();
     }
 
-    public void update() {
+    public void update(List<Particle> neighbours) {
         updatePosition();
         updateVelocity();
 
         updateBestLocalPositions();
-        updateGlobals();
+        updateGlobals(neighbours);
     }
 
-    private void updateGlobals() {
+    private void updateGlobals(List<Particle> neighbours) {
         double bestDistance = 0;
         double tmpDistance = 0;
 

@@ -68,7 +68,7 @@ public class CircleProblem {
 
 
             for (Particle particle : particles) {
-                particle.update();
+                particle.update(KNearestNeighbour.algorithm(particles, particle, K));
             }
 //            System.out.println(globalBest);
             iterations++;
