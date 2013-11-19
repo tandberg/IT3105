@@ -6,17 +6,20 @@ import java.util.List;
 
 public class CircleProblem {
 
-    public static final int NUM_PARTICLES = 100;
-    public static final int NUM_DIMENSIONS = 2;
+    public static final int NUM_PARTICLES = 10;
+    public static final int NUM_DIMENSIONS = 1;
     public static final int MAX_ITERATIONS = 100;
     public static final int LIMIT = 100;
     public static final double GOAL = 0.001;
     private List<Particle> particles;
     private double globalBest = Double.MAX_VALUE;
 
+    private List<Double> plotResult;
+
     public CircleProblem() {
 
         particles = new ArrayList<Particle>();
+        plotResult = new ArrayList<Double>();
         initializeParticles();
         System.out.println(particles);
         solve();
@@ -43,9 +46,14 @@ public class CircleProblem {
     public double fitnessFunction(double[] positions) {
         double value = 0;
 
+        System.out.println(Arrays.toString(positions));
+        System.exit(0);
+
         for (int i = 0; i < positions.length; i++) {
             value += Math.pow(positions[i], 2);
         }
+
+        plotResult.add(value < 0.001 ? 0 : value);
 
         return value;
     }
@@ -86,6 +94,9 @@ public class CircleProblem {
         System.out.println("globals" + Arrays.toString(Particle.globalBestPositions));
 
         System.out.println(particles);
+
+        System.out.println("Plotresults: \n");
+        System.out.println(plotResult);
 
     }
 }
