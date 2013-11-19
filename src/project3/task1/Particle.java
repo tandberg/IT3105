@@ -1,4 +1,4 @@
-package project3;
+package project3.task1;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -95,14 +95,14 @@ public class Particle {
 
     private void updateVelocity() {
         for (int i = 0; i < velocities.length; i++) {
-            System.out.println("bestlocal: " + bestLocalPositions[i]);
-            System.out.println("bestglobal: " + globalBestPositions[i]);
+//            System.out.println("bestlocal: " + bestLocalPositions[i]);
+//            System.out.println("bestglobal: " + globalBestPositions[i]);
 
             double inertia = velocities[i];
             double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - velocities[i]);
             double influence = c2 * random.nextDouble() * (globalBestPositions[i] - velocities[i]);
 
-            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\t\t position: " + positions[i] + " \n----------------------------");
+//            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\t\t position: " + positions[i] + " \n----------------------------");
 
             velocities[i] = (inertia + memory + influence) * -1;
 
