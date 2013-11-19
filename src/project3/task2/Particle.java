@@ -77,17 +77,24 @@ public class Particle {
 
     private void updateGlobals(List<Particle> neighbours) {
         double bestDistance = 0;
-        double tmpDistance = 0;
 
         for (int i = 0; i < bestLocalPositions.length; i++) {
-            tmpDistance += Math.pow(bestLocalPositions[i], 2);
-            bestDistance += Math.pow(globalBestPositions[i], 2);
+            bestDistance += Math.pow(bestLocalPositions[i], 2);
         }
 
-        if (Math.sqrt(tmpDistance) < Math.sqrt(bestDistance)) {
-            // This Particle has better a better position than all have seen before.
-            for (int i = 0; i < bestLocalPositions.length; i++) {
-                globalBestPositions[i] = bestLocalPositions[i];
+        for (Particle neighbour : neighbours) {
+            double neighbourDistance = 0;
+            double[] neighbourPositions = neighbour.getPositions();
+
+            for (int i = 0; i < neighbourPositions.length; i++) {
+                neighbourDistance += Math.pow(neighbourPositions[i], 2);
+            }
+            if (Math.sqrt(neighbourDistance) < Math.sqrt(bestDistance)) {
+                // This Particle has better a better position than all have seen before.
+                bestDistance = neighbourDistance;
+                for (int i = 0; i < neighbourPositions.length; i++) {
+                    globalBestPositions[i] = neighbourPositions[i];
+                }
             }
         }
     }
