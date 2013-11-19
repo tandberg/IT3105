@@ -6,8 +6,8 @@ import java.util.List;
 
 public class CircleProblem {
 
-    public static final int NUM_PARTICLES = 4000;
-    public static final int NUM_DIMENSIONS = 2000;
+    public static final int NUM_PARTICLES = 40;
+    public static final int NUM_DIMENSIONS = 2;
     public static final int MAX_ITERATIONS = 500;
     public static final int LIMIT = 100;
     public static final double GOAL = 0.001;
@@ -87,5 +87,13 @@ public class CircleProblem {
 
         System.out.println(particles);
 
+
+        System.out.println(mapVelocity(-0.1));
+
+    }
+
+    public int mapVelocity(double velocity) {
+        double d = (1 / (1 + Math.exp(-velocity)));
+        return (int) Math.round(d);
     }
 }
