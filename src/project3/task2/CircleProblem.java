@@ -1,7 +1,6 @@
 package project3.task2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CircleProblem {
@@ -53,19 +52,18 @@ public class CircleProblem {
 
     public void solve() {
         int iterations = 0;
+        double temp = Double.MAX_VALUE;
+
         while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
 
             System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
 
-
-            double temp = fitnessFunction(Particle.globalBestPositions);
-
-//            System.out.println("avg: " + temp);
-
-            if (temp < globalBest) {
-                globalBest = temp;
+            for (Particle particle : particles) {
+                temp = fitnessFunction(particle.getPositions());
+                if (temp < globalBest) {
+                    globalBest = temp;
+                }
             }
-
 
             for (Particle particle : particles) {
                 particle.update(KNearestNeighbour.algorithm(particles, particle, K));
@@ -84,7 +82,7 @@ public class CircleProblem {
         }
         System.out.println("];");
 
-        System.out.println("globals" + Arrays.toString(Particle.globalBestPositions));
+        //System.out.println("globals" + Arrays.toString(Particle.globalBestPositions));
 
         System.out.println(particles);
 
