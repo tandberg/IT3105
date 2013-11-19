@@ -9,6 +9,7 @@ public class Particle {
 
     private final static double c1 = 0.5;
     private final static double c2 = 0.5;
+    private double w = 1.0;
     private double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
     private Random random;
     private int dimensions;
@@ -68,6 +69,10 @@ public class Particle {
     }
 
     public void update(List<Particle> neighbours) {
+
+        w = Math.max(w * 0.991, 0.4);
+        System.out.println("W: " + w);
+
         updatePosition();
         updateVelocity();
 
