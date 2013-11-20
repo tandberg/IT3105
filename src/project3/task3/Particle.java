@@ -20,7 +20,6 @@ public class Particle {
     private static int idCounter = 0;
     private int id;
 
-    private double offset;
 
     public Particle(Package[] packages) {
         int n = packages.length;
@@ -30,7 +29,6 @@ public class Particle {
         bestLocalPositions = new int[n];
         this.packages = packages;
 
-        this.offset = 0;
         this.id = idCounter++;
 
         fillRandomVelocities();
@@ -84,19 +82,16 @@ public class Particle {
 
 
         if (totalWeight > KnapsackProblem.LIMIT && updateOffset) {
-
-            for (int i = 0; i < velocities.length; i++) {
-                velocities[i] = random.nextDouble() - 5; // Starts with random speed in any dimensions
-
-            }
+            // Forkast løsning, siden den er for stor
+//            for (int i = 0; i < velocities.length; i++) {
+//                velocities[i] = random.nextDouble() - 5; // Starts with random speed in any dimensions
 //
+//            }
+////
 //            updatePosition();
 //            updateBestLocalPositions();
 
-
-//            updateOffset(0.2);
-        } else {
-//            updateOffset(-0.1);
+            fillRandomVelocities();
         }
 
         if (totalWeight > KnapsackProblem.LIMIT) {
@@ -186,10 +181,6 @@ public class Particle {
 
     public double getBestValue() {
         return calculateValue(bestLocalPositions, true);
-    }
-
-    public void updateOffset(double more) {
-        this.offset += more;
     }
 
     public void printVelocitys() {

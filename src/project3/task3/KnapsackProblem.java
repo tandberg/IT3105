@@ -68,6 +68,8 @@ public class KnapsackProblem {
 
             double temp = 0;
 
+
+            long start = System.currentTimeMillis();
             for (Particle particle : particles) {
                 temp = fitnessFunction(particle);
 
@@ -84,6 +86,7 @@ public class KnapsackProblem {
 
                 particle.update();
             }
+            System.out.println(System.currentTimeMillis()-start + "ms");
 
 
             result.add(new Update(globalBest, iterations));
