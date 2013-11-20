@@ -8,45 +8,60 @@ public class Particle {
 
     private final static double c1 = 0.5;
     private final static double c2 = 0.5;
-    public static double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
+    public static int[] globalBestPositions = new int[KnapsackProblem.NUM_DIMENSIONS];
+    private static Package[] packages;
     private Random random;
-    private int dimensions;
-    private double[] positions;
+    private int[] positions;
     private double[] velocities;
-    private double[] bestLocalPositions;
+    private int[] bestLocalPositions;
 
-    public Particle(int n) {
+    public Particle(Package[] packages) {
+        int n = packages.length;
         random = new Random();
-        this.dimensions = n;
-        positions = new double[n];
+        positions = new int[n];
         velocities = new double[n];
-        bestLocalPositions = new double[n];
+        bestLocalPositions = new int[n];
+        this.packages = packages;
 
         fillRandomPositions();
         fillRandomVelocities();
         updateBestLocalPositions();
 
         for (int i = 0; i < bestLocalPositions.length; i++) {
-            bestLocalPositions[i] = CircleProblem.LIMIT;
+            bestLocalPositions[i] = 0;
         }
 
         for (int i = 0; i < globalBestPositions.length; i++) {
-            globalBestPositions[i] = CircleProblem.LIMIT;
+            globalBestPositions[i] = 0;
         }
     }
 
-    private void updateBestLocalPositions() {
-        double bestDistance = 0;
-        double tmpDistance = 0;
+    private static int mapVelocity(double velocity) {
+        double d = (1 / (1 + Math.exp(-velocity)));
+        return (int) Math.round(d);
+    }
 
+    private double calculateValue(int[] positions) {
+        double totalValue = 0;
+        double totalWeight = 0;
         for (int i = 0; i < positions.length; i++) {
-            tmpDistance += Math.pow(positions[i], 2);
-            bestDistance += Math.pow(bestLocalPositions[i], 2);
+            if (positions[i] == 1) {
+                totalValue += packages[i].getValue();
+                totalWeight += packages[i].getWeight();
+            }
         }
+        if (totalWeight > KnapsackProblem.LIMIT)
+            return 0;
+        return totalValue;
+    }
 
-        if (Math.sqrt(tmpDistance) < Math.sqrt(bestDistance)) {
+    private void updateBestLocalPositions() {
+        double bestValue = calculateValue(bestLocalPositions);
+        double tmpDistance = calculateValue(positions);
+
+        if (Math.sqrt(tmpDistance) > Math.sqrt(bestValue)) {
             // This Particle has better a better position than seen before.
-            for (int i = 0; i < positions.length; i++) {
+            for (int i = 0; i < packages.length; i++) {
                 bestLocalPositions[i] = positions[i];
             }
         }
@@ -59,9 +74,9 @@ public class Particle {
     }
 
     private void fillRandomPositions() {
-        for (int i = 0; i < positions.length; i++) {
+        for (int i = 0; i < packages.length; i++) {
             // Initial positions between -100 and 100
-            positions[i] = (random.nextDouble() * CircleProblem.LIMIT * 2) - CircleProblem.LIMIT;
+            positions[i] = mapVelocity((random.nextDouble() * KnapsackProblem.LIMIT * 2) - KnapsackProblem.LIMIT);
         }
         updateBestLocalPositions();
     }
@@ -75,15 +90,18 @@ public class Particle {
     }
 
     private void updateGlobals() {
-        double bestDistance = 0;
-        double tmpDistance = 0;
+        double bestValue = 0;
+        double tmpValue = 0;
 
         for (int i = 0; i < bestLocalPositions.length; i++) {
-            tmpDistance += Math.pow(bestLocalPositions[i], 2);
-            bestDistance += Math.pow(globalBestPositions[i], 2);
+            if (bestLocalPositions[i] == 1) {
+                tmpValue += packages[i].getValue();
+                bestValue += packages[i].getWeight();
+
+            }
         }
 
-        if (Math.sqrt(tmpDistance) < Math.sqrt(bestDistance)) {
+        if (tmpValue > bestValue) {
             // This Particle has better a better position than all have seen before.
             for (int i = 0; i < bestLocalPositions.length; i++) {
                 globalBestPositions[i] = bestLocalPositions[i];
@@ -104,20 +122,17 @@ public class Particle {
 
             velocities[i] = (inertia + memory + influence) * -1;
 
-            if (velocities[i] > 1) {
-                velocities[i] = 1;
-            } else if (velocities[i] < -1) {
-                velocities[i] = -1;
+            if (velocities[i] > 4.25) {
+                velocities[i] = 4.25;
+            } else if (velocities[i] < -4.25) {
+                velocities[i] = -4.25;
             }
-            //System.out.println("velocity in "+i+" dimension: " + velocities[i]);
         }
     }
 
     private void updatePosition() {
-        for (int i = 0; i < positions.length; i++) {
-
-//            System.out.println("VELOCITY: " + velocities[i] + "\t Position: " + positions[i]);
-            positions[i] = positions[i] + velocities[i];
+        for (int i = 0; i < packages.length; i++) {
+            positions[i] = mapVelocity(velocities[i]);
         }
     }
 
@@ -125,16 +140,20 @@ public class Particle {
         return "Position: " + Arrays.toString(positions) + " Velocity: " + Arrays.toString(velocities);
     }
 
-    public double[] getPositions() {
+    public int[] getPositions() {
         return positions;
+    }
+
+    public double getBestValue() {
+        return calculateValue(bestLocalPositions);
     }
 
     public String toJSON() {
 
         double print1 = (positions[0] < 0.001 && positions[0] > 0) || (positions[0] > -0.001 && positions[0] < 0) ? 0 : positions[0];
-        double print2 = (positions[1] < 0.001 && positions[1] > 0) || (positions[1] > -0.001 && positions[1] < 0) ? 0 : positions[1];
+        //double print2 = (positions[1] < 0.001 && positions[1] > 0) || (positions[1] > -0.001 && positions[1] < 0) ? 0 : positions[1];
 
-        return "[" + print1 + ", " + print2 + "]"; // tmp
+        return "[" + print1 + ",0]"; // tmp
     }
 
 }

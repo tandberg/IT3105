@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CircleProblem {
+public class KnapsackProblem {
 
-    public static final int NUM_PARTICLES = 40;
-    public static final int NUM_DIMENSIONS = 2;
+    public static final int NUM_DIMENSIONS = 1;
     public static final int MAX_ITERATIONS = 500;
-    public static final int LIMIT = 100;
+    public static final int LIMIT = 1000;
     public static final double GOAL = 0.001;
     private List<Particle> particles;
-    private double globalBest = Double.MAX_VALUE;
+    private double globalBest = 0;
 
-    public CircleProblem() {
+    public KnapsackProblem() {
 
         particles = new ArrayList<Particle>();
         initializeParticles();
@@ -23,13 +22,23 @@ public class CircleProblem {
     }
 
     public static void main(String[] args) {
-        new CircleProblem();
+        new KnapsackProblem();
     }
 
     private void initializeParticles() {
-        for (int i = 0; i < NUM_PARTICLES; i++) {
-            particles.add(new Particle(NUM_DIMENSIONS));
+
+        List<Package> packs = ReadPackages.readFile();
+        Package[] packages = new Package[packs.size()];
+
+        for (int i = 0; i < packages.length; i++) {
+            packages[i] = packs.get(i);
         }
+
+
+        for (Package pack : ReadPackages.readFile()) {
+            particles.add(new Particle(packages));
+        }
+
     }
 
     private double f(double... u) {
@@ -40,33 +49,26 @@ public class CircleProblem {
         return sum;
     }
 
-    public double fitnessFunction(double[] positions) {
-        double value = 0;
-
-        for (int i = 0; i < positions.length; i++) {
-            value += Math.pow(positions[i], 2);
-        }
-
-        return value;
+    public double fitnessFunction(Particle particle) {
+        return particle.getBestValue();
     }
 
     public void solve() {
         int iterations = 0;
-        while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
+        while (iterations < MAX_ITERATIONS && globalBest < LIMIT) {
 
             System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
 
 
-            double temp = fitnessFunction(Particle.globalBestPositions);
-
 //            System.out.println("avg: " + temp);
 
-            if (temp < globalBest) {
-                globalBest = temp;
-            }
 
-
+            double temp = 0;
             for (Particle particle : particles) {
+                temp = fitnessFunction(particle);
+                if (temp > globalBest) {
+                    globalBest = temp;
+                }
                 particle.update();
             }
 //            System.out.println(globalBest);
@@ -88,12 +90,7 @@ public class CircleProblem {
         System.out.println(particles);
 
 
-        System.out.println(mapVelocity(-0.1));
+//        System.out.println(mapVelocity(-0.1));
 
-    }
-
-    public int mapVelocity(double velocity) {
-        double d = (1 / (1 + Math.exp(-velocity)));
-        return (int) Math.round(d);
     }
 }

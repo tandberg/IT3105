@@ -9,7 +9,15 @@ public class Package {
         this.weight = weight;
     }
 
+    public double getValue() {
+        return value;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
     public String toString() {
-        return "value : " + value + " weight : " + weight +"\n";
+        return "value : " + value + " weight : " + weight + "\n";
     }
 }
