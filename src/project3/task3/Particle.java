@@ -6,14 +6,21 @@ import java.util.Random;
 public class Particle {
 
 
-    private final static double c1 = 0.5;
-    private final static double c2 = 0.5;
+    private final static double c1 = 0.3;
+    private final static double c2 = 0.4;
     public static int[] globalBestPositions = new int[KnapsackProblem.NUM_DIMENSIONS];
     private static Package[] packages;
     private Random random;
     private int[] positions;
     private double[] velocities;
     private int[] bestLocalPositions;
+    private double localBestValue = 0;
+    private double globalBestValue = 0;
+
+    private static int idCounter = 0;
+    private int id;
+
+    private double offset;
 
     public Particle(Package[] packages) {
         int n = packages.length;
@@ -23,25 +30,38 @@ public class Particle {
         bestLocalPositions = new int[n];
         this.packages = packages;
 
-        fillRandomPositions();
+        this.offset = 0;
+        this.id = idCounter++;
+
         fillRandomVelocities();
         updateBestLocalPositions();
 
-        for (int i = 0; i < bestLocalPositions.length; i++) {
-            bestLocalPositions[i] = 0;
-        }
 
         for (int i = 0; i < globalBestPositions.length; i++) {
             globalBestPositions[i] = 0;
         }
+
+        updateGlobals();
     }
 
-    private static int mapVelocity(double velocity) {
-        double d = (1 / (1 + Math.exp(-velocity)));
-        return (int) Math.round(d);
+    private int mapVelocity(double velocity) {
+
+        double v = velocity;
+        double d = (1 / (1 + Math.exp(-v)));
+
+//        return (int) Math.round(d);
+
+        double rnd = random.nextDouble();
+//        System.out.println(rnd + " < " + d + " = " + (rnd < d));
+
+        if(rnd < d) {
+            return 1;
+        }
+        return 0;
     }
 
-    private double calculateValue(int[] positions) {
+    private double calculateValue(int[] positions, boolean updateOffset) {
+
         double totalValue = 0;
         double totalWeight = 0;
         for (int i = 0; i < positions.length; i++) {
@@ -50,34 +70,61 @@ public class Particle {
                 totalWeight += packages[i].getWeight();
             }
         }
-        if (totalWeight > KnapsackProblem.LIMIT)
+
+
+//        System.out.println("value: " + totalValue + " weight: " + totalWeight);
+
+        int numpacks = 0;
+        for (int i = 0; i < positions.length; i++) {
+            numpacks += positions[i];
+        }
+
+//        System.out.println("#" +this.id+": Antall pakker med i partikkelen: " + numpacks + " offset: " + offset + " GLOBALBEST: " + KnapsackProblem.globalBest);
+
+
+
+        if (totalWeight > KnapsackProblem.LIMIT && updateOffset) {
+
+            for (int i = 0; i < velocities.length; i++) {
+                velocities[i] = random.nextDouble() - 5; // Starts with random speed in any dimensions
+
+            }
+//
+//            updatePosition();
+//            updateBestLocalPositions();
+
+
+//            updateOffset(0.2);
+        } else {
+//            updateOffset(-0.1);
+        }
+
+        if (totalWeight > KnapsackProblem.LIMIT) {
             return 0;
-        return totalValue;
+        } else {
+            return totalValue;
+        }
     }
 
     private void updateBestLocalPositions() {
-        double bestValue = calculateValue(bestLocalPositions);
-        double tmpDistance = calculateValue(positions);
+        double tmpValue = calculateValue(positions, false);
 
-        if (Math.sqrt(tmpDistance) > Math.sqrt(bestValue)) {
+        if (tmpValue > localBestValue) {
             // This Particle has better a better position than seen before.
             for (int i = 0; i < packages.length; i++) {
                 bestLocalPositions[i] = positions[i];
+                localBestValue = tmpValue;
             }
         }
+
     }
 
     private void fillRandomVelocities() {
         for (int i = 0; i < velocities.length; i++) {
-            velocities[i] = (random.nextDouble() * 2) - 1; // Starts with random speed in any dimensions
+            velocities[i] = random.nextDouble() - 5; // Starts with random speed in any dimensions
         }
-    }
 
-    private void fillRandomPositions() {
-        for (int i = 0; i < packages.length; i++) {
-            // Initial positions between -100 and 100
-            positions[i] = mapVelocity((random.nextDouble() * KnapsackProblem.LIMIT * 2) - KnapsackProblem.LIMIT);
-        }
+        updatePosition();
         updateBestLocalPositions();
     }
 
@@ -90,21 +137,13 @@ public class Particle {
     }
 
     private void updateGlobals() {
-        double bestValue = 0;
-        double tmpValue = 0;
+        double tmpValue = calculateValue(positions, false);
 
-        for (int i = 0; i < bestLocalPositions.length; i++) {
-            if (bestLocalPositions[i] == 1) {
-                tmpValue += packages[i].getValue();
-                bestValue += packages[i].getWeight();
-
-            }
-        }
-
-        if (tmpValue > bestValue) {
+        if (tmpValue > globalBestValue) {
             // This Particle has better a better position than all have seen before.
-            for (int i = 0; i < bestLocalPositions.length; i++) {
-                globalBestPositions[i] = bestLocalPositions[i];
+            for (int i = 0; i < positions.length; i++) {
+                globalBestPositions[i] = positions[i];
+                globalBestValue = tmpValue;
             }
         }
     }
@@ -115,12 +154,13 @@ public class Particle {
 //            System.out.println("bestglobal: " + globalBestPositions[i]);
 
             double inertia = velocities[i];
-            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - velocities[i]);
-            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - velocities[i]);
+            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
+            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
 
-//            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\t\t position: " + positions[i] + " \n----------------------------");
 
-            velocities[i] = (inertia + memory + influence) * -1;
+            velocities[i] = (inertia + memory + influence);
+//            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\nNewspeed: "+velocities[i]+"\t\t position: " + positions[i] + " \n----------------------------");
+
 
             if (velocities[i] > 4.25) {
                 velocities[i] = 4.25;
@@ -145,7 +185,15 @@ public class Particle {
     }
 
     public double getBestValue() {
-        return calculateValue(bestLocalPositions);
+        return calculateValue(bestLocalPositions, true);
+    }
+
+    public void updateOffset(double more) {
+        this.offset += more;
+    }
+
+    public void printVelocitys() {
+//        System.out.println(Arrays.toString(velocities));
     }
 
     public String toJSON() {
