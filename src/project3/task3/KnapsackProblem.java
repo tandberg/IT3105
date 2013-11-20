@@ -16,8 +16,11 @@ public class KnapsackProblem {
     public KnapsackProblem() {
 
         particles = new ArrayList<Particle>();
+        System.out.println("Initializing packages...");
+
         initializeParticles();
-        System.out.println(particles);
+        System.out.println("Done Initializing");
+
         solve();
     }
 
@@ -30,6 +33,7 @@ public class KnapsackProblem {
         List<Package> packs = ReadPackages.readFile();
         Package[] packages = new Package[packs.size()];
 
+
         for (int i = 0; i < packages.length; i++) {
             packages[i] = packs.get(i);
         }
@@ -39,14 +43,6 @@ public class KnapsackProblem {
             particles.add(new Particle(packages));
         }
 
-    }
-
-    private double f(double... u) {
-        double sum = 0;
-        for (int i = 0; i < u.length; i++) {
-            sum += Math.pow(u[i], 2);
-        }
-        return sum;
     }
 
     public double fitnessFunction(Particle particle) {
