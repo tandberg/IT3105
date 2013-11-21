@@ -7,7 +7,7 @@ import java.util.Random;
 public class Particle {
 
 
-    private final static double c1 = 0.5;
+    private final static double c1 = 1.5;
     private final static double c2 = 0.5;
     private double w = 1.0;
     private double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
@@ -58,23 +58,23 @@ public class Particle {
         for (int i = 0; i < velocities.length; i++) {
             velocities[i] = (random.nextDouble() * 2) - 1; // Starts with random speed in any dimensions
         }
+        updatePosition();
+        updateBestLocalPositions();
     }
 
     private void fillRandomPositions() {
         for (int i = 0; i < positions.length; i++) {
-            // Initial positions between -100 and 100
+            // Initial positions between -LIMIT and LIMIT
             positions[i] = (random.nextDouble() * CircleProblem.LIMIT * 2) - CircleProblem.LIMIT;
         }
-        updateBestLocalPositions();
     }
 
     public void update(List<Particle> neighbours) {
 
         w = Math.max(w * 0.991, 0.4);
-        System.out.println("W: " + w);
 
-        updatePosition();
         updateVelocity();
+        updatePosition();
 
         updateBestLocalPositions();
         updateGlobals(neighbours);
@@ -106,23 +106,20 @@ public class Particle {
 
     private void updateVelocity() {
         for (int i = 0; i < velocities.length; i++) {
-//            System.out.println("bestlocal: " + bestLocalPositions[i]);
-//            System.out.println("bestglobal: " + globalBestPositions[i]);
 
-            double inertia = velocities[i];
-            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - velocities[i]);
-            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - velocities[i]);
+            double inertia = w * velocities[i];
+            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - positions[i]);
+            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - positions[i]);
 
 //            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\t\t position: " + positions[i] + " \n----------------------------");
 
-            velocities[i] = (inertia + memory + influence) * -1;
+            velocities[i] = (inertia + memory + influence);
 
             if (velocities[i] > 1) {
                 velocities[i] = 1;
             } else if (velocities[i] < -1) {
                 velocities[i] = -1;
             }
-            //System.out.println("velocity in "+i+" dimension: " + velocities[i]);
         }
     }
 
@@ -145,6 +142,10 @@ public class Particle {
     public String toJSON() {
 
         double print1 = (positions[0] < 0.001 && positions[0] > 0) || (positions[0] > -0.001 && positions[0] < 0) ? 0 : positions[0];
+
+        if(CircleProblem.NUM_DIMENSIONS == 1) {
+            return "[" + print1 + ",0]";
+        }
         double print2 = (positions[1] < 0.001 && positions[1] > 0) || (positions[1] > -0.001 && positions[1] < 0) ? 0 : positions[1];
 
         return "[" + print1 + ", " + print2 + "]"; // tmp
