@@ -1,7 +1,6 @@
 package project3.task3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class KnapsackProblem {
@@ -10,9 +9,9 @@ public class KnapsackProblem {
     public static final int MAX_ITERATIONS = 50;
     public static final int NUM_PARTICLES = 4001;
     public static final int LIMIT = 1000;
-    private List<Particle> particles;
     public static double globalBest = 0;
-
+    public static double globalWeight = 0;
+    private List<Particle> particles;
     private List<Update> result;
 
     public KnapsackProblem() {
@@ -61,7 +60,7 @@ public class KnapsackProblem {
 
 //            System.out.println("avg: " + temp);
 
-            if(iterations % 10 == 0) {
+            if (iterations % 10 == 0) {
                 System.out.println("iteration: " + iterations);
             }
 
@@ -75,18 +74,20 @@ public class KnapsackProblem {
 
                 if (temp > globalBest) {
                     System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
+                    System.out.println("Weight: " + globalWeight + "kg");
 
                     globalBest = temp;
+                    globalWeight = particle.getGlobalWeight();
                 }
 
-                if(iterations > 50) {
+                if (iterations > 50) {
                     particle.printVelocitys();
                 }
 
 
                 particle.update();
             }
-            System.out.println(System.currentTimeMillis()-start + "ms");
+            System.out.println(System.currentTimeMillis() - start + "ms");
 
 
             result.add(new Update(globalBest, iterations));
@@ -96,6 +97,7 @@ public class KnapsackProblem {
 
         System.out.println("Number of iterations: " + iterations);
         System.out.println("Global best: " + globalBest);
+        System.out.println("Weight: " + globalWeight + "kg");
 
         System.out.println("RESULT\n" + result);
 

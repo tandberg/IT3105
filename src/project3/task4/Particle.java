@@ -17,6 +17,8 @@ public class Particle {
     private int[] bestLocalPositions;
     private double localBestValue = 0;
     private double globalBestValue = 0;
+    private double globalWeight = 0;
+    private double globalVolume = 0;
     private int id;
 
 
@@ -97,6 +99,10 @@ public class Particle {
         if (totalWeight > KnapsackProblem.LIMIT || totalVolume > KnapsackProblem.LIMIT) {
             return 0;
         } else {
+            if (totalValue > globalBestValue) {
+                globalVolume = totalVolume;
+                globalWeight = totalWeight;
+            }
             return totalValue;
         }
     }
@@ -185,6 +191,14 @@ public class Particle {
 
     public void printVelocitys() {
 //        System.out.println(Arrays.toString(velocities));
+    }
+
+    public double getGlobalWeight() {
+        return globalWeight;
+    }
+
+    public double getGlobalVolume() {
+        return globalVolume;
     }
 
     public String toJSON() {

@@ -7,7 +7,7 @@ public class Package {
     public Package(double value, double weight) {
         this.value = value;
         this.weight = weight;
-        this.volume = (Math.random() * 4) + 1;
+        this.volume = (Math.random() * 100) + 1;
     }
 
     public double getValue() {

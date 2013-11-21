@@ -10,6 +10,8 @@ public class KnapsackProblem {
     public static final int NUM_PARTICLES = 4002;
     public static final int LIMIT = 1000;
     public static double globalBest = 0;
+    public static double globalWeight = 0;
+    public static double globalVolume = 0;
     private List<Particle> particles;
     private List<Update> result;
 
@@ -73,8 +75,11 @@ public class KnapsackProblem {
 
                 if (temp > globalBest) {
                     System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
+                    System.out.println("Volume: " + globalVolume + "m^3, Weight: " + globalWeight + "kg");
 
                     globalBest = temp;
+                    globalVolume = particle.getGlobalVolume();
+                    globalWeight = particle.getGlobalWeight();
                 }
 
                 if (iterations > 50) {
@@ -93,6 +98,7 @@ public class KnapsackProblem {
 
         System.out.println("Number of iterations: " + iterations);
         System.out.println("Global best: " + globalBest);
+        System.out.println("Volume: " + globalVolume + "m^3, Weight: " + globalWeight + "kg");
 
         System.out.println("RESULT\n" + result);
 

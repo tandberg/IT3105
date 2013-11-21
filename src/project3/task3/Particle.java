@@ -10,14 +10,14 @@ public class Particle {
     private final static double c2 = 1.4;
     public static int[] globalBestPositions = new int[KnapsackProblem.NUM_DIMENSIONS];
     private static Package[] packages;
+    private static int idCounter = 0;
     private Random random;
     private int[] positions;
     private double[] velocities;
     private int[] bestLocalPositions;
     private double localBestValue = 0;
     private double globalBestValue = 0;
-
-    private static int idCounter = 0;
+    private double globalWeight = 0;
     private int id;
 
 
@@ -45,7 +45,7 @@ public class Particle {
         double rnd = random.nextDouble();
 //        System.out.println(rnd + " < " + d + " = " + (rnd < d));
 
-        if(rnd < d) {
+        if (rnd < d) {
             return 1;
         }
         return 0;
@@ -73,7 +73,6 @@ public class Particle {
 //        System.out.println("#" +this.id+": Antall pakker med i partikkelen: " + numpacks + " offset: " + offset + " GLOBALBEST: " + KnapsackProblem.globalBest);
 
 
-
         if (totalWeight > KnapsackProblem.LIMIT && updateOffset) {
             // Forkast løsning, siden den er for stor
 //            for (int i = 0; i < velocities.length; i++) {
@@ -90,6 +89,9 @@ public class Particle {
         if (totalWeight > KnapsackProblem.LIMIT) {
             return 0;
         } else {
+            if (totalValue > globalBestValue) {
+                globalWeight = totalWeight;
+            }
             return totalValue;
         }
     }
@@ -175,6 +177,10 @@ public class Particle {
 
     public int[] getPositions() {
         return positions;
+    }
+
+    public double getGlobalWeight() {
+        return globalWeight;
     }
 
     public double getBestValue() {
