@@ -32,14 +32,6 @@ public class CircleProblem {
         }
     }
 
-    private double f(double... u) {
-        double sum = 0;
-        for (int i = 0; i < u.length; i++) {
-            sum += Math.pow(u[i], 2);
-        }
-        return sum;
-    }
-
     public double fitnessFunction(double[] positions) {
         double value = 0;
 
@@ -53,6 +45,12 @@ public class CircleProblem {
     public void solve() {
         int iterations = 0;
         double temp = Double.MAX_VALUE;
+
+        System.out.print("JSON:\n[");
+        for (Particle p : particles) {
+            System.out.print(p.toJSON() + ",");
+        }
+        System.out.println("];");
 
         while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
 
@@ -68,7 +66,6 @@ public class CircleProblem {
             for (Particle particle : particles) {
                 particle.update(KNearestNeighbour.algorithm(particles, particle, K));
             }
-//            System.out.println(globalBest);
             iterations++;
         }
 
@@ -80,9 +77,7 @@ public class CircleProblem {
         for (Particle p : particles) {
             System.out.print(p.toJSON() + ",");
         }
-        System.out.println("];");
-
-        //System.out.println("globals" + Arrays.toString(Particle.globalBestPositions));
+        System.out.println("];\n");
 
         System.out.println(particles);
 

@@ -7,8 +7,8 @@ import java.util.Random;
 public class Particle {
 
 
-    private final static double c1 = 0.5;
-    private final static double c2 = 0.5;
+    private final static double c1 = 1.2;
+    private final static double c2 = 0.8;
     private double w = 1.0;
     private double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
     private Random random;
@@ -71,7 +71,6 @@ public class Particle {
     public void update(List<Particle> neighbours) {
 
         w = Math.max(w * 0.991, 0.4);
-        System.out.println("W: " + w);
 
         updatePosition();
         updateVelocity();
@@ -110,26 +109,23 @@ public class Particle {
 //            System.out.println("bestglobal: " + globalBestPositions[i]);
 
             double inertia = velocities[i];
-            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - velocities[i]);
-            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - velocities[i]);
+            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
+            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
 
 //            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\t\t position: " + positions[i] + " \n----------------------------");
 
-            velocities[i] = (inertia + memory + influence) * -1;
+            velocities[i] = inertia + memory + influence;
 
             if (velocities[i] > 1) {
                 velocities[i] = 1;
             } else if (velocities[i] < -1) {
                 velocities[i] = -1;
             }
-            //System.out.println("velocity in "+i+" dimension: " + velocities[i]);
         }
     }
 
     private void updatePosition() {
         for (int i = 0; i < positions.length; i++) {
-
-//            System.out.println("VELOCITY: " + velocities[i] + "\t Position: " + positions[i]);
             positions[i] = positions[i] + velocities[i];
         }
     }
