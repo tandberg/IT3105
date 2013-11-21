@@ -50,7 +50,6 @@ public class CircleProblem {
             value += Math.pow(positions[i], 2);
         }
 
-        plotResult.add(value < 0.001 ? 0 : value);
 
         return value;
     }
@@ -64,12 +63,15 @@ public class CircleProblem {
             double temp = fitnessFunction(Particle.globalBestPositions);
             if (temp < globalBest) {
                 globalBest = temp;
+
             }
 
 
             for (Particle particle : particles) {
                 particle.update();
             }
+
+            plotResult.add(globalBest < 0.001 ? 0 : globalBest);
             iterations++;
         }
 
