@@ -7,7 +7,7 @@ import java.util.List;
 public class KnapsackProblem {
 
     public static final int NUM_DIMENSIONS = 2001;
-    public static final int MAX_ITERATIONS = 100;
+    public static final int MAX_ITERATIONS = 50;
     public static final int NUM_PARTICLES = 4001;
     public static final int LIMIT = 1000;
     private List<Particle> particles;

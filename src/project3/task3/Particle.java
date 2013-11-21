@@ -6,8 +6,8 @@ import java.util.Random;
 public class Particle {
 
 
-    private final static double c1 = 0.3;
-    private final static double c2 = 0.4;
+    private final static double c1 = 0.7;
+    private final static double c2 = 1.4;
     public static int[] globalBestPositions = new int[KnapsackProblem.NUM_DIMENSIONS];
     private static Package[] packages;
     private Random random;
@@ -32,13 +32,6 @@ public class Particle {
         this.id = idCounter++;
 
         fillRandomVelocities();
-        updateBestLocalPositions();
-
-
-        for (int i = 0; i < globalBestPositions.length; i++) {
-            globalBestPositions[i] = 0;
-        }
-
         updateGlobals();
     }
 
@@ -116,7 +109,7 @@ public class Particle {
 
     private void fillRandomVelocities() {
         for (int i = 0; i < velocities.length; i++) {
-            velocities[i] = random.nextDouble() - 5; // Starts with random speed in any dimensions
+            velocities[i] = random.nextDouble() - 5;
         }
 
         updatePosition();
@@ -149,12 +142,17 @@ public class Particle {
 //            System.out.println("bestglobal: " + globalBestPositions[i]);
 
             double inertia = velocities[i];
-            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
-            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
 
+            //funker
+//            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
+//            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
 
-            velocities[i] = (inertia + memory + influence);
+            //testing <- denna er riktig, men blir ikke veldig mye bedre enn 210
+            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - positions[i]);
+            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - positions[i]);
+
 //            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\nNewspeed: "+velocities[i]+"\t\t position: " + positions[i] + " \n----------------------------");
+            velocities[i] = (inertia + memory + influence);
 
 
             if (velocities[i] > 4.25) {
@@ -166,7 +164,7 @@ public class Particle {
     }
 
     private void updatePosition() {
-        for (int i = 0; i < packages.length; i++) {
+        for (int i = 0; i < positions.length; i++) {
             positions[i] = mapVelocity(velocities[i]);
         }
     }
@@ -185,14 +183,6 @@ public class Particle {
 
     public void printVelocitys() {
 //        System.out.println(Arrays.toString(velocities));
-    }
-
-    public String toJSON() {
-
-        double print1 = (positions[0] < 0.001 && positions[0] > 0) || (positions[0] > -0.001 && positions[0] < 0) ? 0 : positions[0];
-        //double print2 = (positions[1] < 0.001 && positions[1] > 0) || (positions[1] > -0.001 && positions[1] < 0) ? 0 : positions[1];
-
-        return "[" + print1 + ",0]"; // tmp
     }
 
 }
