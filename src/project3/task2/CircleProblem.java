@@ -5,20 +5,24 @@ import java.util.List;
 
 public class CircleProblem {
 
-    public static final int NUM_PARTICLES = 100;
+    public static final int NUM_PARTICLES = 10;
     public static final int NUM_DIMENSIONS = 2;
     public static final int MAX_ITERATIONS = 100;
     public static final int LIMIT = 100;
     public static final double GOAL = 0.001;
     public static final int K = 3;
     private List<Particle> particles;
-    private double globalBest = Double.MAX_VALUE;
+    private double globalBest = LIMIT*LIMIT;
+
+    private List<IterationUpdate> plotResult;
 
     public CircleProblem() {
 
+        System.out.println("Num particles: " + NUM_PARTICLES + ", Dimensions: " + NUM_DIMENSIONS);
+
+        plotResult = new ArrayList<IterationUpdate>();
         particles = new ArrayList<Particle>();
         initializeParticles();
-        System.out.println(particles);
         solve();
     }
 
@@ -46,11 +50,6 @@ public class CircleProblem {
         int iterations = 0;
         double temp = Double.MAX_VALUE;
 
-        System.out.print("JSON:\n[");
-        for (Particle p : particles) {
-            System.out.print(p.toJSON() + ",");
-        }
-        System.out.println("];");
 
         while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
 
@@ -60,12 +59,17 @@ public class CircleProblem {
                 temp = fitnessFunction(particle.getPositions());
                 if (temp < globalBest) {
                     globalBest = temp;
+
                 }
+
             }
 
             for (Particle particle : particles) {
                 particle.update(KNearestNeighbour.algorithm(particles, particle, K));
             }
+
+            plotResult.add(new IterationUpdate(globalBest, iterations));
+
             iterations++;
         }
 
@@ -80,6 +84,10 @@ public class CircleProblem {
         System.out.println("];\n");
 
         System.out.println(particles);
+
+
+        System.out.println("Plotresults: \n");
+        System.out.println(plotResult);
 
     }
 }
