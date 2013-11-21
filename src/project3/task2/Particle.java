@@ -117,6 +117,7 @@ public class Particle {
             velocities[i] = inertia + memory + influence;
 
 
+
             if (velocities[i] > 1) {
                 velocities[i] = 1;
             } else if (velocities[i] < -1) {

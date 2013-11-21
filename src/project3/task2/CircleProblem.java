@@ -50,7 +50,6 @@ public class CircleProblem {
         int iterations = 0;
         double temp = Double.MAX_VALUE;
 
-
         while (iterations < MAX_ITERATIONS && globalBest > GOAL) {
 
             System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
