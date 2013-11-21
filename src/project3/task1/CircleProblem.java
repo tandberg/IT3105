@@ -46,9 +46,6 @@ public class CircleProblem {
     public double fitnessFunction(double[] positions) {
         double value = 0;
 
-        System.out.println(Arrays.toString(positions));
-        System.exit(0);
-
         for (int i = 0; i < positions.length; i++) {
             value += Math.pow(positions[i], 2);
         }
@@ -64,11 +61,7 @@ public class CircleProblem {
 
             System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
 
-
             double temp = fitnessFunction(Particle.globalBestPositions);
-
-//            System.out.println("avg: " + temp);
-
             if (temp < globalBest) {
                 globalBest = temp;
             }
@@ -77,7 +70,6 @@ public class CircleProblem {
             for (Particle particle : particles) {
                 particle.update();
             }
-//            System.out.println(globalBest);
             iterations++;
         }
 
