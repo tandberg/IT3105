@@ -97,8 +97,8 @@ public class Particle {
         for (int i = 0; i < velocities.length; i++) {
 
             double inertia = velocities[i];
-            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
-            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
+            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - positions[i]);
+            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - positions[i]);
 
             velocities[i] = inertia + memory + influence;
 
