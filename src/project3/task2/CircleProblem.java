@@ -7,9 +7,9 @@ import java.util.List;
 public class CircleProblem {
 
     public static final int NUM_PARTICLES = 10;
-    public static final int NUM_DIMENSIONS = 2;
+    public static final int NUM_DIMENSIONS = 1;
     public static final int MAX_ITERATIONS = 1000;
-    public static final int LIMIT = 100;
+    public static final int LIMIT = 1000;
     public static final double GOAL = 0.001;
     public static final int K = 3;
     private List<Particle> particles;

@@ -28,15 +28,10 @@ public class Particle {
 
         fillRandomPositions();
         fillRandomVelocities();
-        updateBestLocalPositions();
 
         for (int i = 0; i < bestLocalPositions.length; i++) {
             bestLocalPositions[i] = CircleProblem.LIMIT;
         }
-
-//        for (int i = 0; i < globalBestPositions.length; i++) {
-//            globalBestPositions[i] = CircleProblem.LIMIT;
-//        }
     }
 
     private void updateBestLocalPositions() {
