@@ -1,13 +1,13 @@
 package project3.task3;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Particle {
 
 
     private final static double c1 = 0.7;
     private final static double c2 = 1.4;
+    private final static double sigmoidClamping = 5.25;
     public static int[] globalBestPositions = new int[KnapsackProblem.NUM_DIMENSIONS];
     private static Package[] packages;
     private static int idCounter = 0;
@@ -18,6 +18,8 @@ public class Particle {
     private double localBestValue = 0;
     private double globalBestValue = 0;
     private double globalWeight = 0;
+    private double sigmoidOffset;
+
     private int id;
 
 
@@ -27,6 +29,7 @@ public class Particle {
         positions = new int[n];
         velocities = new double[n];
         bestLocalPositions = new int[n];
+        sigmoidOffset = 0;
         this.packages = packages;
 
         this.id = idCounter++;
@@ -40,11 +43,7 @@ public class Particle {
         double v = velocity;
         double d = (1 / (1 + Math.exp(-v)));
 
-//        return (int) Math.round(d);
-
         double rnd = random.nextDouble();
-//        System.out.println(rnd + " < " + d + " = " + (rnd < d));
-
         if (rnd < d) {
             return 1;
         }
@@ -62,36 +61,22 @@ public class Particle {
             }
         }
 
-
-//        System.out.println("value: " + totalValue + " weight: " + totalWeight);
-
-        int numpacks = 0;
-        for (int i = 0; i < positions.length; i++) {
-            numpacks += positions[i];
-        }
-
-//        System.out.println("#" +this.id+": Antall pakker med i partikkelen: " + numpacks + " offset: " + offset + " GLOBALBEST: " + KnapsackProblem.globalBest);
-
-
         if (totalWeight > KnapsackProblem.LIMIT && updateOffset) {
-            // Forkast løsning, siden den er for stor
-//            for (int i = 0; i < velocities.length; i++) {
-//                velocities[i] = random.nextDouble() - 5; // Starts with random speed in any dimensions
-//
-//            }
-////
-//            updatePosition();
-//            updateBestLocalPositions();
-
+            // Forkast løsning, siden den er for stor. Finner på en ny 'løsning'
             fillRandomVelocities();
+            updateGlobals();
         }
 
         if (totalWeight > KnapsackProblem.LIMIT) {
+
+            fillRandomVelocities();
+            updateGlobals();
             return 0;
         } else {
             if (totalValue > globalBestValue) {
                 globalWeight = totalWeight;
             }
+
             return totalValue;
         }
     }
@@ -111,10 +96,34 @@ public class Particle {
 
     private void fillRandomVelocities() {
         for (int i = 0; i < velocities.length; i++) {
-            velocities[i] = random.nextDouble() - 5;
+            velocities[i] = random.nextDouble() - (sigmoidClamping - sigmoidOffset);
         }
 
-        updatePosition();
+        List<Ratio> ratios = new ArrayList<Ratio>();
+        for (int i = 0; i < positions.length; i++) {
+            if(mapVelocity(velocities[i]) == 1)
+                ratios.add(new Ratio(i, packages[i].getValue() / packages[i].getWeight()));
+        }
+
+        Collections.sort(ratios);
+
+        double lim = 0;
+        for (int i = 0; i < positions.length; i++) {
+            positions[i] = 0;
+        }
+
+        for (int i = 0; i < ratios.size(); i++) {
+
+            lim += packages[ratios.get(i).index].getWeight();
+            positions[ratios.get(i).index] = 1;
+
+            if(lim >= KnapsackProblem.LIMIT) {
+                positions[ratios.get(i).index] = 0;
+                break;
+            }
+        }
+
+        sigmoidOffset += 0.005;
         updateBestLocalPositions();
     }
 

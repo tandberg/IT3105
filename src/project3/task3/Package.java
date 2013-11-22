@@ -1,6 +1,6 @@
 package project3.task3;
 
-public class Package {
+public class Package implements Comparable<Package> {
 
     private double value, weight;
 
@@ -19,5 +19,10 @@ public class Package {
 
     public String toString() {
         return "value : " + value + " weight : " + weight + "\n";
+    }
+
+    @Override
+    public int compareTo(Package aPackage) {
+        return (int) (this.getValue() - aPackage.getValue());
     }
 }
