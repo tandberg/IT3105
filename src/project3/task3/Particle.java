@@ -8,6 +8,7 @@ public class Particle {
     private final static double c1 = 0.7;
     private final static double c2 = 1.4;
     private final static double sigmoidClamping = 5.25;
+    private final static double velocityClamping = 4.25;
     public static int[] globalBestPositions = new int[KnapsackProblem.NUM_DIMENSIONS];
     private static Package[] packages;
     private static int idCounter = 0;
@@ -123,7 +124,7 @@ public class Particle {
             }
         }
 
-        sigmoidOffset += 0.005;
+        sigmoidOffset += 0.003;
         updateBestLocalPositions();
     }
 
@@ -149,16 +150,8 @@ public class Particle {
 
     private void updateVelocity() {
         for (int i = 0; i < velocities.length; i++) {
-//            System.out.println("bestlocal: " + bestLocalPositions[i]);
-//            System.out.println("bestglobal: " + globalBestPositions[i]);
 
             double inertia = velocities[i];
-
-            //funker
-//            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
-//            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
-
-            //testing <- denna er riktig, men blir ikke veldig mye bedre enn 210
             double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - positions[i]);
             double influence = c2 * random.nextDouble() * (globalBestPositions[i] - positions[i]);
 
@@ -166,10 +159,10 @@ public class Particle {
             velocities[i] = (inertia + memory + influence);
 
 
-            if (velocities[i] > 4.25) {
-                velocities[i] = 4.25;
-            } else if (velocities[i] < -4.25) {
-                velocities[i] = -4.25;
+            if (velocities[i] > velocityClamping) {
+                velocities[i] = velocityClamping;
+            } else if (velocities[i] < -velocityClamping) {
+                velocities[i] = -velocityClamping;
             }
         }
     }
