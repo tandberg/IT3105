@@ -7,8 +7,9 @@ import java.util.Random;
 public class Particle {
 
 
-    private final static double c1 = 1.2;
+    private final static double c1 = 1.8;
     private final static double c2 = 0.8;
+    private final static double velocityClamping = 1.0;
 
     private double w = 1.0;
     private double[] globalBestPositions = new double[CircleProblem.NUM_DIMENSIONS];
@@ -33,9 +34,9 @@ public class Particle {
             bestLocalPositions[i] = CircleProblem.LIMIT;
         }
 
-        for (int i = 0; i < globalBestPositions.length; i++) {
-            globalBestPositions[i] = CircleProblem.LIMIT;
-        }
+//        for (int i = 0; i < globalBestPositions.length; i++) {
+//            globalBestPositions[i] = CircleProblem.LIMIT;
+//        }
     }
 
     private void updateBestLocalPositions() {
@@ -53,6 +54,7 @@ public class Particle {
                 bestLocalPositions[i] = positions[i];
             }
         }
+
     }
 
     private void fillRandomVelocities() {
@@ -109,19 +111,15 @@ public class Particle {
         for (int i = 0; i < velocities.length; i++) {
 
             double inertia = velocities[i];
-            double memory = c1 * random.nextDouble() * (velocities[i] - bestLocalPositions[i]);
-            double influence = c2 * random.nextDouble() * (velocities[i] - globalBestPositions[i]);
-
-//            System.out.println("prev speed: "+  inertia + "\nmemory: " + memory + "\ninfluence: " + influence + "\t\t position: " + positions[i] + " \n----------------------------");
+            double memory = c1 * random.nextDouble() * (bestLocalPositions[i] - positions[i]);
+            double influence = c2 * random.nextDouble() * (globalBestPositions[i] - positions[i]);
 
             velocities[i] = inertia + memory + influence;
 
-
-
-            if (velocities[i] > 1) {
-                velocities[i] = 1;
-            } else if (velocities[i] < -1) {
-                velocities[i] = -1;
+            if (velocities[i] > velocityClamping) {
+                velocities[i] = velocityClamping;
+            } else if (velocities[i] < -velocityClamping) {
+                velocities[i] = -velocityClamping;
             }
         }
     }
