@@ -55,21 +55,10 @@ public class KnapsackProblem {
     public void solve() {
         int iterations = 0;
         while (iterations < MAX_ITERATIONS && globalBest < LIMIT) {
-
-//            System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
-
-
-//            System.out.println("avg: " + temp);
-
             if (iterations % 10 == 0) {
                 System.out.println("iteration: " + iterations);
             }
-
-
             double temp = 0;
-
-
-            long start = System.currentTimeMillis();
             for (Particle particle : particles) {
                 temp = fitnessFunction(particle);
 
@@ -81,18 +70,9 @@ public class KnapsackProblem {
                     globalVolume = particle.getGlobalVolume();
                     globalWeight = particle.getGlobalWeight();
                 }
-
-                if (iterations > 50) {
-                    particle.printVelocitys();
-                }
-
-
                 particle.update();
             }
-
-
             result.add(new Update(globalBest, iterations));
-//            System.out.println(globalBest);
             iterations++;
         }
 
@@ -101,20 +81,5 @@ public class KnapsackProblem {
         System.out.println("Volume: " + globalVolume + "m^3, Weight: " + globalWeight + "kg");
 
         System.out.println("RESULT\n" + result);
-
-
-//        System.out.print("JSON:\n[");
-//        for (Particle p : particles) {
-//            System.out.print(p.toJSON() + ",");
-//        }
-//        System.out.println("];");
-
-//        System.out.println("globals" + Arrays.toString(Particle.globalBestPositions));
-
-//        System.out.println(particles);
-
-
-//        System.out.println(mapVelocity(-0.1));
-
     }
 }
