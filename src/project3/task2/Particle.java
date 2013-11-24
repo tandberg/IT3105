@@ -134,7 +134,7 @@ public class Particle {
     }
 
     public String toJSON() {
-
+        // debugging helping method
         double print1 = (positions[0] < 0.001 && positions[0] > 0) || (positions[0] > -0.001 && positions[0] < 0) ? 0 : positions[0];
 
         if(CircleProblem.NUM_DIMENSIONS == 1) {
@@ -142,7 +142,7 @@ public class Particle {
         }
         double print2 = (positions[1] < 0.001 && positions[1] > 0) || (positions[1] > -0.001 && positions[1] < 0) ? 0 : positions[1];
 
-        return "[" + print1 + ", " + print2 + "]"; // tmp
+        return "[" + print1 + ", " + print2 + "]";
     }
 
 }
