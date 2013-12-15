@@ -1,4 +1,4 @@
-package project3.task3;
+package project3.task4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,12 @@ import java.util.List;
 public class KnapsackProblem {
 
     public static final int NUM_DIMENSIONS = 2001;
-    public static final int MAX_ITERATIONS = 500;
-    public static final int NUM_PARTICLES = 4001;
+    public static final int MAX_ITERATIONS = 1000;
+    public static final int NUM_PARTICLES = 4002;
     public static final int LIMIT = 1000;
     public static double globalBest = 0;
     public static double globalWeight = 0;
+    public static double globalVolume = 0;
     private List<Particle> particles;
     private List<Update> result;
 
@@ -57,29 +58,28 @@ public class KnapsackProblem {
             if (iterations % 10 == 0) {
                 System.out.println("iteration: " + iterations);
             }
-
             double temp = 0;
             for (Particle particle : particles) {
                 temp = fitnessFunction(particle);
 
                 if (temp > globalBest) {
-                    globalBest = temp;
-                    globalWeight = particle.getGlobalWeight();
                     System.out.println("Iteration: " + iterations + " globalbest: " + globalBest);
-                    System.out.println("Weight: " + globalWeight + "kg");
+                    System.out.println("Volume: " + globalVolume + "m^3, Weight: " + globalWeight + "kg");
 
+                    globalBest = temp;
+                    globalVolume = particle.getGlobalVolume();
+                    globalWeight = particle.getGlobalWeight();
                 }
                 particle.update();
             }
-
             result.add(new Update(globalBest, iterations));
             iterations++;
         }
 
         System.out.println("Number of iterations: " + iterations);
         System.out.println("Global best: " + globalBest);
-        System.out.println("Weight: " + globalWeight + "kg");
+        System.out.println("Volume: " + globalVolume + "m^3, Weight: " + globalWeight + "kg");
 
-        System.out.println("RESULT: [iteration, value]\n" + result);
+        System.out.println("RESULT\n" + result);
     }
 }
