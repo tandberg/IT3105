@@ -1,5 +1,6 @@
-IT3105
+# IT3105 - AI programming
 ======
 
-IT3105 - AI prog
-- [ ] todo
+- Project1: Minimax Quarto
+- Project2: General Puzzle Solver
+- Project3: Particle Swarm Optimization
