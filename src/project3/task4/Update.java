@@ -11,6 +11,6 @@ public class Update {
     }
 
     public String toString() {
-        return "["+iteratin+","+globalBest+"]";
+        return "["+iteration+","+globalBest+"]";
     }
 }
